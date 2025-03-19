@@ -1,0 +1,213 @@
+{
+  "Page0": [
+    {
+      "Key": "IconText1",
+      "Text": "몽상\n+1",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    },
+    {
+      "Key": "IconText2",
+      "Text": "가면\n+2",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    },
+    {
+      "Key": "IconText3",
+      "Text": "작심\n+2",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    },
+    {
+      "Key": "IconText4",
+      "Text": "번뇌\n+3",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    }
+  ],
+
+  "Page1": [
+    {
+      "Key": "Name_Txt",
+      "Text": "null",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": -170,
+        "y": 80,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 55,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    }
+  ],
+
+  "Page2": [],
+  "Page3": [],
+  "Page4": [
+    {
+      "Key": "Txt1",
+      "Text": "각 기둥에 준비된\n4개의 질문에 모두 답하면",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 42,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1.4,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 0
+      }
+    },
+    {
+      "Key": "Txt2",
+      "Text": "배터리 한 칸이 소모됩니다.",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": -81,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 0
+      }
+    }
+  ],
+  "Page5": [
+    {
+      "Key": "Txt1",
+      "Text": "질문 당 1개의\n답변만 선택할 수 있습니다.",
+      "LocalScale": 1,
+      "LocalPosition": {
+        "x": 0,
+        "y": 38,
+        "z": 0
+      },
+      "Font": "LegacyRuntime",
+      "FontSize": 50,
+      "LineSpacing": 1.4,
+      "Alignment": {
+        "Vertical": "Center",
+        "Horizontal": "Center"
+      },
+      "Color": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+      }
+    }
+  ],
+
+  "Page6": [],
+
+  "Page7": [],
+
+  "Page8": [],
+
+  "Page9": [],
+
+  "Page10": [],
+
+  "Page11": [],
+
+  "Page12": [],
+  "Page13": []
+}

@@ -1,0 +1,32 @@
+{
+  "rfid_ports": ["COM107"],
+  "next_page_trigger": [
+    "Tag",
+    "Time",
+    "Time",
+    "Time",
+    "Check",
+    "Check",
+    "Check",
+    "Tag",
+    "None",
+    "Check",
+    "Check",
+    "Check",
+    "Tag",
+    "None"
+  ],
+  "fadeTime": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  "remainingTimes": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+  "api": "http://211.110.44.104:8500/",
+
+  "baseURL": "http://211.110.44.104:8500/api/",
+  "startURL": "logApp.cfm?status=run&",
+  "getUserDataURL": "checkIDX.cfm?",
+  "updateDataURL": "api/updateValue.cfm?",
+  "clearURL": "updateTime.cfm?status=end&",
+  "maxRetries": 10,
+  "timeToWait": 1.5,
+  "contentID": "10A",
+  "deviceID": 1
+}

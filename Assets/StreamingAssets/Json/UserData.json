@@ -1,0 +1,58 @@
+{
+    "userData": [
+        {
+            "tagID": "5500A1BCCC",
+            "username": "유창민",
+            "isTutorial": false,
+            "battery": 2,
+            "rfidStatus": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "tagID": "5500A53362",
+            "username": "how",
+            "isTutorial": false,
+            "battery": 20,
+            "rfidStatus": [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "tagID": "5500A0E087",
+            "username": "Rfid2",
+            "isTutorial": false,
+            "battery": 4,
+            "rfidStatus": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        }
+    ]
+}
