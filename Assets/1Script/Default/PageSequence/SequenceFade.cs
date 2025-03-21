@@ -13,9 +13,6 @@ public class SequenceFade : SequenceScript
     [Tooltip("페이드 효과를 적용할 Graphic 배열 (예: UI 이미지 등)")]
     public List<Graphic> graphics;
 
-    [Tooltip("각 Graphic에 대해 true이면 페이드 인, false이면 페이드 아웃")] //Color A 가 true면 시작할때 1 false 면 0
-    public bool[] originColorA;
-
     [Tooltip("페이드 효과의 지속 시간 (초)")] public float fadeDuration = 1f;
 
     public bool isfading;
@@ -31,19 +28,6 @@ public class SequenceFade : SequenceScript
     private void Initialize()
     {
         if (graphics.Count < 1) graphics.Add(GetComponent<Graphic>());
-        if (originColorA == null || originColorA.Length < 1)
-        {
-            originColorA = new bool[graphics.Count];
-            for (int i = 0; i < graphics.Count; i++)
-            {
-                originColorA[i] = graphics[i].color.a > 0.5f;
-            }
-        }
-    }
-
-    void OnEnable()
-    {
-        ResetAlphas();
 
     }
 
@@ -73,12 +57,6 @@ public class SequenceFade : SequenceScript
             return false;
         }
 
-        if (graphics == null || originColorA == null || graphics.Count != originColorA.Length)
-        {
-            Debug.LogError("graphics 배열과 fadeInFlags 배열의 길이가 일치하지 않습니다.");
-            return false;
-        }
-
         return true;
     }
 
@@ -97,25 +75,4 @@ public class SequenceFade : SequenceScript
         }
     }
 
-    public void ResetAlphas()
-    {
-        if (graphics == null || graphics.Count < 1 || originColorA == null || originColorA.Length < 1) return;
-        if (isInitialize)
-        {
-
-            for (int i = 0; i < graphics.Count; i++)
-            {
-
-                if (originColorA[i])
-                {
-                    FadeManager.Instance.SetAlphaOne(graphics[i]);
-                }
-                else
-                {
-                    FadeManager.Instance.SetAlphaZero(graphics[i]);
-                }
-            }
-        }
-
-    }
 }

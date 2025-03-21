@@ -68,21 +68,31 @@
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceFade.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\SetContentsManager.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageBackGround.cs" />
+    <Compile Include="Assets\1Script\TestVideoSpeed.cs" />
+    <Compile Include="Assets\1Script\SubVideoPlayer.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageSequenceController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\FadeManager.cs" />
     <Compile Include="Assets\Images\SetColorA.cs" />
+    <Compile Include="Assets\1Script\SetScoreText.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageVideoPlayerController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageSequenceManager.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\TypewriterEffect.cs" />
+    <Compile Include="Assets\1Script\ActivateAllDisplays.cs" />
+    <Compile Include="Assets\1Script\ScoreManager.cs" />
     <Compile Include="Assets\1Script\UIToggle.cs" />
+    <Compile Include="Assets\ExitScript.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTime.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTag.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
-    <Compile Include="Assets\TimmerScript.cs" />
+    <Compile Include="Assets\1Script\SimpleTimmer.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
+    <Compile Include="Assets\1Script\SubCanvasController.cs" />
+    <Compile Include="Assets\1Script\TextCode.cs" />
+    <Compile Include="Assets\1Script\StampScript.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceScript.cs" />
+    <Compile Include="Assets\1Script\TimmerScript.cs" />
+    <Compile Include="Assets\1Script\TriggerPlayVideo.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceCanvasFade.cs" />
-    <Compile Include="Assets\TextCode.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageController.cs" />
   </ItemGroup>
   <ItemGroup>
