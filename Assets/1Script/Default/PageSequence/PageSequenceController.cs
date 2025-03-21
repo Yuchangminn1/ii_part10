@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(SequenceCanvasFade))]
+[RequireComponent(typeof(SetColorA))]
 public class PageSequenceController : MonoBehaviour
 {
     [Tooltip("페이지 번호 (예: 0, 1, 2, ... )")] public int pageNumber;
 
     [Tooltip("이 페이지에서 실행할 시퀀스 스크립트들 (순서대로 실행됩니다.)")]
-    private SequenceScript[] sequenceScripts;
+    [SerializeField] private SequenceScript[] sequenceScripts;
 
     Coroutine coroutine;
 
@@ -120,6 +121,12 @@ public class PageSequenceController : MonoBehaviour
 
         coroutine = StartCoroutine(sequenceScripts[currentindex].StartSequence());
 
+    }
+
+    public void CurrentIndexTriggerON()
+    {
+        if (sequenceScripts == null || sequenceScripts.Length < 1) return;
+        sequenceScripts[currentindex].TriggerOn();
     }
 
 

@@ -70,6 +70,7 @@
     <Compile Include="Assets\1Script\Default\Singleton\PageBackGround.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageSequenceController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\FadeManager.cs" />
+    <Compile Include="Assets\Images\SetColorA.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageVideoPlayerController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageSequenceManager.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\TypewriterEffect.cs" />
@@ -77,9 +78,11 @@
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTime.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTag.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
+    <Compile Include="Assets\TimmerScript.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceScript.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceCanvasFade.cs" />
+    <Compile Include="Assets\TextCode.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageController.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@ using System;
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -98,11 +99,13 @@ public class SequenceFade : SequenceScript
 
     public void ResetAlphas()
     {
+        if (graphics == null || graphics.Count < 1 || originColorA == null || originColorA.Length < 1) return;
         if (isInitialize)
         {
 
             for (int i = 0; i < graphics.Count; i++)
             {
+
                 if (originColorA[i])
                 {
                     FadeManager.Instance.SetAlphaOne(graphics[i]);
