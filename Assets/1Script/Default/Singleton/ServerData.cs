@@ -144,6 +144,8 @@ public class ServerData : MonoBehaviour
 
         string jsonText = www.downloadHandler.text;
 
+        //Debug.LogWarning(jsonText);
+
         _callback?.Invoke(jsonText);
 
         onCoroutineEnd?.Invoke();

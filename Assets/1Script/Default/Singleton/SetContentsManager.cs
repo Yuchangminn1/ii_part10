@@ -7,7 +7,6 @@ using UnityEngine.Video;
 using System;
 using System.Collections;
 using UnityEngine.Networking;
-using System.Security.Policy;
 
 
 //Json 데이터
@@ -32,7 +31,7 @@ public class TextData
 
     public List<PageTextData> Page11;
     public List<PageTextData> Page12;
-
+    public List<PageTextData> Page13;
 
 }
 
@@ -73,7 +72,6 @@ public class ImageAndVideoData
     public List<PageImageAndVideoData> Page0;
     public List<PageImageAndVideoData> Page1;
     public List<PageImageAndVideoData> Page2;
-
     public List<PageImageAndVideoData> Page3;
     public List<PageImageAndVideoData> Page4;
     public List<PageImageAndVideoData> Page5;
@@ -82,9 +80,9 @@ public class ImageAndVideoData
     public List<PageImageAndVideoData> Page8;
     public List<PageImageAndVideoData> Page9;
     public List<PageImageAndVideoData> Page10;
-
     public List<PageImageAndVideoData> Page11;
     public List<PageImageAndVideoData> Page12;
+    public List<PageImageAndVideoData> Page13;
 
 
 }
@@ -378,8 +376,10 @@ public class SetContentsManager : MonoBehaviour
                 {
                     if (Array.Exists(imageTagNames, name => name == child.gameObject.tag))
                     {
-                        int pageNum = int.Parse(pageController.pages[i].name[pageController.pages[i].name.Length - 1]
-                            .ToString());
+                        // int pageNum = int.Parse(pageController.pages[i].name[pageController.pages[i].name.Length - 1]
+                        //     .ToString());
+                        int pageNum = pageController.pages[i].GetComponent<PageSequenceController>().pageNumber;
+
 
                         GameObject imageObj = child.gameObject;
 
@@ -661,11 +661,13 @@ public class SetContentsManager : MonoBehaviour
                 VideoPlayer vp = obj.GetComponent<VideoPlayer>();
                 if (vp != null)
                 {
-                    int pageNum = int.Parse(obj.parent.name[obj.parent.name.Length - 1].ToString());
+                    //int pageNum = int.Parse(obj.parent.name[obj.parent.name.Length - 1].ToString());
+                    int pageNum = obj.parent.GetComponent<PageNumData>().pageNum;
+
                     string fileName = obj.name;
                     string fileExtension = obj.tag;
                     string url = resourceAPI + ServerData.Instance.FindData(fileName);
-                    Debug.Log($"url = {url}");
+                    //Debug.Log($"url = {url}");
                     StartCoroutine(LoadVideo(pageNum, fileName + "." + fileExtension, url));
                 }
             }
@@ -680,32 +682,48 @@ public class SetContentsManager : MonoBehaviour
 
     private IEnumerator LoadVideo(int PageNum, string fileName, string url)
     {
+        // 비디오 로딩 완료 상태를 저장하는 변수 (초기값 false)를 생성
         bool loadingComplete = false;
+        // 현재 로딩 완료 상태를 저장할 리스트의 인덱스를 구함
         int completeIdx = loadingVideoComplete.Count;
+        // 로딩 완료 리스트에 현재 상태(false)를 추가
         loadingVideoComplete.Add(loadingComplete);
 
+        // GET 방식으로 요청할 UnityWebRequest를 생성 (url에 해당하는 리소스 다운로드)
         var www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
 
+        // DownloadHandlerFile를 생성하여 파일을 저장할 경로를 지정
+        // Application.persistentDataPath: 앱의 영속적 데이터 경로
+        // resourcesFolderLocalPath + "Page" + PageNum + "/" + fileName: 지정된 폴더 내에 파일을 저장
+        // 두 번째 파라미터 false는 다운로드 중 파일을 덮어쓰지 않도록 설정
         var dh = new DownloadHandlerFile(
             Application.persistentDataPath + resourcesFolderLocalPath + "Page" + PageNum + "/" + fileName, false);
 
+        // 다운로드 도중 요청이 중단되면 파일을 삭제하도록 설정
         dh.removeFileOnAbort = true;
+        // UnityWebRequest에 DownloadHandlerFile 할당
         www.downloadHandler = dh;
 
-
+        // 웹 요청을 보내고 요청이 완료될 때까지 기다림
         yield return www.SendWebRequest();
 
+        // 네트워크 오류 또는 HTTP 오류가 발생했는지 확인
         if (www.isNetworkError || www.isHttpError)
         {
+            // 오류 발생 시 에러 메시지 출력
             Debug.LogError(www.error);
         }
         else
         {
+            // 오류 없이 정상적으로 다운로드가 완료된 경우,
+            // 다운로드 핸들러와 웹 요청 객체의 리소스 해제
             dh.Dispose();
             www.Dispose();
+            // 로딩 완료 리스트의 해당 인덱스를 true로 변경하여 로딩 완료 상태 표시
             loadingVideoComplete[completeIdx] = true;
         }
     }
+
 
     private void SetVideoDatas()
     {
@@ -777,6 +795,7 @@ public class SetContentsManager : MonoBehaviour
     /// </summary>
     public void SetVideoByPage(GameObject currentVideoPageObj)
     {
+        Debug.Log("SetVideoByPage");
 
         try
         {
@@ -788,13 +807,19 @@ public class SetContentsManager : MonoBehaviour
                 VideoPlayer vp = obj.GetComponent<VideoPlayer>();
                 if (vp != null)
                 {
-                    string pageNum = obj.parent.name;
+                    //string pageNum = obj.parent.name;
+                    string pageNum = obj.parent.GetComponent<PageNumData>().pageNum.ToString();
+
                     string fileName = obj.name;
                     string fileExtension = obj.tag;
-                    string url = Application.persistentDataPath + resourcesFolderLocalPath + pageNum + "/" + fileName + "." + fileExtension;
+                    string url = Application.persistentDataPath + resourcesFolderLocalPath + "Page" + pageNum + "/" + fileName + "." + fileExtension;
                     if (File.Exists(url))
                     {
                         vp.url = url;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("영상 파일이 없음");
                     }
                 }
             }
@@ -821,38 +846,7 @@ public class SetContentsManager : MonoBehaviour
 
     public void SetGeneralSetting()
     {
-        //StartCoroutine(SetGeneralSetting2());
-        // // StreamingAssets 경로를 사용하여 Json 파일의 전체 경로를 구성합니다.
-        // string path = Path.Combine(Application.streamingAssetsPath, "Json", "GeneralSetting.json");
-
-
-        // // 파일이 존재하는지 확인한 후 읽어옵니다.
-        // if (!File.Exists(path))
-        // {
-        //     Debug.LogError("GeneralSetting.json 파일을 찾을 수 없습니다: " + path);
-        //     return;
-        // }
-
-        // string jsonContent = File.ReadAllText(path);
-
-        // GeneralSettingData generalSettingData = JsonUtility.FromJson<GeneralSettingData>(jsonContent);
-
-
-        // // string path = Application.dataPath + generalSettingPath;
-        // // string str = File.ReadAllText(path);
-
-        // // GeneralSettingData generalSettingData = JsonUtility.FromJson<GeneralSettingData>(str.ToString());
-
-        // if (sequenceTag != null)
-        // {
-        //     sequenceTag.PortsInitialize(generalSettingData.rfid_ports);
-        // }
-
-        // api = generalSettingData.api;
-        // resourceAPI = api + resourceFolderName + "/";
-
         StartCoroutine(SetGeneralSetting2());
-        //generalSettingComplete = true;
     }
 
     public IEnumerator SetGeneralSetting2()
@@ -863,26 +857,18 @@ public class SetContentsManager : MonoBehaviour
 #if UNITY_IOS && !UNITY_EDITOR
         // iOS 빌드일 경우: Application.dataPath 기준으로 Raw/Json 폴더의 파일 사용
         path = Path.Combine(Application.streamingAssetsPath, "Json", "GeneralSetting.JSON");
-        Debug.Log("iOS용 GeneralSetting 파일 경로: " + path);
+        Debug.Log(" IOS 용 GeneralSetting 파일 경로: " + path);
 
-        if (!File.Exists(path))
-        {
-            Debug.LogError("GeneralSetting.json 파일이 존재하지 않습니다: " + path);
-            yield break;
-        }
+        jsonContent = System.IO.File.ReadAllText(path);
+        yield return null;
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+        // iOS가 아닐 경우: Application.streamingAssetsPath를 사용
+        path = Path.Combine(Application.streamingAssetsPath, "Json", "GeneralSetting.JSON");
+        Debug.Log("Mac 용 GeneralSetting 파일 경로: " + path);
 
-        try
-        {
-            jsonContent = File.ReadAllText(path);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("GeneralSetting.json 파일 읽기 실패: " + ex.Message);
-            yield break;
-        }
+        jsonContent = System.IO.File.ReadAllText(path);
         yield return null;
 #else
-        // iOS가 아닐 경우: Application.streamingAssetsPath를 사용
         path = Path.Combine(Application.streamingAssetsPath, "Json", "GeneralSetting.JSON");
         Debug.Log("기타 플랫폼용 GeneralSetting 파일 경로: " + path);
 
@@ -894,6 +880,7 @@ public class SetContentsManager : MonoBehaviour
             yield break;
         }
         jsonContent = request.downloadHandler.text;
+
 #endif
 
         Debug.Log("GeneralSetting JSON 내용: " + jsonContent);
@@ -913,42 +900,5 @@ public class SetContentsManager : MonoBehaviour
 
 
     }
-
-
-    // public IEnumerator SetGeneralSetting2()
-    // {
-    //     // StreamingAssets 경로를 사용하여 Json 파일의 전체 경로를 구성합니다.
-    //     string path = Path.Combine(Application.streamingAssetsPath, "Json", "GeneralSetting.json");
-
-    //     // UnityWebRequest를 사용해 파일을 비동기적으로 읽어옵니다.
-    //     UnityWebRequest request = UnityWebRequest.Get(path);
-    //     yield return request.SendWebRequest();
-
-    //     if (request.result != UnityWebRequest.Result.Success)
-    //     {
-    //         Debug.LogError("GeneralSetting.json 파일을 읽지 못했습니다: " + request.error);
-    //         yield break;
-    //     }
-
-    //     string jsonContent = request.downloadHandler.text;
-    //     GeneralSettingData generalSettingData = JsonUtility.FromJson<GeneralSettingData>(jsonContent);
-
-    //     if (sequenceTag != null)
-    //     {
-    //         sequenceTag.PortsInitialize(generalSettingData.rfid_ports);
-    //     }
-
-    //     api = generalSettingData.api;
-    //     resourceAPI = api + resourceFolderName + "/";
-    //     generalSettingComplete = true;
-
-    //     yield return new WaitForSeconds(1f);
-    //     SetTexts();
-    //     SetImages();
-    //     SetVideos();
-    // }
-    //IInitializable 인터페이스
-
-
 
 }

@@ -12,15 +12,23 @@ public class PageVideoPlayerController : SequenceScript
 
     [Tooltip("렌더 텍스쳐가 들어있는 RawImage ")]
     public RawImage targetRawImage;
+    [Tooltip("영상 실행할때 페이드 시킬 그래픽 ")]
+    public Graphic[] toggleGraphics;
+
 
     //플레이 판정 기다려줄 딜레이
-    WaitForSeconds delay = new WaitForSeconds(0.15f);
+    //WaitForSeconds delay = new WaitForSeconds(0.15f);
 
     Coroutine colorCoroutine;
 
     [SerializeField] bool isLoop = false;
 
+    [SerializeField] bool isendFade = false;
+
+
     public float fadeTime = 1f;
+
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.2f);
 
 
     protected override void AwakeSetup()
@@ -30,17 +38,15 @@ public class PageVideoPlayerController : SequenceScript
         // VideoPlayer가 할당되지 않았다면 같은 GameObject에서 가져오기
         if (videoPlayer == null)
             videoPlayer = GetComponent<VideoPlayer>();
-        if (targetRawImage != null)
-            targetRawImage.color = new Color(1, 1, 1, 0);
     }
 
     private void OnEnable()
     {
         // 페이지에 진입할 때, 조건에 따라 비디오 초기화 및 자동 재생
-        if (targetRawImage != null)
-            targetRawImage.color = new Color(1, 1, 1, 0);
-
-        videoPlayer.Prepare();
+        if (videoPlayer != null && videoPlayer.isActiveAndEnabled)
+        {
+            videoPlayer.Prepare();
+        }
     }
 
     private void OnDisable()
@@ -53,9 +59,19 @@ public class PageVideoPlayerController : SequenceScript
         }
     }
 
+    public void ToogleGraphic()
+    {
+
+        if (toggleGraphics == null || toggleGraphics.Length < 1) return;
+        for (int i = 0; i < toggleGraphics.Length; i++)
+        {
+            FadeManager.Instance.ToggleFade(toggleGraphics[i], 0.05f);
+        }
+    }
+
     protected override IEnumerator RunSequence()
     {
-        Debug.Log("RunSequence");
+        //Debug.Log("RunSequence");
         if (startDelay > 0f)
             yield return _startDelay;
 
@@ -74,12 +90,24 @@ public class PageVideoPlayerController : SequenceScript
         videoPlayer.Play();
 
         if (targetRawImage != null)
+        {
             FadeManager.Instance.ToggleFade(fadeTime, targetRawImage);
+        }
 
+        while (targetRawImage.color.a < 0.9f)
+        {
+            yield return null;
+        }
 
+        ToogleGraphic();
         while (videoPlayer.isPlaying && !isLoop)
         {
             yield return null;
+        }
+        if (isendFade)
+        {
+            FadeManager.Instance.ToggleFade(targetRawImage);
+            yield return waitForSeconds;
         }
     }
 }

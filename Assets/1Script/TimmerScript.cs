@@ -18,7 +18,10 @@ public class TimmerScript : MonoBehaviour
 
     [SerializeField] PageSequenceController pageSequenceController;
 
-    [SerializeField] UnityEvent unityEvent;
+    [SerializeField] UnityEvent time5SecEvent;
+    [SerializeField] UnityEvent timmerStartEvent;
+    [SerializeField] UnityEvent timmerEndEvent;
+
 
     bool isEvent;
 
@@ -30,8 +33,6 @@ public class TimmerScript : MonoBehaviour
 
     Coroutine coroutine;
 
-
-
     public int currentIndex = 1;
 
     void Awake()
@@ -40,12 +41,21 @@ public class TimmerScript : MonoBehaviour
         pageSequenceController = GetComponentInParent<PageSequenceController>();
 
     }
+    void OnDisable()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+    }
 
     void OnEnable()
     {
         currentIndex = 1;
         text.text = "";
         isTimeOver = false;
+        ResetTimmer();
 
     }
 
@@ -63,12 +73,15 @@ public class TimmerScript : MonoBehaviour
             colorB.a = 0f;
             text.color = colorB;
             isTimeOver = true;
+            if (timmerEndEvent != null)
+                timmerEndEvent?.Invoke();
+
 
         }
         if (!isEvent && remainTime < 6f && remainTime > 4f)
         {
             isEvent = true;
-            unityEvent?.Invoke();
+            time5SecEvent?.Invoke();
         }
         text.text = $"{(int)Math.Ceiling(remainTime)}";
     }
@@ -89,6 +102,9 @@ public class TimmerScript : MonoBehaviour
         isTimeOver = false;
         coroutine = null;
         isEvent = false;
+        if (timmerStartEvent != null)
+
+            timmerStartEvent?.Invoke();
     }
 
     public void ResetTimmer()

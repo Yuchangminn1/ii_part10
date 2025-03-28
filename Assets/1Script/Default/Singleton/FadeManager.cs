@@ -107,6 +107,7 @@ public class FadeManager : MonoBehaviour
                 graphics[i].color = color;
                 SetGraphicRayTarget(graphics[i]);
 
+
             }
         }
 
@@ -139,6 +140,7 @@ public class FadeManager : MonoBehaviour
         color.a = targetAlphas;
         graphic.color = color;
         SetGraphicRayTarget(graphic);
+
     }
 
     public void SetAlphaZero(Graphic graphic)
@@ -154,11 +156,28 @@ public class FadeManager : MonoBehaviour
         Color originalColor = graphic.color;
         graphic.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         SetGraphicRayTarget(graphic);
+    }
 
+    public void ToggleCut(Graphic graphic)
+    {
+        bool _flag = false;
+
+
+        _flag = graphic.color.a > 0.1f;
+        Debug.Log($"_flag = {_flag}");
+        if (_flag) SetAlphaZero(graphic);
+        else SetAlphaOne(graphic);
     }
 
     public void SetGraphicRayTarget(Graphic graphic)
     {
+        string tag = graphic.gameObject.tag;
+        if (tag == "mp4")
+        {
+            graphic.raycastTarget = false;
+            return;
+        }
+
         graphic.raycastTarget = graphic.color.a > 0.5f;
     }
 }

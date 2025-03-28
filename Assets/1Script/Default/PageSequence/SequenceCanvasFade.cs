@@ -24,17 +24,6 @@ public class SequenceCanvasFade : MonoBehaviour
     void OnEnable()
     {
 
-        if (graphics != null && graphics.Length > 0)
-        {
-            foreach (var graphic in graphics)
-            {
-                if (graphic.color == color)
-                {
-                    graphic.raycastTarget = false;
-
-                }
-            }
-        }
     }
 
 
@@ -52,7 +41,7 @@ public class SequenceCanvasFade : MonoBehaviour
         {
             pageSequenceController.onStartPage += FadeIn;
             pageSequenceController.onEndPage += FadeOut;
-            Debug.Log("pageSequenceController Set");
+            //Debug.Log("pageSequenceController Set");
         }
         else
         {
@@ -62,30 +51,13 @@ public class SequenceCanvasFade : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-    }
-
-    // private void OnDisable()
-    // {
-    //     if (fadeCoroutine != null)
-    //     {
-    //         if (canvasGroup != null && canvasGroup.alpha == 0)
-    //         {
-    //             StopCoroutine(fadeCoroutine);
-    //             fadeCoroutine = null;
-    //             isPlaying = false;
-    //         }
-    //         
-    //     }
-    // }
 
     /// <summary>
     /// CanvasGroup을 완전히 보이게 하는 페이드 인 효과 실행
     /// </summary>
     public void FadeIn(Action _callback)
     {
-        Debug.Log("IN");
+        //Debug.Log("IN");
         if (!isPlaying)
             fadeCoroutine = StartCoroutine(FadeRoutine(canvasGroup.alpha, 1f, _callback));
         isPlaying = true;
@@ -98,7 +70,7 @@ public class SequenceCanvasFade : MonoBehaviour
     {
         if (!isPlaying)
         {
-            Debug.Log("Out");
+            //Debug.Log("Out");
             fadeCoroutine = StartCoroutine(FadeRoutine(canvasGroup.alpha, 0f, _callback));
         }
 
@@ -120,7 +92,7 @@ public class SequenceCanvasFade : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log($"targetAlpha = {targetAlpha}");
+        //Debug.Log($"targetAlpha = {targetAlpha}");
 
         canvasGroup.alpha = targetAlpha;
         isPlaying = false;

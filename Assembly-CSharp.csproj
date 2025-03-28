@@ -59,7 +59,7 @@
     <UnityVersion>6000.0.38f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\HULIAC\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\HULIAC\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -72,7 +72,6 @@
     <Compile Include="Assets\1Script\SubVideoPlayer.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageSequenceController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\FadeManager.cs" />
-    <Compile Include="Assets\Images\SetColorA.cs" />
     <Compile Include="Assets\1Script\SetScoreText.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageVideoPlayerController.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageSequenceManager.cs" />
@@ -80,11 +79,14 @@
     <Compile Include="Assets\1Script\ActivateAllDisplays.cs" />
     <Compile Include="Assets\1Script\ScoreManager.cs" />
     <Compile Include="Assets\1Script\UIToggle.cs" />
-    <Compile Include="Assets\ExitScript.cs" />
+    <Compile Include="Assets\1Script\AnswerSelector.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTime.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTag.cs" />
+    <Compile Include="Assets\1Script\Default\SetColorA.cs" />
+    <Compile Include="Assets\1Script\Default\PageNumData.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
     <Compile Include="Assets\1Script\SimpleTimmer.cs" />
+    <Compile Include="Assets\1Script\Default\ExitScript.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
     <Compile Include="Assets\1Script\SubCanvasController.cs" />
     <Compile Include="Assets\1Script\TextCode.cs" />

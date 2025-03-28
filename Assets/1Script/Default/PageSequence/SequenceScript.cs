@@ -34,7 +34,6 @@ public abstract class SequenceScript : MonoBehaviour
 
     public VideoPlayer nextVedeoPlayer;
 
-    [SerializeField] bool isendFade = false;
 
     protected bool isInitialize = false;
 
@@ -42,7 +41,6 @@ public abstract class SequenceScript : MonoBehaviour
 
     protected void Awake()
     {
-        Debug.Log($"{this.name}  /  SequenceScript Awake");
         originTrigger = isTrigger;
         if (nextDelayTime > 0)
         {
@@ -89,7 +87,6 @@ public abstract class SequenceScript : MonoBehaviour
     public void TriggerOn()
     {
         isTrigger = true;
-        Debug.Log($"{name}Trigger On");
     }
 
     protected abstract IEnumerator RunSequence();
@@ -98,19 +95,13 @@ public abstract class SequenceScript : MonoBehaviour
 
     protected void NextSequence()
     {
-        Debug.Log($"{this.name}NextSequence");
 
         PageSequenceManager.Instance.NextSequence();
     }
 
     protected virtual void EndPageSequence()
     {
-        Debug.Log($"{this.name}EndPageSequence");
         if (nextVedeoPlayer != null) nextVedeoPlayer.Prepare();
-        if (isendFade && graphic != null && graphic.Length > 0)
-        {
-            FadeManager.Instance.ToggleFade(1, graphic);
-        }
         NextSequence();
     }
 }

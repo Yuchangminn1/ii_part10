@@ -94,7 +94,7 @@ public class PageController : MonoBehaviour
 
         else
         {
-            Debug.Log($"OnPageRequest is null");
+            //Debug.Log($"OnPageRequest is null");
             OpenPage(value);
         }
     }
@@ -155,10 +155,10 @@ public class PageController : MonoBehaviour
 
     public IEnumerator StartProgram()
     {
-        Debug.Log("StartProgram");
+        //Debug.Log("StartProgram");
         yield return SetupDelay;
         currentPage = 8; // 처음 페이지 0->0 불가능해서 임시값
-        Debug.Log("Setting Completed");
+        //Debug.Log("Setting Completed");
         if (debugMode)
         {
             CurrentPage = openingPage;
@@ -181,7 +181,7 @@ public class PageController : MonoBehaviour
             currentPage = pageNum;
             Reset();
             ChangeUI(pageNum);
-            Debug.Log($"OpenPage ");
+            //Debug.Log($"OpenPage ");
             if (OnPageChange != null)
                 OnPageChange.Invoke(pageNum);
         }

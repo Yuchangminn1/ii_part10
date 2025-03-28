@@ -1,5 +1,5 @@
 {
-  "rfid_ports": ["COM107"],
+  "rfid_ports": ["COM105"],
   "next_page_trigger": [
     "Tag",
     "Time",

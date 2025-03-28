@@ -44,7 +44,7 @@ public class PageSequenceController : MonoBehaviour
 
             else if (endToNext)
             {
-                Debug.Log("NextPage");
+                //Debug.Log("NextPage");
                 PageSequenceManager.Instance.NextPage();
             }
         }
@@ -88,19 +88,19 @@ public class PageSequenceController : MonoBehaviour
         {
             onStartPage.Invoke(() => SequenceStart());
 
-            Debug.Log($"pageNumber = {pageNumber} currentindex = {currentindex}");
+            //Debug.Log($"pageNumber = {pageNumber} currentindex = {currentindex}");
         }
     }
 
     public void SequenceStart()
     {
-        Debug.Log("SequenceStart");
+        //Debug.Log("SequenceStart");
         CurrentIndex = 0;
     }
 
     public void SequenceEnd()
     {
-        Debug.Log("SequenceEnd");
+        //Debug.Log("SequenceEnd");
         if (endToNext) PageSequenceManager.Instance.NextPage();
     }
 
@@ -116,7 +116,7 @@ public class PageSequenceController : MonoBehaviour
             coroutine = null;
         }
 
-        Debug.Log($"Start Page{pageNumber} Sequence{currentindex}");
+        //Debug.Log($"Start Page{pageNumber} Sequence{currentindex}");
         if (sequenceScripts.Length == 0) return;
 
         coroutine = StartCoroutine(sequenceScripts[currentindex].StartSequence());
