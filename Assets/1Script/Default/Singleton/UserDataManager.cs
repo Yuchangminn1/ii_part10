@@ -26,7 +26,7 @@ public class UserDataManager : MonoBehaviour
         }
     }
 
-    private Dictionary<string, string> userDataCache = new();
+    private Dictionary<string, string> userDataCache = null;
 
     private Action onUserUIDSet;
 
@@ -57,6 +57,7 @@ public class UserDataManager : MonoBehaviour
 
     public void RequestUserDataUpdate(int _question, string _value, string _code = null)
     {
+        if (userDataCache == null) return;
         if (_code == null) _code = ServerData.Instance.Code;
         ServerData.Instance.RequestSeverData("http://211.110.44.104:8500/api/" + $"updateValue.cfm?idx_user={userDataCache["IDX_USER"]}&uid={userDataCache["UID"]}&code={_code}&question={_question}&value={_value}&device={1}", Answer);
     }
@@ -64,8 +65,24 @@ public class UserDataManager : MonoBehaviour
 
     public void RequestInitializeUserData(string userUID)
     {
+        if (userDataCache == null) return;
         ServerData.Instance.RequestSeverData("http://211.110.44.104:8500/api/" + $"checkIDX.cfm?uid={userUID}&device={ServerData.Instance.DeviceNum}&Code={ServerData.Instance.Code}", ParseJsonData);
     }
+
+    public void RequestUserStartReset()
+    {
+        if (userDataCache == null) return;
+        ServerData.Instance.RequestSeverData($"http://211.110.44.104:8500/dev/resetTime.cfm?idx_user={userDataCache["IDX_USER"]}&code={ServerData.Instance.Code}", Answer);
+    }
+
+    public void RequestUserContentEnd()
+    {
+        if (userDataCache == null) return;
+        //Debug.Log($"IDX_USER = {FindValue("IDX_USER")} UID = {FindValue("UID")}");
+        ServerData.Instance.RequestSeverData($"http://211.110.44.104:8500/api/updateTime.cfm?status=end&idx_user={FindValue("IDX_USER")}&uid={FindValue("UID")}&code={ServerData.Instance.Code}&device={ServerData.Instance.DeviceNum}", Answer);
+    }
+
+    //http://211.110.44.104:8500/api/logApp.cfm?status=run&code=11&device=1&
 
     public void Answer(string _an)
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,7 +28,16 @@ public class PageSequenceController : MonoBehaviour
 
     [SerializeField] float resetTime = 8f;
 
+    [SerializeField] float defalutPopupTime = 8f;
+
+
     [SerializeField] bool isMouseDown = false;
+
+    WaitForSeconds popupWaitForSecond;
+
+    Coroutine gotoHome;
+
+    float popupDelay = 3f;
 
     public int CurrentIndex
     {
@@ -59,12 +69,15 @@ public class PageSequenceController : MonoBehaviour
         sequenceScripts = GetComponentsInChildren<SequenceScript>();
         sequenceScripts = sequenceScripts.OrderBy(script => script.currentIndex).ToArray();
         resetTime = defalutResetTime;
+        popupWaitForSecond = new WaitForSeconds(popupDelay);
     }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             resetTime = defalutResetTime;
+            PopupScript.Instance.ResetIndex();
+
 
         }
     }
@@ -77,9 +90,22 @@ public class PageSequenceController : MonoBehaviour
         resetTime -= Time.deltaTime;
         if (resetTime < 0f)
         {
-            resetTime = defalutResetTime;
-            PageController.Instance.CurrentPage = 0;
+
+            resetTime = defalutPopupTime;
+            if (PopupScript.Instance.GetIndex() == 0)
+            {
+                gotoHome = StartCoroutine(waitForHomePage());
+            }
+            PopupScript.Instance.Popup();
+
         }
+    }
+
+    IEnumerator waitForHomePage()
+    {
+        yield return popupWaitForSecond;
+        PageController.Instance.CurrentPage = 0;
+        gotoHome = null;
     }
 
     public void ChangePage()
@@ -87,6 +113,8 @@ public class PageSequenceController : MonoBehaviour
         if (onStartPage != null)
         {
             onStartPage.Invoke(() => SequenceStart());
+            PopupScript.Instance.ResetIndex();
+
 
             //Debug.Log($"pageNumber = {pageNumber} currentindex = {currentindex}");
         }
@@ -102,12 +130,8 @@ public class PageSequenceController : MonoBehaviour
     {
         //Debug.Log("SequenceEnd");
         if (endToNext) PageSequenceManager.Instance.NextPage();
+
     }
-
-
-
-
-
     public void RunSequence()
     {
         if (coroutine != null)

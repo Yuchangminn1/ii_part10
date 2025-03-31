@@ -40,7 +40,7 @@ public class TextCode : MonoBehaviour
         if (videoPlayer != null)
             videoPlayer.Prepare();
 
-        if (graphic != null)
+        if (graphic != null && FadeManager.Instance)
             FadeManager.Instance.SetAlphaZero(graphic);
 
     }

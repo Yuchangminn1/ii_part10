@@ -91,7 +91,7 @@ public class PageVideoPlayerController : SequenceScript
 
         if (targetRawImage != null)
         {
-            FadeManager.Instance.ToggleFade(fadeTime, targetRawImage);
+            FadeManager.Instance.ToggleFade(targetRawImage, fadeTime);
         }
 
         while (targetRawImage.color.a < 0.9f)

@@ -10,7 +10,7 @@ public class SetScoreText : MonoBehaviour
     }
     void OnEnable()
     {
-        if (text != null)
+        if (text != null && ScoreManager.Instance)
             text.text = ScoreManager.Instance.GetNumberOfCorrects().ToString();
     }
 }

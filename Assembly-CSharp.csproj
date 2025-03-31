@@ -86,6 +86,8 @@
     <Compile Include="Assets\1Script\Default\PageNumData.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
     <Compile Include="Assets\1Script\SimpleTimmer.cs" />
+    <Compile Include="Assets\PopupScript.cs" />
+    <Compile Include="Assets\1Script\Page6TimmerScript.cs" />
     <Compile Include="Assets\1Script\Default\ExitScript.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
     <Compile Include="Assets\1Script\SubCanvasController.cs" />

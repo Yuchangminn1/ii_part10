@@ -30,7 +30,7 @@ public class FadeManager : MonoBehaviour
             return;
         }
         // 단일 graphic을 배열로 변환하여 아래 오버로드 호출
-        ToggleFade(fadeTime, graphic);
+        StartCoroutine(ToggleFadeCoroutine(fadeTime, graphic));
     }
 
     public void TargetFade(Graphic graphic, float targetAlphas, float fadeTime = 1f)
@@ -49,7 +49,7 @@ public class FadeManager : MonoBehaviour
     /// </summary>
     /// <param name="fadeTime">전환 시간 (초, 기본값 1f)</param>
     /// <param name="graphics">페이드 효과 적용 대상 Graphic 배열</param>
-    public void ToggleFade(float fadeTime = 1f, params Graphic[] graphics)
+    public void ToggleFade(Graphic[] graphics, float fadeTime = 1f)
     {
         if (graphics == null || graphics.Length == 0)
         {
@@ -59,7 +59,7 @@ public class FadeManager : MonoBehaviour
         StartCoroutine(ToggleFadeCoroutine(fadeTime, graphics));
     }
 
-    private IEnumerator ToggleFadeCoroutine(float fadeTime, Graphic[] graphics)
+    private IEnumerator ToggleFadeCoroutine(float fadeTime, params Graphic[] graphics)
     {
         int count = graphics.Length;
         float[] startAlphas = new float[count];
@@ -143,6 +143,22 @@ public class FadeManager : MonoBehaviour
 
     }
 
+    public void SetAlphaZero(Graphic[] graphics)
+    {
+        for (int i = 0; i < graphics.Length; i++)
+        {
+            SetAlphaZero(graphics[i]);
+        }
+    }
+
+    public void SetAlphaOne(Graphic[] graphics)
+    {
+        for (int i = 0; i < graphics.Length; i++)
+        {
+            SetAlphaOne(graphics[i]);
+        }
+    }
+
     public void SetAlphaZero(Graphic graphic)
     {
         Color originalColor = graphic.color;
@@ -167,6 +183,20 @@ public class FadeManager : MonoBehaviour
         Debug.Log($"_flag = {_flag}");
         if (_flag) SetAlphaZero(graphic);
         else SetAlphaOne(graphic);
+    }
+
+    public void ToggleCut(Graphic[] graphic)
+    {
+        bool _flag = false;
+
+        for (int i = 0; i < graphic.Length; i++)
+        {
+            _flag = graphic[i].color.a > 0.1f;
+            Debug.Log($"_flag = {_flag}");
+            if (_flag) SetAlphaZero(graphic[i]);
+            else SetAlphaOne(graphic[i]);
+        }
+
     }
 
     public void SetGraphicRayTarget(Graphic graphic)

@@ -182,6 +182,10 @@ public class PageController : MonoBehaviour
             Reset();
             ChangeUI(pageNum);
             //Debug.Log($"OpenPage ");
+            if (pages.Length - 1 == pageNum) //마지막 페이지 오픈시 클리어
+            {
+                UserDataManager.Instance.RequestUserContentEnd();
+            }
             if (OnPageChange != null)
                 OnPageChange.Invoke(pageNum);
         }

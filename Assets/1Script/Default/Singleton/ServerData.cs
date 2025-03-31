@@ -134,6 +134,8 @@ public class ServerData : MonoBehaviour
         }
     }
 
+
+
     IEnumerator RequestDataCoroutine(string _url, Action<string> _callback)
     {
         var www = UnityWebRequest.Get(_url);

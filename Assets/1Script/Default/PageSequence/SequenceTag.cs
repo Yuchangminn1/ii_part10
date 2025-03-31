@@ -21,7 +21,7 @@ public class SequenceTag : SequenceScript
 
     [SerializeField] private bool isTag = false;
 
-    public bool isInitialize = false;
+    //public bool isInitialize = false;
 
     Coroutine waitTag = null;
 
@@ -68,6 +68,7 @@ public class SequenceTag : SequenceScript
 
     private void OpenPorts()
     {
+        if (m_rfidReader == null) return;
         for (int i = 0; i < m_rfidReader.Length; i++)
         {
             m_rfidReader[i] = new SerialPort(RFIDPorts[i], 9600);
@@ -138,9 +139,11 @@ public class SequenceTag : SequenceScript
 
                             Debug.Log($"Tag portP{i} : {data}");
                             UserDataManager.Instance.RequestInitializeUserData(data);
+                            StartCoroutine(IsPlay());
+
                             //if (testCoroutine == null) testCoroutine = StartCoroutine(TestC());
 
-                            isTag = true;
+                            //isTag = true;
                         }
                     }
                     catch (Exception e)
@@ -157,20 +160,27 @@ public class SequenceTag : SequenceScript
         ;
     }
 
-    IEnumerator TestC()
+    IEnumerator IsPlay()
     {
         yield return new WaitForSeconds(0.1f);
-        UserDataManager.Instance.RequestUserDataUpdate(1, "", iceEnd);
+        UserDataManager.Instance.RequestUserStartReset();
+        //UserDataManager.Instance.RequestUserContentEnd();
         yield return new WaitForSeconds(0.1f);
 
-        UserDataManager.Instance.RequestUserDataUpdate(1, "", moleEnd);
-        yield return new WaitForSeconds(0.1f);
+        string Q = UserDataManager.Instance.FindValue("END_10A");
 
-        UserDataManager.Instance.RequestUserDataUpdate(1, "", houseEnd);
-        yield return new WaitForSeconds(0.1f);
-
-        UserDataManager.Instance.RequestUserDataUpdate(1, "", starEnd);
-
+        if (Q != "null")
+        {
+            PopupScript.Instance.Popup(2);
+            yield return new WaitForSeconds(5f);
+            PopupScript.Instance.ResetIndex();
+        }
+        else
+        {
+            isTag = true;
+        }
+        //UserDataManager.Instance.RequestUserStartReset();
+        //yield return new WaitForSeconds(0.1f);
     }
 
     #endregion
