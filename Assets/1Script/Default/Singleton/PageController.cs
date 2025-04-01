@@ -57,8 +57,6 @@ public class PageController : MonoBehaviour
     [SerializeField] private GameObject settingPage;
 
     [SerializeField] private int currentPage = 0;
-    [SerializeField] private bool isTutorial = false;
-
     #endregion
 
     [Space]

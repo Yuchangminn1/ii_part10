@@ -175,7 +175,6 @@ public class SetContentsManager : MonoBehaviour
     private string resourcesFolderLocalPath = "/Resources/";
     private string resourceAPI = "";
 
-    private const int ItemNum = 28;
     private const float UiDiv = 1f;
 
     private bool settingMode = true;

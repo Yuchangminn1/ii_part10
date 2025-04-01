@@ -35,6 +35,8 @@ public class ScoreManager : MonoBehaviour
 
     bool[] answers = new bool[12];
 
+    public int[] chooseStep = new int[12];
+
     public int stamp = 0;
 
     private void Awake()
@@ -56,6 +58,18 @@ public class ScoreManager : MonoBehaviour
             steps[i] = new Step(false, false, false, false);
         }
 
+    }
+
+    public void SetStep(int _index, int _value)
+    {
+        chooseStep[_index] = _value;
+        Debug.Log($"chooseStep[{_index}] = {_value}; ");
+    }
+
+
+    public int GetLastStep()
+    {
+        return chooseStep[chooseStep.Length - 1];
     }
 
 

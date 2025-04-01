@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -27,6 +28,8 @@ public class SubVideoPlayer : MonoBehaviour
 
     [SerializeField] UnityEvent onVideoEnd;
 
+    public bool fin = false;
+
     void Awake()
     {
         if (videoPlayer != null) videoPlayer.Prepare();
@@ -34,11 +37,16 @@ public class SubVideoPlayer : MonoBehaviour
         isLoop = videoPlayer.isLooping;
         if (startDelay > 0f)
             videoStartDelay = new WaitForSeconds(startDelay);
+    }
 
+    public void Fin()
+    {
+        fin = true;
     }
 
     void OnEnable()
     {
+        fin = false;
         if (isStartPlay)
         {
             StartCoroutine(OnEnableStart());
@@ -95,7 +103,7 @@ public class SubVideoPlayer : MonoBehaviour
 
         yield return coroutineStartDelay;
 
-        while (videoPlayer.isPlaying)
+        while (videoPlayer.isPlaying && !fin)
         {
             yield return waitForFixedUpdate;
         }

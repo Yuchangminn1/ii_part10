@@ -39,6 +39,7 @@ public class SetColorA : MonoBehaviour
     }
     void OnEnable()
     {
+        if (FadeManager.Instance == null) return;
         if (coroutine == null) coroutine = StartCoroutine(WaitInitialize());
     }
 

@@ -72,6 +72,7 @@ public class AnswerSelector : MonoBehaviour
         else
             aText.text = "F1,F2,F3,F4 로 테스트";
 
+        ScoreManager.Instance.SetStep(index, inputNum);
         chooseNums[index] = inputNum;
         inputNum = -1;
         index++;
