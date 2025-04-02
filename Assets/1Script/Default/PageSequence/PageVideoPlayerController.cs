@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -29,6 +30,8 @@ public class PageVideoPlayerController : SequenceScript
     public float fadeTime = 1f;
 
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.2f);
+
+    public UnityEvent onplayVideo;
 
 
     protected override void AwakeSetup()
@@ -91,8 +94,10 @@ public class PageVideoPlayerController : SequenceScript
 
         if (targetRawImage != null)
         {
-            FadeManager.Instance.ToggleFade(targetRawImage, fadeTime);
+            Debug.Log("Q1");
+            FadeManager.Instance.TargetFade(targetRawImage, 1f, fadeTime);
         }
+        onplayVideo?.Invoke();
 
         while (targetRawImage.color.a < 0.9f)
         {
@@ -106,7 +111,7 @@ public class PageVideoPlayerController : SequenceScript
         }
         if (isendFade)
         {
-            FadeManager.Instance.ToggleFade(targetRawImage);
+            FadeManager.Instance.TargetFade(targetRawImage, 0f);
             yield return waitForSeconds;
         }
     }

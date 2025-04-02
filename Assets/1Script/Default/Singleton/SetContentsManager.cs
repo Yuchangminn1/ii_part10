@@ -13,105 +13,35 @@ using UnityEngine.Networking;
 
 #region JsonData
 
-[System.Serializable]
-public class TextData
-{
-    public List<PageTextData> Page0;
-    public List<PageTextData> Page1;
-    public List<PageTextData> Page2;
-    public List<PageTextData> Page3;
-    public List<PageTextData> Page4;
-    public List<PageTextData> Page5;
-    public List<PageTextData> Page6;
-    public List<PageTextData> Page7;
-
-    public List<PageTextData> Page8;
-    public List<PageTextData> Page9;
-    public List<PageTextData> Page10;
-
-    public List<PageTextData> Page11;
-    public List<PageTextData> Page12;
-    public List<PageTextData> Page13;
-
-}
 
 [System.Serializable]
 public class PageTextData
 {
     public string Key;
-    public string Text;
-    public float LocalScale;
     public Vector3 LocalPosition;
+
+    public float LocalScale;
+    public string Text;
+
     public string Font;
     public int FontSize;
     public float LineSpacing;
     public _Alignment Alignment;
     public _Color Color;
 }
-
-[System.Serializable]
-public class _Alignment
-{
-    public string Vertical;
-    public string Horizontal;
-}
-
-[System.Serializable]
-public class _Color
-{
-    public int R;
-    public int G;
-    public int B;
-    public int A;
-}
-
-
-[System.Serializable]
-public class ImageAndVideoData
-{
-    public List<PageImageAndVideoData> Page0;
-    public List<PageImageAndVideoData> Page1;
-    public List<PageImageAndVideoData> Page2;
-    public List<PageImageAndVideoData> Page3;
-    public List<PageImageAndVideoData> Page4;
-    public List<PageImageAndVideoData> Page5;
-    public List<PageImageAndVideoData> Page6;
-    public List<PageImageAndVideoData> Page7;
-    public List<PageImageAndVideoData> Page8;
-    public List<PageImageAndVideoData> Page9;
-    public List<PageImageAndVideoData> Page10;
-    public List<PageImageAndVideoData> Page11;
-    public List<PageImageAndVideoData> Page12;
-    public List<PageImageAndVideoData> Page13;
-
-
-}
-
 [System.Serializable]
 public class PageImageAndVideoData
 {
     public string Key;
     public Vector3 LocalPosition;
-    public float Width;
-    public float Height;
     public Vector3 LocalRotation;
     public Vector3 LocalScale;
+    public float Width;
+    public float Height;
 
 
-
-    //public List<InstanceData> Instances;
 }
 
-// [Serializable]
-// public class InstanceData
-// {
-//     public int InstanceID;
-//     public Vector3 LocalPosition;
-//     public int Width;
-//     public int Height;
-//     public Vector3 LocalRotation;
-//     public Vector3 LocalScale;
-// }
 
 [System.Serializable]
 public class GeneralSettingData
@@ -128,8 +58,69 @@ public class GeneralSettingData
     public string contentID;
     public int deviceID;
 
+}
+
+
+[System.Serializable]
+public class _Alignment
+{
+    public string Vertical;
+    public string Horizontal;
+}
+
+[System.Serializable]
+public class _Color
+{
+    public int R;
+    public int G;
+    public int B;
+    public int A;
+}
+[System.Serializable]
+public class TextData
+{
+    public List<PageTextData> CustomTop;
+    public List<PageTextData> Page0;
+    public List<PageTextData> Page1;
+    public List<PageTextData> Page2;
+    public List<PageTextData> Page3;
+    public List<PageTextData> Page4;
+    public List<PageTextData> Page5;
+    public List<PageTextData> Page6;
+    public List<PageTextData> Page7;
+    public List<PageTextData> Page8;
+    public List<PageTextData> Page9;
+    public List<PageTextData> Page10;
+    public List<PageTextData> Page11;
+    public List<PageTextData> Page12;
+    public List<PageTextData> Page13;
+    public List<PageTextData> CustomBottom;
+}
+
+
+[System.Serializable]
+public class ImageAndVideoData
+{
+    public List<PageImageAndVideoData> CustomTop;
+
+    public List<PageImageAndVideoData> Page0;
+    public List<PageImageAndVideoData> Page1;
+    public List<PageImageAndVideoData> Page2;
+    public List<PageImageAndVideoData> Page3;
+    public List<PageImageAndVideoData> Page4;
+    public List<PageImageAndVideoData> Page5;
+    public List<PageImageAndVideoData> Page6;
+    public List<PageImageAndVideoData> Page7;
+    public List<PageImageAndVideoData> Page8;
+    public List<PageImageAndVideoData> Page9;
+    public List<PageImageAndVideoData> Page10;
+    public List<PageImageAndVideoData> Page11;
+    public List<PageImageAndVideoData> Page12;
+    public List<PageImageAndVideoData> Page13;
+    public List<PageImageAndVideoData> CustomBottom;
 
 }
+
 
 #endregion
 
@@ -175,6 +166,7 @@ public class SetContentsManager : MonoBehaviour
     private string resourcesFolderLocalPath = "/Resources/";
     private string resourceAPI = "";
 
+    private const int ItemNum = 28;
     private const float UiDiv = 1f;
 
     private bool settingMode = true;
@@ -222,7 +214,8 @@ public class SetContentsManager : MonoBehaviour
     public void StartSetting()
     {
         Reset();
-        DownloadAndSetContents();
+        //DownloadAndSetContents();
+        SetGeneralSetting();
     }
 
     private void Reset()
@@ -238,7 +231,7 @@ public class SetContentsManager : MonoBehaviour
 
     public void DownloadAndSetContents()
     {
-        SetGeneralSetting(); //api 셋팅 있어서 가장 위
+        //SetGeneralSetting(); //api 셋팅 있어서 가장 위
         // SetTexts();
         // SetImages();
         // SetVideos();
@@ -402,6 +395,8 @@ public class SetContentsManager : MonoBehaviour
         }
     }
 
+
+
     private IEnumerator LoadImage(int PageNum, string fileName, string url)
     {
 
@@ -445,6 +440,10 @@ public class SetContentsManager : MonoBehaviour
         }
 
     }
+
+
+
+
 
     private void SetImageDatas()
     {
@@ -840,8 +839,12 @@ public class SetContentsManager : MonoBehaviour
     [Space]
     [SerializeField]
     private GameObject putYourClassToSet;
+    [SerializeField] Image[] customImages;
+
 
     [SerializeField] SequenceTag sequenceTag;
+    [Header("필요한 위치값 Json 로딩")]
+    [SerializeField] CustomPosJson customPosJson;
 
     public void SetGeneralSetting()
     {
@@ -897,7 +900,50 @@ public class SetContentsManager : MonoBehaviour
         SetImages();
         SetVideos();
 
+        if (customPosJson == null) customPosJson = GetComponent<CustomPosJson>();
+        if (customPosJson != null)
+        {
+            customPosJson.LoadHierarchy();
+            Debug.Log("customPosJson.LoadHierarchy()");
+        }
+        if (customImages != null) MyImage(customImages);
+    }
 
+    public void MyImage(Image imageObj)
+    {
+        string fileName = imageObj.name;
+        string url = resourceAPI + ServerData.Instance.FindData(fileName);
+        StartCoroutine(LoadAndAssignImage(url, imageObj));
+    }
+
+    // Image 배열에 대해 각각의 Image에 이미지 다운로드 및 적용
+    public void MyImage(Image[] imageObjs)
+    {
+        foreach (Image imageObj in imageObjs)
+        {
+            MyImage(imageObj);
+        }
+    }
+
+    private IEnumerator LoadAndAssignImage(string url, Image targetImage)
+    {
+        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("이미지 다운로드 실패: " + request.error);
+            }
+            else
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                Sprite sprite = Sprite.Create(texture,
+                                              new Rect(0, 0, texture.width, texture.height),
+                                              new Vector2(0.5f, 0.5f));
+                targetImage.sprite = sprite;
+            }
+        }
     }
 
 }

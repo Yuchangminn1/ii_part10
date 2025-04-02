@@ -65,7 +65,6 @@ public class UserDataManager : MonoBehaviour
 
     public void RequestInitializeUserData(string userUID)
     {
-        if (userDataCache == null) return;
         ServerData.Instance.RequestSeverData("http://211.110.44.104:8500/api/" + $"checkIDX.cfm?uid={userUID}&device={ServerData.Instance.DeviceNum}&Code={ServerData.Instance.Code}", ParseJsonData);
     }
 
@@ -159,6 +158,11 @@ public class UserDataManager : MonoBehaviour
             Debug.Log("GetStamp Error ");
             return -1;
         }
+    }
+
+    public void ResetUser()
+    {
+        userDataCache = null;
     }
 
     private void StampInitialize()

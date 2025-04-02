@@ -21,8 +21,6 @@ public class SequenceTag : SequenceScript
 
     [SerializeField] private bool isTag = false;
 
-    //public bool isInitialize = false;
-
     Coroutine waitTag = null;
 
     Coroutine testCoroutine = null;
@@ -68,7 +66,7 @@ public class SequenceTag : SequenceScript
 
     private void OpenPorts()
     {
-        if (m_rfidReader == null) return;
+        if (m_rfidReader == null || m_rfidReader.Length < 1) return;
         for (int i = 0; i < m_rfidReader.Length; i++)
         {
             m_rfidReader[i] = new SerialPort(RFIDPorts[i], 9600);
@@ -139,11 +137,8 @@ public class SequenceTag : SequenceScript
 
                             Debug.Log($"Tag portP{i} : {data}");
                             UserDataManager.Instance.RequestInitializeUserData(data);
-                            StartCoroutine(IsPlay());
-
                             //if (testCoroutine == null) testCoroutine = StartCoroutine(TestC());
-
-                            //isTag = true;
+                            isTag = true;
                         }
                     }
                     catch (Exception e)
@@ -160,29 +155,29 @@ public class SequenceTag : SequenceScript
         ;
     }
 
-    IEnumerator IsPlay()
+    IEnumerator TestC()
     {
-        yield return new WaitForSeconds(0.1f);
-        UserDataManager.Instance.RequestUserStartReset();
-        //UserDataManager.Instance.RequestUserContentEnd();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
 
-        string Q = UserDataManager.Instance.FindValue("END_10A");
 
-        if (Q != "null")
+        while (UserDataManager.Instance.IsUser() == false)
         {
-            PopupScript.Instance.Popup(2);
-            yield return new WaitForSeconds(5f);
-            PopupScript.Instance.ResetIndex();
+            yield return waitForFixedUpdate;
         }
-        else
-        {
-            isTag = true;
-        }
-        //UserDataManager.Instance.RequestUserStartReset();
-        //yield return new WaitForSeconds(0.1f);
+        PageSequenceManager.Instance.NextPage();
+        isTag = true;
     }
 
     #endregion
+
+
+    void Update()
+    {
+        // F1 키 입력 감지
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            UserDataManager.Instance.RequestUserDataUpdate(1, null);
+        }
+    }
 
 }

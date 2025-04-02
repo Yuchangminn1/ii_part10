@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 
@@ -72,9 +73,12 @@ public class PageSequenceManager : MonoBehaviour
         return null;
     }
 
-    public void NextPage()
+    public void NextPage(int _num = -1)
     {
-        PageController.Instance.CurrentPage++;
+        if (_num == -1)
+            PageController.Instance.CurrentPage++;
+        else
+            PageController.Instance.CurrentPage = _num;
     }
 
     public void NextSequence()

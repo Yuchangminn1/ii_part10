@@ -57,6 +57,8 @@ public class PageController : MonoBehaviour
     [SerializeField] private GameObject settingPage;
 
     [SerializeField] private int currentPage = 0;
+    [SerializeField] private bool isTutorial = false;
+
     #endregion
 
     [Space]
@@ -155,7 +157,7 @@ public class PageController : MonoBehaviour
     {
         //Debug.Log("StartProgram");
         yield return SetupDelay;
-        currentPage = 8; // 처음 페이지 0->0 불가능해서 임시값
+        currentPage = 5; // 처음 페이지 0->0 불가능해서 임시값
         //Debug.Log("Setting Completed");
         if (debugMode)
         {

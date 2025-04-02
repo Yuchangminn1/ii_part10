@@ -51,7 +51,7 @@ public class SetColorA : MonoBehaviour
 
     IEnumerator WaitInitialize()
     {
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForSeconds(0.2f);
 
         while (!isInitialize) yield return waitForFixedUpdate;
 
@@ -64,8 +64,6 @@ public class SetColorA : MonoBehaviour
             else
             {
                 FadeManager.Instance.SetAlphaZero(graphics[i]);
-                graphics[i].raycastTarget = false;
-
             }
 
         }

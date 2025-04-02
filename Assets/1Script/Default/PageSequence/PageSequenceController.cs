@@ -17,7 +17,7 @@ public class PageSequenceController : MonoBehaviour
 
     [SerializeField] private int currentindex;
 
-    [SerializeField] int nextPageNumber = -1;
+    public int nextPageNumber = -1;
 
     public bool endToNext = false;
 
@@ -60,6 +60,12 @@ public class PageSequenceController : MonoBehaviour
         }
     }
 
+    public void ResetSequence()
+    {
+
+        resetTime = defalutResetTime;
+    }
+
     private void Awake()
     {
         // 매니저에 자신의 컨트롤러 등록 >> 옵저버 
@@ -78,7 +84,6 @@ public class PageSequenceController : MonoBehaviour
             resetTime = defalutResetTime;
             PopupScript.Instance.ResetIndex();
 
-
         }
     }
 
@@ -90,14 +95,12 @@ public class PageSequenceController : MonoBehaviour
         resetTime -= Time.deltaTime;
         if (resetTime < 0f)
         {
-
             resetTime = defalutPopupTime;
             if (PopupScript.Instance.GetIndex() == 0)
             {
                 gotoHome = StartCoroutine(waitForHomePage());
             }
             PopupScript.Instance.Popup();
-
         }
     }
 
@@ -114,8 +117,7 @@ public class PageSequenceController : MonoBehaviour
         {
             onStartPage.Invoke(() => SequenceStart());
             PopupScript.Instance.ResetIndex();
-
-
+            ResetSequence();
             //Debug.Log($"pageNumber = {pageNumber} currentindex = {currentindex}");
         }
     }
@@ -152,6 +154,5 @@ public class PageSequenceController : MonoBehaviour
         if (sequenceScripts == null || sequenceScripts.Length < 1) return;
         sequenceScripts[currentindex].TriggerOn();
     }
-
 
 }

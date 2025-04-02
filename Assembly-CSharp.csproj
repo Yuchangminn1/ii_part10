@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceFade.cs" />
+    <Compile Include="Assets\1Script\Default\Capture\TextSaver.cs" />
+    <Compile Include="Assets\1Script\Default\Capture\ImageJsonSaver.cs" />
     <Compile Include="Assets\1Script\New\SetScoreText.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\SetContentsManager.cs" />
     <Compile Include="Assets\1Script\New\SubVideoPlayer.cs" />
@@ -80,22 +82,28 @@
     <Compile Include="Assets\1Script\Default\PageSequence\PageVideoPlayerController.cs" />
     <Compile Include="Assets\1Script\New\CopyImage.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageSequenceManager.cs" />
+    <Compile Include="Assets\1Script\Default\Capture\TestCustomPosJson.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\TypewriterEffect.cs" />
     <Compile Include="Assets\1Script\New\TimmerScript.cs" />
     <Compile Include="Assets\1Script\New\TextCode.cs" />
+    <Compile Include="Assets\1Script\Default\CutFade.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTime.cs" />
     <Compile Include="Assets\1Script\New\ScoreManager.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceTag.cs" />
     <Compile Include="Assets\1Script\Default\SetColorA.cs" />
     <Compile Include="Assets\1Script\New\UIToggle.cs" />
     <Compile Include="Assets\1Script\Default\PageNumData.cs" />
+    <Compile Include="Assets\1Script\Default\SetRayDelay.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
     <Compile Include="Assets\1Script\SetPos.cs" />
+    <Compile Include="Assets\1Script\Default\Capture\JsonSaverExample.cs" />
     <Compile Include="Assets\1Script\Default\ExitScript.cs" />
     <Compile Include="Assets\1Script\New\PopupScript.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
     <Compile Include="Assets\1Script\New\ActivateAllDisplays.cs" />
+    <Compile Include="Assets\1Script\Default\UserReset.cs" />
     <Compile Include="Assets\1Script\New\Page6TimmerScript.cs" />
+    <Compile Include="Assets\1Script\Default\Capture\CustomPosJson.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceScript.cs" />
     <Compile Include="Assets\1Script\New\TriggerPlayVideo.cs" />
     <Compile Include="Assets\1Script\New\SubCanvasController.cs" />

@@ -76,8 +76,6 @@ public class SequenceFade : SequenceScript
         {
             FadeManager.Instance.ToggleCut(graphics[i]);
         }
-        Debug.Log("QQQQQQ");
-
     }
 
 }

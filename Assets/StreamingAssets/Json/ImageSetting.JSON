@@ -1,27 +1,223 @@
 {
-  "Page0": [],
+  "CustomTop": [],
+  "Page0": [
+    {
+      "Key": "Page0BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
 
-  "Page1": [],
+  "Page1": [
+    {
+      "Key": "Page1BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
 
-  "Page2": [],
+  "Page2": [
+    {
+      "Key": "Page2BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG1",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG2",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG3",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG4",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG5",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG6",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page2BG7",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
 
-  "Page3": [],
+  "Page3": [
+    {
+      "Key": "Page3BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
 
-  "Page4": [],
-  "Page5": [],
+  "Page4": [
+    {
+      "Key": "Page4BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
+  "Page5": [
+    {
+      "Key": "Page56BG",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    }
+  ],
 
-  "Page6": [],
+  "Page6": [
+    {
+      "Key": "Page6AImage",
+      "LocalPosition": { "x": 0.0, "y": -18.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 469,
+      "Height": 199
+    },
+    {
+      "Key": "Page6BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page6QImage",
+      "LocalPosition": { "x": 0.0, "y": 217.5, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 469,
+      "Height": 199
+    },
+    {
+      "Key": "TimmerImage",
+      "LocalPosition": { "x": 0.0, "y": -226.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 184,
+      "Height": 220
+    }
+  ],
 
-  "Page7": [],
+  "Page7": [
+    {
+      "Key": "Page7BG0",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 540,
+      "Height": 960
+    },
+    {
+      "Key": "Page7FootImage",
+      "LocalPosition": { "x": -150.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 52,
+      "Height": 57
+    }
+  ],
 
   "Page8": [],
 
   "Page9": [],
 
-  "Page10": [],
+  "Page10": [
+    {
+      "Key": "Page10Image0",
+      "LocalPosition": { "x": 0.0, "y": -29.200000762939454, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 360,
+      "Height": 180
+    }
+  ],
 
-  "Page11": [],
+  "Page11": [
+    {
+      "Key": "Part11Stamp",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 100,
+      "Height": 100
+    },
+    {
+      "Key": "Stamp",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 0,
+      "Height": 0
+    }
+  ],
 
   "Page12": [],
-  "Page13": []
+  "CustomBottom": [
+    {
+      "Key": "PopupImage",
+      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+      "Width": 282,
+      "Height": 232
+    }
+  ]
 }

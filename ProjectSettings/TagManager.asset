@@ -7,6 +7,8 @@ TagManager:
   - mp4
   - PNG
   - png
+  - CustomPos
+  - Text
   layers:
   - Default
   - TransparentFX
