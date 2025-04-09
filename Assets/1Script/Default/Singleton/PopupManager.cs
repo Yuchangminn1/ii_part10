@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupScript : MonoBehaviour
+public class PopupManager : MonoBehaviour
 {
 
-    public static PopupScript Instance { get; private set; }
+    public static PopupManager Instance { get; private set; }
 
 
     [SerializeField] Text[] popupTextS;

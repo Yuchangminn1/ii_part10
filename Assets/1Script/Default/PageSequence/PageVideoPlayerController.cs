@@ -41,6 +41,11 @@ public class PageVideoPlayerController : SequenceScript
         // VideoPlayer가 할당되지 않았다면 같은 GameObject에서 가져오기
         if (videoPlayer == null)
             videoPlayer = GetComponent<VideoPlayer>();
+
+        if (videoPlayer != null)
+            isLoop = videoPlayer.isLooping;
+
+
     }
 
     private void OnEnable()

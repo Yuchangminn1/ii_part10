@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "ardity": {
+      "version": "https://github.com/dwilches/Ardity.git?path=UnityProject/Assets/Ardity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "377dc1a79cd044d7bd52967c925a1bf9f4483e86"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,

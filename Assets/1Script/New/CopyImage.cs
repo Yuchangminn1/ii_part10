@@ -13,7 +13,7 @@ public class CopyImage : MonoBehaviour
         foreach (Image target in targetImages)
         {
             target.sprite = currentImage.sprite;
-            FadeManager.Instance.SetAlphaOne(target);
+            //FadeManager.Instance.SetAlphaOne(target);
         }
     }
 

@@ -82,7 +82,7 @@ public class PageSequenceController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             resetTime = defalutResetTime;
-            PopupScript.Instance.ResetIndex();
+            PopupManager.Instance.ResetIndex();
 
         }
     }
@@ -96,11 +96,11 @@ public class PageSequenceController : MonoBehaviour
         if (resetTime < 0f)
         {
             resetTime = defalutPopupTime;
-            if (PopupScript.Instance.GetIndex() == 0)
+            if (PopupManager.Instance.GetIndex() == 0)
             {
                 gotoHome = StartCoroutine(waitForHomePage());
             }
-            PopupScript.Instance.Popup();
+            PopupManager.Instance.Popup();
         }
     }
 
@@ -116,7 +116,7 @@ public class PageSequenceController : MonoBehaviour
         if (onStartPage != null)
         {
             onStartPage.Invoke(() => SequenceStart());
-            PopupScript.Instance.ResetIndex();
+            PopupManager.Instance.ResetIndex();
             ResetSequence();
             //Debug.Log($"pageNumber = {pageNumber} currentindex = {currentindex}");
         }

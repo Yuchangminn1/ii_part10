@@ -62,15 +62,27 @@ public class AnswerSelector : MonoBehaviour
         }
     }
 
+    public bool IsAnswer()
+    {
+        if (anwserTexts.Length > inputNum && inputNum > -1) //답변 존재
+            return true;
+        else return false;
+    }
+
     public void Answer()
     {
+        Debug.Log($"Answer  inputNum = {inputNum}");
         FadeManager.Instance.SetAlphaOne(aText);
         FadeManager.Instance.SetAlphaOne(aTextImage);
-        Debug.Log($"anwserTexts.Length = {anwserTexts.Length}  / inputNum = {inputNum}");
+        //Debug.Log($"anwserTexts.Length = {anwserTexts.Length}  / inputNum = {inputNum}");
         if (anwserTexts.Length > inputNum && inputNum > -1)
+        {
             aText.text = anwserTexts[inputNum].text;
+        }
         else
-            aText.text = "F1,F2,F3,F4 로 테스트";
+        {
+            inputNum = 0;
+        }
 
         ScoreManager.Instance.SetStep(index, inputNum);
         chooseNums[index] = inputNum;
@@ -89,10 +101,15 @@ public class AnswerSelector : MonoBehaviour
         qText.text = questionTexts[index].text;
     }
 
+    void OnEnable()
+    {
+        Reset();
+    }
 
 
-    // public void Reset()
-    // {
-    //     currentText = null;
-    // }
+
+    public void Reset()
+    {
+        index = 0;
+    }
 }

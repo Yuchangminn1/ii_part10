@@ -79,10 +79,10 @@ public class CustomPosJson : MonoBehaviour
     void Update()
     {
         //F3 누르면 저장, 필요시 다른 키로 로드
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            SaveHierarchy();
-        }
+        // if (Input.GetKeyDown(KeyCode.F3))
+        // {
+        //     SaveHierarchy();
+        // }
         // 필요 시 LoadHierarchy() 호출
         // else if (Input.GetKeyDown(KeyCode.F4))
         // {

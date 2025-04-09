@@ -31,8 +31,6 @@ public class TimmerScript : MonoBehaviour
 
     bool isEvent;
 
-    Color colorB;
-
     bool isTimeOver;
 
     WaitForSeconds delay = new WaitForSeconds(3f);
@@ -47,6 +45,14 @@ public class TimmerScript : MonoBehaviour
 
     public Image timmerImage;
 
+    public float popupTime = 3f;
+    public float defaultPopupTime = 3f;
+
+    public Coroutine delayCoroutine = null;
+
+    public bool isEnd = false;
+
+
 
     void Awake()
     {
@@ -58,6 +64,12 @@ public class TimmerScript : MonoBehaviour
         {
             StopCoroutine(coroutine);
             coroutine = null;
+        }
+
+        if (delayCoroutine != null)
+        {
+            StopCoroutine(delayCoroutine);
+            delayCoroutine = null;
         }
     }
 
@@ -72,20 +84,19 @@ public class TimmerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isTimeOver) return;
+
         remainTime -= Time.deltaTime * timeSpeed;
-        if (remainTime < 0f)
+        if (remainTime < 0f && coroutine == null)
         {
-            //FadeManager.Instance.SetAlphaZero(text);
-            text.text = "";
+
             remainTime = 0f;
-            if (isReady == false)
+            isTimeOver = true;
+            text.text = "0";
+
+            if (isReady == false) // 초반 3초 
             {
                 FadeManager.Instance.SetAlphaZero(isReadyText);
-                isTimeOver = true;
 
-
-                // redayEvent?.Invoke();
                 text.text = $"{(int)Math.Ceiling(remainTime)}";
                 FadeManager.Instance.TargetFade(text, 0f);
 
@@ -97,32 +108,7 @@ public class TimmerScript : MonoBehaviour
                 return;
             }
 
-            text.text = "";
-            colorB = text.color;
-            colorB.a = 0f;
-            text.color = colorB;
-            isTimeOver = true;
-            // if (timmerEndEvent != null)
-            //     timmerEndEvent?.Invoke();
-
-            Debug.Log("Answer2");
-            FadeManager.Instance.SetAlphaZero(timmerImage);
-
-
-            answerSelector.Answer();
-            //GraphicReset();
-
-            if (answerSelector.qSize > currentIndex)
-            {
-                ResetTimmer();
-            }
-            else
-            {
-                Debug.Log("endEvent");
-                endEvent?.Invoke();
-
-            }
-
+            CheckAnswer();
             return;
 
         }
@@ -134,38 +120,75 @@ public class TimmerScript : MonoBehaviour
         text.text = $"{(int)Math.Ceiling(remainTime)}";
     }
 
+    IEnumerator Delay(float _time, Action _callback)
+    {
+        yield return new WaitForSeconds(_time);
+        _callback?.Invoke();
+        delayCoroutine = null;
+    }
 
+    public void CheckAnswer()
+    {
+        if (isEnd) return;
+        if (delayCoroutine != null) return;
+        if (!answerSelector.IsAnswer()) // 대답 못했을 때 팝업창
+        {
+            PopupCheck();
+            return;
+        }
+        text.text = "";
+        PopupManager.Instance.ResetIndex();
+        FadeManager.Instance.SetAlphaZero(text);
+        FadeManager.Instance.SetAlphaZero(timmerImage);
+        answerSelector.Answer();
+        if (answerSelector.qSize <= currentIndex)
+        {
+            isEnd = true;
+            Debug.Log("endEvent");
+            endEvent?.Invoke();
+        }
+        else
+        {
+            ResetTimmer();
 
-    // public void GraphicReset()
-    // {
-    //     if (toggleGraphic != null && toggleGraphic.Length > 0)
-    //     {
-    //         FadeManager.Instance.ToggleCut(toggleGraphic);
-    //     }
-    // }
+        }
+
+    }
+
+    private void PopupCheck()
+    {
+        if (popupTime == 3f)
+            PopupManager.Instance.Popup(0);
+        if (popupTime < 0f)
+        {
+            PopupManager.Instance.Popup(0);
+            if (delayCoroutine == null) delayCoroutine = StartCoroutine(Delay(defaultPopupTime, () => PageController.Instance.CurrentPage = 0));
+            popupTime = defaultPopupTime;
+        }
+        popupTime -= Time.deltaTime;
+    }
 
     public void ResetTimmer()
     {
         if (coroutine == null) coroutine = StartCoroutine(ResetTimmerC());
-
     }
 
     IEnumerator ResetTimmerC()
     {
-
+        popupTime = defaultPopupTime;
+        PopupManager.Instance.ResetIndex();
         if (isReady) yield return delay;
         answerSelector.Question();
         FadeManager.Instance.SetAlphaOne(timmerImage);
-        Debug.Log($"ResetTimmer {Time.time}");
 
         remainTime = defaultTimmer;
         currentIndex++;
-        Debug.Log($" currentIndex = {currentIndex}");
-
 
         isTimeOver = false;
         coroutine = null;
         isEvent = false;
+
+        isEnd = false;
 
         if (isReady == false)
         {

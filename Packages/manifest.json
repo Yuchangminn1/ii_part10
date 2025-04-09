@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "ardity": "https://github.com/dwilches/Ardity.git?path=UnityProject/Assets/Ardity",
     "com.unity.collab-proxy": "2.7.1",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.ide.rider": "3.0.31",

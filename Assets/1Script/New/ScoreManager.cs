@@ -1,47 +1,22 @@
 
 using UnityEngine;
 
-[System.Serializable]
-public struct Step
-{
-    public bool a;
-    public bool b;
-    public bool c;
-    public bool d;
 
-    public Step(bool a, bool b, bool c, bool d)
-    {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-    }
-
-    public static Step CreateWithIndex(int index)
-    {
-        return new Step(
-            a: index == 0,
-            b: index == 1,
-            c: index == 2,
-            d: index == 3
-        );
-    }
-}
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
-    Step[] steps;
 
-    bool[] answers = new bool[12];
+    public int[] answers;
 
-    public int[] chooseStep = new int[12];
+    public int[] chooseStep;
 
     public int stamp = 0;
 
     private void Awake()
     {
-        steps = new Step[12];
+        chooseStep = new int[12];
+        answers = new int[12];
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -51,13 +26,9 @@ public class ScoreManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Initialized()
+    public void SetAnswer(int[] _answers)
     {
-        for (int i = 0; i < steps.Length; i++)
-        {
-            steps[i] = new Step(false, false, false, false);
-        }
-
+        answers = _answers;
     }
 
     public void SetStep(int _index, int _value)
@@ -66,22 +37,26 @@ public class ScoreManager : MonoBehaviour
         Debug.Log($"chooseStep[{_index}] = {_value}; ");
     }
 
-
     public int GetLastStep()
     {
         return chooseStep[chooseStep.Length - 1];
     }
 
-
-    public int GetNumberOfCorrects()
+    public int Checker()
     {
-        int numberOfCorrects = 0;
-        foreach (bool answer in answers)
+        int hitNum = 0;
+        for (int i = 0; i < answers.Length; i++)
         {
-            if (answer) numberOfCorrects++;
+            if (chooseStep[i] == answers[i])
+            {
+                hitNum++;
+            }
         }
-        return numberOfCorrects;
+        return hitNum;
     }
+
+
+
 
 
 }

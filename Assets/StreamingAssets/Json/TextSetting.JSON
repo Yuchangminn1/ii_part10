@@ -325,7 +325,7 @@
         "z": 0.0
       },
       "LocalScale": 1.0,
-      "Text": "게임이 종료되었습니다!",
+      "Text": "체험이 완료되었습니다.",
       "Font": "SF싸락눈-TTF",
       "FontSize": 30,
       "LineSpacing": 1.0,
@@ -335,14 +335,14 @@
     {
       "Key": "Text1",
       "LocalPosition": {
-        "x": -17.600000381469728,
-        "y": 14.600000381469727,
+        "x": -2.0,
+        "y": 14.6,
         "z": 0.0
       },
       "LocalScale": 1.0,
-      "Text": "0",
+      "Text": "12개 중에\n  개를 맞췄어요!",
       "Font": "SF싸락눈-TTF",
-      "FontSize": 30,
+      "FontSize": 25,
       "LineSpacing": 1.0,
       "Alignment": { "Vertical": "Center", "Horizontal": "Center" },
       "Color": { "R": 50, "G": 50, "B": 50, "A": 0 }
@@ -359,7 +359,7 @@
       "FontSize": 25,
       "LineSpacing": 1.0,
       "Alignment": { "Vertical": "Center", "Horizontal": "Center" },
-      "Color": { "R": 50, "G": 50, "B": 50, "A": 255 }
+      "Color": { "R": 50, "G": 50, "B": 50, "A": 0 }
     }
   ],
 
