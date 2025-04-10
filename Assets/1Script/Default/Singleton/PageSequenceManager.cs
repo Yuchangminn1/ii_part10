@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 
@@ -88,4 +86,6 @@ public class PageSequenceManager : MonoBehaviour
             pageSequenceController.CurrentIndex++;
         }
     }
+
+
 }

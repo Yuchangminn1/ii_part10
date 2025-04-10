@@ -104,11 +104,6 @@ public class PageController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
         }
 
         SetupDelay = new WaitForSeconds(setupDelayTime);

@@ -71,7 +71,6 @@
     <Compile Include="Assets\1Script\New\SetScoreText.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\SetContentsManager.cs" />
     <Compile Include="Assets\1Script\New\SubVideoPlayer.cs" />
-    <Compile Include="Assets\1Script\Default\Singleton\PageBackGround.cs" />
     <Compile Include="Assets\1Script\New\AnswerSelector.cs" />
     <Compile Include="Assets\1Script\New\SimpleTimmer.cs" />
     <Compile Include="Assets\1Script\FinPage9.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Assets\1Script\New\TestVideoSpeed.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\PageVideoPlayerController.cs" />
     <Compile Include="Assets\1Script\New\CopyImage.cs" />
+    <Compile Include="Assets\1Script\New\PageBackGround.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageSequenceManager.cs" />
     <Compile Include="Assets\1Script\Default\Capture\TestCustomPosJson.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\TypewriterEffect.cs" />
@@ -98,6 +98,7 @@
     <Compile Include="Assets\1Script\Default\SetRayDelay.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\ServerData.cs" />
     <Compile Include="Assets\1Script\SetPos.cs" />
+    <Compile Include="Assets\1Script\Recorder.cs" />
     <Compile Include="Assets\1Script\Default\Capture\JsonSaverExample.cs" />
     <Compile Include="Assets\1Script\Default\ExitScript.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\UserDataManager.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Assets\1Script\New\SubCanvasController.cs" />
     <Compile Include="Assets\1Script\Default\PageSequence\SequenceCanvasFade.cs" />
     <Compile Include="Assets\1Script\Default\Singleton\PageController.cs" />
-    <Compile Include="Assets\Recorder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -282,11 +282,8 @@
   "Page7": [
     {
       "Key": "Text1",
-      "LocalPosition": {
-        "x": 1.100000023841858,
-        "y": 214.8000030517578,
-        "z": 0.0
-      },
+      "LocalPosition": { "x": 1.0, "y": 214.0, "z": 0.0 },
+
       "LocalScale": 1.0,
       "Text": "질문이 종료되었습니다.",
       "Font": "SF싸락눈-TTF",
@@ -297,11 +294,8 @@
     },
     {
       "Key": "Text2",
-      "LocalPosition": {
-        "x": 0.10000000149011612,
-        "y": 178.3000030517578,
-        "z": 0.0
-      },
+      "LocalPosition": { "x": 0.0, "y": 178.0, "z": 0.0 },
+
       "LocalScale": 1.0,
       "Text": "마지막 칸으로 이동해주세요!",
       "Font": "SF싸락눈-TTF",
@@ -319,28 +313,20 @@
   "Page10": [
     {
       "Key": "Text0",
-      "LocalPosition": {
-        "x": -0.4000000059604645,
-        "y": 135.39999389648438,
-        "z": 0.0
-      },
+      "LocalPosition": { "x": -0.4, "y": 230.0, "z": 0.0 },
       "LocalScale": 1.0,
       "Text": "체험이 완료되었습니다.",
       "Font": "SF싸락눈-TTF",
-      "FontSize": 30,
+      "FontSize": 25,
       "LineSpacing": 1.0,
       "Alignment": { "Vertical": "Center", "Horizontal": "Center" },
       "Color": { "R": 50, "G": 50, "B": 50, "A": 0 }
     },
     {
       "Key": "Text1",
-      "LocalPosition": {
-        "x": -2.0,
-        "y": 14.6,
-        "z": 0.0
-      },
+      "LocalPosition": { "x": -2.0, "y": 14.6, "z": 0.0 },
       "LocalScale": 1.0,
-      "Text": "12개 중에\n  개를 맞췄어요!",
+      "Text": "12개 중에 \n개를 맞췄어요!",
       "Font": "SF싸락눈-TTF",
       "FontSize": 25,
       "LineSpacing": 1.0,
@@ -366,11 +352,7 @@
   "Page12": [
     {
       "Key": "Text1",
-      "LocalPosition": {
-        "x": 1.399999976158142,
-        "y": 190.89999389648438,
-        "z": 0.0
-      },
+      "LocalPosition": { "x": 1.4, "y": 190.9, "z": 0.0 },
       "LocalScale": 1.0,
       "Text": "체험이 완료되었습니다.",
       "Font": "SF싸락눈-TTF",
