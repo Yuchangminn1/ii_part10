@@ -110,18 +110,8 @@
       "Height": 960
     }
   ],
-  "Page5": [
-    {
-      "Key": "Page56BG",
-      "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
-      "LocalRotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
-      "LocalScale": { "x": 1.0, "y": 1.0, "z": 1.0 },
-      "Width": 540,
-      "Height": 960
-    }
-  ],
 
-  "Page6": [
+  "Page5": [
     {
       "Key": "Page6AImage",
       "LocalPosition": { "x": 0.0, "y": -18.0, "z": 0.0 },
@@ -156,7 +146,7 @@
     }
   ],
 
-  "Page7": [
+  "Page6": [
     {
       "Key": "Page7BG0",
       "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
@@ -175,11 +165,11 @@
     }
   ],
 
+  "Page7": [],
+
   "Page8": [],
 
-  "Page9": [],
-
-  "Page10": [
+  "Page9": [
     {
       "Key": "Page10Image0",
       "LocalPosition": { "x": 0.0, "y": 51.0, "z": 0.0 },
@@ -190,7 +180,7 @@
     }
   ],
 
-  "Page11": [
+  "Page10": [
     {
       "Key": "Part11Stamp",
       "LocalPosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
@@ -209,7 +199,7 @@
     }
   ],
 
-  "Page12": [],
+  "Page11": [],
   "CustomBottom": [
     {
       "Key": "PopupImage",

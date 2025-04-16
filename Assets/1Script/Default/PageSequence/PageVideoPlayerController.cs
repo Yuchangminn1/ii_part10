@@ -31,6 +31,10 @@ public class PageVideoPlayerController : SequenceScript
 
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.2f);
 
+    public float firstFrameDelay = -1f;
+
+    WaitForSeconds firFrameDelay;
+
     public UnityEvent onplayVideo;
 
 
@@ -44,7 +48,6 @@ public class PageVideoPlayerController : SequenceScript
 
         if (videoPlayer != null)
             isLoop = videoPlayer.isLooping;
-
 
     }
 
@@ -94,21 +97,19 @@ public class PageVideoPlayerController : SequenceScript
         {
             yield return null;
         }
-
-        videoPlayer.Play();
-
         if (targetRawImage != null)
         {
             Debug.Log("Q1");
             FadeManager.Instance.TargetFade(targetRawImage, 1f, fadeTime);
         }
+        videoPlayer.Play();
+
         onplayVideo?.Invoke();
 
         while (targetRawImage.color.a < 0.9f)
         {
             yield return null;
         }
-
         ToogleGraphic();
         while (videoPlayer.isPlaying && !isLoop)
         {

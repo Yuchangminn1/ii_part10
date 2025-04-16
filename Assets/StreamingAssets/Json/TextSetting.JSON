@@ -52,9 +52,7 @@
   ],
   "Page3": [],
   "Page4": [],
-  "Page5": [],
-
-  "Page6": [
+  "Page5": [
     {
       "Key": "ReadyText",
       "LocalPosition": { "x": 0.0, "y": 120.0, "z": 0.0 },
@@ -279,7 +277,7 @@
     }
   ],
 
-  "Page7": [
+  "Page6": [
     {
       "Key": "Text1",
       "LocalPosition": { "x": 1.0, "y": 214.0, "z": 0.0 },
@@ -306,11 +304,11 @@
     }
   ],
 
+  "Page7": [],
+
   "Page8": [],
 
-  "Page9": [],
-
-  "Page10": [
+  "Page9": [
     {
       "Key": "Text0",
       "LocalPosition": { "x": -0.4, "y": 230.0, "z": 0.0 },
@@ -335,7 +333,7 @@
     }
   ],
 
-  "Page11": [
+  "Page10": [
     {
       "Key": "Text",
       "LocalPosition": { "x": 0.0, "y": 173.0, "z": 0.0 },
@@ -349,7 +347,7 @@
     }
   ],
 
-  "Page12": [
+  "Page11": [
     {
       "Key": "Text1",
       "LocalPosition": { "x": 1.4, "y": 190.9, "z": 0.0 },
