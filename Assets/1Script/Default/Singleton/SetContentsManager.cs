@@ -7,6 +7,7 @@ using UnityEngine.Video;
 using System;
 using System.Collections;
 using UnityEngine.Networking;
+using NUnit.Framework.Constraints;
 
 
 //Json 데이터
@@ -42,11 +43,19 @@ public class PageImageAndVideoData
 
 }
 
-
+[System.Serializable]
+public class ColorInt
+{
+    public int r;
+    public int g;
+    public int b;
+    public int a;
+}
 [System.Serializable]
 public class GeneralSettingData
 {
     public string[] rfid_ports;
+    public string[] ledPorts;
     public string api;
     public string baseURL;
     public string startURL;
@@ -57,8 +66,12 @@ public class GeneralSettingData
     public float timeToWait;
     public string contentID;
     public int deviceID;
+    public bool debugMode;
+    public ColorInt[] arduinoState;
 
+    int[] colors;
 }
+
 
 
 [System.Serializable]
@@ -846,6 +859,9 @@ public class SetContentsManager : MonoBehaviour
     [Header("필요한 위치값 Json 로딩")]
     [SerializeField] CustomPosJson customPosJson;
 
+    WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+
+
     public void SetGeneralSetting()
     {
         StartCoroutine(SetGeneralSetting2());
@@ -888,6 +904,25 @@ public class SetContentsManager : MonoBehaviour
         Debug.Log("GeneralSetting JSON 내용: " + jsonContent);
         GeneralSettingData generalSettingData = JsonUtility.FromJson<GeneralSettingData>(jsonContent);
 
+        yield return waitForFixedUpdate;
+        if (CustomSerialController.Instance != null)
+        {
+            CustomSerialController.Instance.Initialize(generalSettingData.ledPorts);
+
+            Color[] colors = new Color[generalSettingData.arduinoState.Length];
+            for (int i = 0; i < generalSettingData.arduinoState.Length; i++)
+            {
+                ColorInt ci = generalSettingData.arduinoState[i];
+                // 정수형 값을 255로 나누어 0~1 범위의 float값으로 변환
+                colors[i] = new Color(ci.r / 255f, ci.g / 255f, ci.b / 255f, ci.a / 255f);
+            }
+            // 변환된 Color 배열을 SetColor 메서드를 통해 상태 업데이트 및 출력
+            CustomSerialController.Instance.SetColor(colors);
+        }
+        else
+        {
+            Debug.Log("ArduinoController Is Null");
+        }
         if (sequenceTag != null)
         {
             sequenceTag.PortsInitialize(generalSettingData.rfid_ports);
@@ -907,6 +942,8 @@ public class SetContentsManager : MonoBehaviour
             Debug.Log("customPosJson.LoadHierarchy()");
         }
         if (customImages != null) MyImage(customImages);
+
+
     }
 
     public void MyImage(Image imageObj)

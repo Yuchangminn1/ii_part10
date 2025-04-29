@@ -1,21 +1,24 @@
 {
-  "rfid_ports": ["COM105"],
-  "next_page_trigger": [
-    "Tag",
-    "Time",
-    "Time",
-    "Time",
-    "Check",
-    "Check",
-    "Check",
-    "Tag",
-    "None",
-    "Check",
-    "Check",
-    "Check",
-    "Tag",
-    "None"
+  "rfid_ports": ["COM201"],
+  "ledPorts": [
+    "COM101",
+    "COM102",
+    "COM103",
+    "COM104",
+    "COM105",
+    "COM106",
+    "COM107",
+    "COM108",
+    "COM109",
+    "COM110",
+    "COM111",
+    "COM112",
+    "COM113",
+    "COM114",
+    "COM115",
+    "COM116"
   ],
+
   "fadeTime": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   "remainingTimes": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
   "api": "http://211.110.44.104:8500/",
@@ -28,5 +31,13 @@
   "maxRetries": 10,
   "timeToWait": 1.5,
   "contentID": "10A",
-  "deviceID": 1
+  "deviceID": 1,
+  "contentID": "18A",
+  "arduinoState": [
+    { "r": 0, "g": 0, "b": 0, "a": 255 },
+    { "r": 255, "g": 255, "b": 170, "a": 255 },
+    { "r": 255, "g": 140, "b": 0, "a": 255 },
+    { "r": 138, "g": 255, "b": 18, "a": 255 }
+  ],
+  "debugMode": false
 }
