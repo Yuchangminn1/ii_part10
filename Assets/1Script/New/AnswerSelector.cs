@@ -36,6 +36,8 @@ public class AnswerSelector : MonoBehaviour
 
         chooseNums = new int[qSize];
     }
+
+
     void Update()
     {
         if (isDelay) return;
@@ -69,8 +71,10 @@ public class AnswerSelector : MonoBehaviour
         else return false;
     }
 
-    public void Answer()
+    public void Answer(int _index)
     {
+        inputNum = _index;
+
         Debug.Log($"Answer  inputNum = {inputNum}");
         FadeManager.Instance.SetAlphaOne(aText);
         FadeManager.Instance.SetAlphaOne(aTextImage);

@@ -27,6 +27,8 @@ public class SubVideoPlayer : MonoBehaviour
     WaitForSeconds videoStartDelay;
 
     [SerializeField] UnityEvent onVideoEnd;
+    [SerializeField] UnityEvent onVideoStart;
+
 
     public bool fin = false;
 
@@ -97,8 +99,10 @@ public class SubVideoPlayer : MonoBehaviour
             yield return waitForFixedUpdate;
         }
         videoPlayer.Play();
+
         //if (graphic != null) FadeManager.Instance.SetAlphaOne(graphic);
         if (graphic != null) FadeManager.Instance.TargetFade(graphic, 1f, 0.3f);
+        onVideoStart?.Invoke();
 
 
         yield return coroutineStartDelay;

@@ -25,6 +25,11 @@ public class SequenceTag : SequenceScript
 
     Coroutine testCoroutine = null;
 
+    public AudioSource tagSound;
+
+    public AudioSource tagErrorSound;
+
+
 
     string iceEnd = "9C";
     string moleEnd = "10A";
@@ -138,6 +143,8 @@ public class SequenceTag : SequenceScript
                             Debug.Log($"Tag portP{i} : {data}");
                             UserDataManager.Instance.RequestInitializeUserData(data);
                             //if (testCoroutine == null) testCoroutine = StartCoroutine(TestC());
+                            if (CustomSerialController.Instance != null) CustomSerialController.Instance.TagLED();
+                            tagSound?.Play();
                             isTag = true;
                         }
                     }

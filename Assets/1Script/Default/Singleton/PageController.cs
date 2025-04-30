@@ -86,6 +86,15 @@ public class PageController : MonoBehaviour
 
     private void CheckCondition(int value)
     {
+        if (value == 0)
+        {
+            Debug.Log("0페이지 전환");
+            CustomSerialController.Instance.StartIdlePageCoroutine();
+        }
+        if (value == 1)
+        {
+            CustomSerialController.Instance.StopIdlePageCoroutine();
+        }
 
         if (OnPageRequest != null)
         {

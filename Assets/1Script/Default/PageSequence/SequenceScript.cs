@@ -31,6 +31,8 @@ public abstract class SequenceScript : MonoBehaviour
     WaitForSeconds waitNextDelay;
 
     public UnityEvent sequenceCallback;
+    public UnityEvent startEvent;
+
 
     public VideoPlayer nextVedeoPlayer;
 
@@ -68,6 +70,7 @@ public abstract class SequenceScript : MonoBehaviour
             yield return waitFixedUpdate;
         }
         isTrigger = originTrigger;
+        startEvent?.Invoke();
         //특정 트리거 필요하면 대기 
         while (!isTrigger)
         {

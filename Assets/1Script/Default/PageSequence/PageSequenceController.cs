@@ -95,6 +95,11 @@ public class PageSequenceController : MonoBehaviour
         resetTime -= Time.deltaTime;
         if (resetTime < 0f)
         {
+            if (currentindex == PageController.Instance.pages.Length - 1)
+            {
+                PageController.Instance.CurrentPage = 0;
+                return;
+            }
             resetTime = defalutPopupTime;
             if (PopupManager.Instance.GetIndex() == 0)
             {

@@ -62,6 +62,11 @@ public class CustomSerialController : MonoBehaviour
     // Internal reference to the Thread and the object that runs in it.
     const int ARDUINONUM = 16;
 
+    const int BUTTONLENGTH = 14;
+
+    const int BELLINDEX = 14;
+    const int RFIDINDEX = 15;
+
     const int ANSWERNUM = 12;
 
     protected Thread[] thread = new Thread[ARDUINONUM];
@@ -77,7 +82,7 @@ public class CustomSerialController : MonoBehaviour
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
     WaitForSeconds waitSeverSend = new WaitForSeconds(0.1f);
-    WaitForSeconds setcolorwait = new WaitForSeconds(0.3f);
+    WaitForSeconds setcolorwait = new WaitForSeconds(0.5f);
 
 
     WaitForSeconds wait1Second = new WaitForSeconds(1f);
@@ -107,6 +112,7 @@ public class CustomSerialController : MonoBehaviour
 
     Color errorColor = new Color(230, 0, 5);
 
+
     public bool isInitialize = false;
 
     public bool isInitialize22 = false;
@@ -117,8 +123,17 @@ public class CustomSerialController : MonoBehaviour
 
     int selectNum = -1;
 
+    Coroutine startChoiceCoroutine = null;
 
+    Coroutine waitAnswerCorutine = null;
 
+    public AudioSource ledOnSource;
+
+    public AudioSource selectLEDSource;
+
+    Coroutine idlePageCoroutine = null;
+
+    Coroutine allColorSetCoroutine = null;
 
     enum PortState
     {
@@ -151,7 +166,7 @@ public class CustomSerialController : MonoBehaviour
         }
         Debug.Log($"serialThread = {serialThread.Length}");
         isInitialize = true;
-        StartCoroutine(DelayToStart(ResetLED));
+        //StartCoroutine(DelayToStart(ResetLED));
     }
 
     public void SetColor(Color[] _color)
@@ -174,11 +189,26 @@ public class CustomSerialController : MonoBehaviour
 
     public void ResetLED()
     {
-        for (int i = 0; i < serialThread.Length; i++)
+        Debug.Log("CustomSerial  -> ResetLED");
+        if (isInitialize)
         {
-            SendSerialMessage(i, "e");
-            Debug.Log($"I = {i} SnedMassage = {"e"}");
+            for (int i = 0; i < BUTTONLENGTH; i++)
+            {
+                SendSerialMessage(i, "e");
+                Debug.Log($"I = {i} SnedMassage = {"e"}");
+            }
+            SendSerialMessage(RFIDINDEX, "255,255,170");
         }
+
+
+
+    }
+
+
+
+    public void TagLED()
+    {
+        SendSerialMessage(RFIDINDEX, "138,255,18");
     }
 
     IEnumerator DelayToStart(Action _callback)
@@ -232,18 +262,40 @@ public class CustomSerialController : MonoBehaviour
             thread = null;
         }
 
-        if (selectDelayCoroutine != null)
-        {
-            StopCoroutine(selectDelayCoroutine);
-            selectDelayCoroutine = null;
-        }
-        if (setColorCoroutine != null)
-        {
-            StopCoroutine(setColorCoroutine);
-            setColorCoroutine = null;
-        }
+        StopAllCoroutines();
+        // if (selectDelayCoroutine != null)
+        // {
+        //     StopCoroutine(selectDelayCoroutine);
+        //     selectDelayCoroutine = null;
+        // }
+        // if (setColorCoroutine != null)
+        // {
+        //     StopCoroutine(setColorCoroutine);
+        //     setColorCoroutine = null;
+        // }
 
+        // if (startChoiceCoroutine != null)
+        // {
+        //     StopCoroutine(startChoiceCoroutine);
+        //     startChoiceCoroutine = null;
+        // }
 
+        // if (waitAnswerCorutine != null)
+        // {
+        //     StopCoroutine(waitAnswerCorutine);
+        //     waitAnswerCorutine = null;
+        // }
+
+        // if (idlePageCoroutine != null)
+        // {
+        //     StopCoroutine(idlePageCoroutine);
+        //     idlePageCoroutine = null;
+        // }
+        // if (allColorSetCoroutine != null)
+        // {
+        //     StopCoroutine(allColorSetCoroutine);
+        //     allColorSetCoroutine = null;
+        // }
     }
     public Color GetColor(char index)
     {
@@ -257,161 +309,257 @@ public class CustomSerialController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public Color GetColor(int index)
     {
-        if (timmer > 0)
+        switch (index)
         {
-            timmer -= Time.deltaTime;
+            case 1: return button1;
+            case 2: return button2;
+            case 3: return button3;
+            case 4: return button4;
+            default: return defaultColor;
         }
-        if (timmer < 0)
+    }
+
+
+
+    public void WaitForSerialAnswer(int _index, Action _callbackTrigger)
+    {
+        if (waitAnswerCorutine != null)
         {
-            if (isanswer)
-            {
-                isSelect = true;
-                isanswer = false;
-                Debug.Log($"선택함 isSelect = true {currentButtonIndex}");
-                if (selectDelayCoroutine == null)
-                    selectDelayCoroutine = StartCoroutine(SelectLEDDelay(false));
-            }
-            else
-            {
-                Debug.Log($"{currentButtonIndex} IS Answer = false");
-            }
-
+            StopCoroutine(waitAnswerCorutine);
+            waitAnswerCorutine = null;
         }
-
-
-        for (int i = 0; i < serialThread.Length; i++)
-        {
-            string message = ReadSerialMessage(i);
-            if (message != null)
-            {
-                Debug.Log($" {i} =  {message}");
-
-                if (i == currentButtonIndex)
-                {
-                    SetButtonLED(currentButtonIndex, message);
-                }
-
-            }
-
-
-        }
+        waitAnswerCorutine = StartCoroutine(WaitAnswerCorutine(_index, _callbackTrigger));
 
     }
 
-    IEnumerator SelectLEDDelay(bool _tf)
+    IEnumerator WaitAnswerCorutine(int _index, Action _callbackTrigger)
+    {
+        string _message = null;
+        ReadSerialMessage(_index);
+        yield return waitSeverSend;
+
+        while (_message == null)
+        {
+            _message = ReadSerialMessage(_index);
+            if (_message != null)
+            {
+                Debug.Log($" {_index} =  {_message}");
+            }
+            yield return waitSeverSend;
+        }
+        if (_index == 14)
+        {
+            yield return ButtonAllColor(defaultColor);
+        }
+        yield return waitSeverSend;
+        _callbackTrigger?.Invoke();
+    }
+    public void StartChoice()
+    {
+        currentButtonIndex = 12;
+        indexIsUP = false;
+        if (waitAnswerCorutine != null)
+        {
+            StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
+            waitAnswerCorutine = null;
+
+        }
+        if (startChoiceCoroutine != null)
+        {
+            StopCoroutine(startChoiceCoroutine);
+        }
+        StopAllCoroutines();
+
+        startChoiceCoroutine = StartCoroutine(StartChoiceCoroutine());
+    }
+
+    public void BellTrigger()
+    {
+        StartCoroutine(ButtonAllColor(Color.black));
+        //벨 버튼 LED
+    }
+
+    public void StopChoice()
+    {
+        if (startChoiceCoroutine != null)
+        {
+            StopCoroutine(startChoiceCoroutine);
+            startChoiceCoroutine = null;
+        }
+        SendSerialMessage(13, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
+    }
+
+    IEnumerator StartChoiceCoroutine()
+    {
+        yield return ButtonAllColor(Color.black);
+        yield return waitForFixedUpdate;
+        yield return ButtonIndexColor(currentButtonIndex, defaultColor);
+        SendSerialMessage(13, $"{1},{0},{0},{0}");
+        yield return waitForFixedUpdate;
+
+        while (true)
+        {
+            yield return waitForFixedUpdate;
+
+            for (int i = 1; i < 13; i++)
+            {
+                string message = ReadSerialMessage(i);
+                if (message != null)
+                {
+                    Debug.Log($" {i} =  {message}");
+
+                    if (i == currentButtonIndex)
+                    {
+                        SetButtonLED(currentButtonIndex, message);
+                    }
+                }
+            }
+        }
+    }
+    public int GetAnswer()
+    {
+        if (selectNum == -1) return -1;
+        return selectNum - 49;
+    }
+
+
+    public void SelectNext(int _index)
+    {
+
+        isSelect = true;
+        isanswer = false;
+        Debug.Log($"선택함 isSelect = true {currentButtonIndex}");
+        if (selectDelayCoroutine == null)
+            selectDelayCoroutine = StartCoroutine(SelectLEDDelay(_index));
+
+    }
+
+
+    IEnumerator SelectLEDDelay(int _index)
     {
         yield return wiatforSelect;
 
         Debug.Log($"SelectNum = {selectNum - 49}");//아스키코드값 뺴기 
 
-        if (selectNum - 49 == 0)
+        // if (currentButtonIndex == 0 || currentButtonIndex == 13)
+        // {
+        //     SendSerialMessage(currentButtonIndex, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
+        // }
+
+        switch (_index)
         {
-            setcolor = GetColor('1');
-            SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
-            setcolor = Color.black;
-            yield return waitSeverSend;
+            case 0:
+                {
+                    setcolor = GetColor('1');
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    setcolor = Color.black;
+                    yield return waitSeverSend;
 
-            SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-            SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
 
-            SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case 1:
+                {
+                    setcolor = GetColor('2');
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
 
+                    setcolor = Color.black;
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    yield return waitSeverSend;
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case 2:
+                {
+                    setcolor = GetColor('3');
+
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    setcolor = Color.black;
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case 3:
+                {
+                    setcolor = GetColor('4');
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    setcolor = Color.black;
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
         }
-        else if (selectNum - 49 == 1)
+        selectLEDSource?.Play();
+        isSelect = false;
+        selectNum = -1;
+
+        Debug.Log($"isSelect = false");
+
+        if (indexIsUP)
         {
-            setcolor = GetColor('2');
-
-            SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
-            setcolor = Color.black;
-
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
-        }
-        else if (selectNum - 49 == 2)
-        {
-            setcolor = GetColor('3');
-
-            SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
-
-            setcolor = Color.black;
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
-        }
-        else if (selectNum - 49 == 3)
-        {
-            setcolor = GetColor('4');
-
-            SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
-
-            setcolor = Color.black;
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
-            yield return waitSeverSend;
-
-            SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
-        }
-
-        isSelect = _tf;
-
-        if (!_tf)
-        {
-            Debug.Log($"isSelect = false");
-
-            if (indexIsUP)
+            if (currentButtonIndex + 1 > 13)
             {
-                if (currentButtonIndex + 1 > 13)
-                {
-                    Debug.Log("currentButtonIndex = " + currentButtonIndex);
-                    indexIsUP = false;
-                }
-                else
-                {
-                    currentButtonIndex += 1;
-                    Debug.Log("currentButtonIndex = " + currentButtonIndex);
-
-                }
+                Debug.Log("currentButtonIndex = " + currentButtonIndex);
+                indexIsUP = false;
             }
             else
             {
-                if (currentButtonIndex - 1 < 0)
-                {
-                    indexIsUP = true;
-                    Debug.Log("currentButtonIndex = " + currentButtonIndex);
+                currentButtonIndex += 1;
+                Debug.Log("currentButtonIndex = " + currentButtonIndex);
 
-                }
-                else
-                {
-                    currentButtonIndex -= 1;
-                    Debug.Log("currentButtonIndex = " + currentButtonIndex);
-
-
-                }
             }
         }
+        else
+        {
+            if (currentButtonIndex - 1 < 0)
+            {
+                indexIsUP = true;
+                Debug.Log("currentButtonIndex = " + currentButtonIndex);
 
+            }
+            else
+            {
+                currentButtonIndex -= 1;
+                Debug.Log("currentButtonIndex = " + currentButtonIndex);
+            }
+        }
+        Debug.Log($"다음 인덱스 = {currentButtonIndex}");
+        StartCoroutine(ButtonIndexColor(currentButtonIndex, defaultColor));
 
+        for (int i = 0; i < BUTTONLENGTH; i++)
+        {
+            ReadSerialMessage(i);
+        }
 
         timmer = 10f;
 
@@ -464,8 +612,9 @@ public class CustomSerialController : MonoBehaviour
     {
         setcolor = GetColor(message[0]);
         SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+        ledOnSource?.Play();
         Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
-        yield return setcolorwait;
+        yield return waitSeverSend;
         isanswer = true;
         selectNum = message[0];
         Debug.Log($"SelectNum = {selectNum}");
@@ -481,6 +630,11 @@ public class CustomSerialController : MonoBehaviour
     public string ReadSerialMessage(int _index)
     {
         // Read the next message from the queue
+        if (serialThread[_index] == null)
+        {
+            Debug.Log($"serialThread{_index}  Is Null");
+            return null;
+        }
 
         return (string)serialThread[_index].ReadMessage();
     }
@@ -505,6 +659,134 @@ public class CustomSerialController : MonoBehaviour
     public void SetTearDownFunction(TearDownFunction userFunction)
     {
         this.userDefinedTearDownFunction = userFunction;
+    }
+
+    IEnumerator ButtonAllColor(Color _color)
+    {
+        for (int i = 1; i < 13; i++)
+        {
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{1},{_color.r},{_color.g},{_color.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{2},{_color.r},{_color.g},{_color.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{3},{_color.r},{_color.g},{_color.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{4},{_color.r},{_color.g},{_color.b}");
+        }
+    }
+
+    IEnumerator ButtonAllOriginColor()
+    {
+        for (int i = 1; i < 13; i++)
+        {
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{1},{button1.r},{button1.g},{button1.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{2},{button2.r},{button2.g},{button2.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{3},{button3.r},{button3.g},{button3.b}");
+            yield return waitForFixedUpdate;
+            SendSerialMessage(i, $"{4},{button4.r},{button4.g},{button4.b}");
+        }
+    }
+    IEnumerator ButtonIndexColor(int index, Color _color)
+    {
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{1},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{2},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{3},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{4},{_color.r},{_color.g},{_color.b}");
+    }
+    public void StartIdlePageCoroutine()
+    {
+        StopAllCoroutines();
+        idlePageCoroutine = StartCoroutine(StartLedLineWhiteCoroutine());
+    }
+
+    public void StopIdlePageCoroutine()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ButtonAllOriginColor());
+    }
+
+    public void SetAllwhite()
+    {
+        ButtonAllColor(defaultColor);
+    }
+
+    public void StartSetHintColorDelay()
+    {
+        StopAllCoroutines();
+        StartCoroutine(SetHintColorDelay());
+    }
+
+    public void StartSetHintColor()
+    {
+        StopAllCoroutines();
+        StartCoroutine(SetHintColor());
+    }
+
+    IEnumerator SetHintColorDelay()
+    {
+        yield return wait1Second;
+        yield return waitForFixedUpdate;
+        for (int i = 1; i < 13; i++)
+        {
+            setcolor = GetColor(ScoreManager.Instance.answers[i - 1] + 1);
+            SendSerialMessage(i, $"{ScoreManager.Instance.answers[i - 1] + 1},{setcolor.r},{setcolor.g},{setcolor.b}");
+            yield return setcolorwait;
+        }
+        yield return wait1Second;
+        yield return wait1Second;
+        yield return ButtonAllColor(defaultColor);
+
+    }
+
+    IEnumerator SetHintColor()
+    {
+        yield return waitForFixedUpdate;
+        for (int i = 1; i < 13; i++)
+        {
+            setcolor = GetColor(ScoreManager.Instance.answers[i - 1] + 1);
+            SendSerialMessage(i, $"{ScoreManager.Instance.answers[i - 1] + 1},{setcolor.r},{setcolor.g},{setcolor.b}");
+            yield return waitForFixedUpdate;
+        }
+    }
+
+
+
+
+
+    IEnumerator StartLedLineWhiteCoroutine()
+    {
+        int whiteIndex = 12;
+        int balckIndex = 13;
+        yield return waitForFixedUpdate;
+        SendSerialMessage(13, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(15, $"{defaultColor.r},{defaultColor.g},{defaultColor.b}");
+        yield return waitForFixedUpdate;
+        yield return StartCoroutine(ButtonAllColor(Color.black));
+        yield return waitForFixedUpdate;
+
+        while (true)
+        {
+            StartCoroutine(ButtonIndexColor(whiteIndex, defaultColor));
+
+            if (balckIndex != 13) StartCoroutine(ButtonIndexColor(balckIndex, Color.black));
+
+            yield return setcolorwait;
+
+            whiteIndex -= 1;
+            if (whiteIndex < 1) whiteIndex = 12;
+            balckIndex -= 1;
+            if (balckIndex < 1) balckIndex = 12;
+
+        }
     }
 
 }

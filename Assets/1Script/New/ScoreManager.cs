@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    public int[] answers;
+    public int[] answers = new int[12] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     public int[] chooseStep;
 
@@ -26,10 +26,6 @@ public class ScoreManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetAnswer(int[] _answers)
-    {
-        answers = _answers;
-    }
 
     public void SetStep(int _index, int _value)
     {
@@ -50,6 +46,33 @@ public class ScoreManager : MonoBehaviour
             if (chooseStep[i] == answers[i])
             {
                 hitNum++;
+            }
+        }
+        return hitNum;
+    }
+    public void SetAnswer(int _index, int value)
+    {
+        if (_index < 0 || _index >= answers.Length)
+        {
+            Debug.Log("SetAnswer Scoremanager 잘못된 인덱스 값");
+            return;
+        }
+        else
+        {
+            Debug.Log($"Score Manager anwser{_index} = {value}");
+        }
+        answers[_index] = value;
+        Debuger();
+    }
+
+    public int Debuger()
+    {
+        int hitNum = 0;
+        for (int i = 0; i < answers.Length; i++)
+        {
+            if (answers[i] != -1)
+            {
+                Debug.Log($"Answer{i} = {answers[i]}");
             }
         }
         return hitNum;

@@ -52,6 +52,8 @@ public class TimmerScript : MonoBehaviour
 
     public bool isEnd = false;
 
+    AudioSource downCountSource;
+
 
 
     void Awake()
@@ -90,6 +92,8 @@ public class TimmerScript : MonoBehaviour
         {
 
             remainTime = 0f;
+            downCountSource?.Stop();
+
             isTimeOver = true;
             text.text = "0";
 
@@ -104,6 +108,7 @@ public class TimmerScript : MonoBehaviour
                 {
                     ResetTimmer();
                 }
+                CustomSerialController.Instance.StartChoice();
 
                 return;
             }
@@ -131,7 +136,8 @@ public class TimmerScript : MonoBehaviour
     {
         if (isEnd) return;
         if (delayCoroutine != null) return;
-        if (!answerSelector.IsAnswer()) // 대답 못했을 때 팝업창
+        int _answerNum = CustomSerialController.Instance.GetAnswer();
+        if (_answerNum == -1) // 대답 못했을 때 팝업창
         {
             PopupCheck();
             return;
@@ -140,7 +146,9 @@ public class TimmerScript : MonoBehaviour
         PopupManager.Instance.ResetIndex();
         FadeManager.Instance.SetAlphaZero(text);
         FadeManager.Instance.SetAlphaZero(timmerImage);
-        answerSelector.Answer();
+        CustomSerialController.Instance.SelectNext(_answerNum);
+        answerSelector.Answer(_answerNum);
+        ScoreManager.Instance.answers[CustomSerialController.Instance.currentButtonIndex - 1] = _answerNum;
         if (answerSelector.qSize <= currentIndex)
         {
             isEnd = true;
@@ -195,7 +203,7 @@ public class TimmerScript : MonoBehaviour
             isReady = true;
         }
         FadeManager.Instance.TargetFade(text, 1f);
-
+        downCountSource?.Play();
     }
 
     public void IsReady()
