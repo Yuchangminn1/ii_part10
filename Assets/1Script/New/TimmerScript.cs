@@ -16,11 +16,11 @@ public class TimmerScript : MonoBehaviour
 
     [SerializeField] float remainTime = 0f;
 
-    public float timeSpeed = 10f;
+    public float timeSpeed = 1f;
 
     //[SerializeField] bool isEnd = false;
 
-    [SerializeField] UnityEvent time5SecEvent;
+    [SerializeField] UnityEvent time3SecEvent;
 
     [SerializeField] UnityEvent endEvent;
 
@@ -33,7 +33,7 @@ public class TimmerScript : MonoBehaviour
 
     bool isTimeOver;
 
-    WaitForSeconds delay = new WaitForSeconds(3f);
+    WaitForSeconds delay = new WaitForSeconds(1f);
 
     Coroutine coroutine;
 
@@ -75,6 +75,12 @@ public class TimmerScript : MonoBehaviour
         }
     }
 
+    public void SetDefaultTime(float _time)
+    {
+        defaultTimmer = _time;
+        Debug.Log(" time = " + _time);
+    }
+
     void OnEnable()
     {
         currentIndex = 0;
@@ -109,7 +115,6 @@ public class TimmerScript : MonoBehaviour
                     ResetTimmer();
                 }
                 CustomSerialController.Instance.StartChoice();
-
                 return;
             }
 
@@ -120,7 +125,7 @@ public class TimmerScript : MonoBehaviour
         if (!isEvent && remainTime < 6f && remainTime > 4f)
         {
             isEvent = true;
-            time5SecEvent?.Invoke();
+            time3SecEvent?.Invoke();
         }
         text.text = $"{(int)Math.Ceiling(remainTime)}";
     }
@@ -148,7 +153,8 @@ public class TimmerScript : MonoBehaviour
         FadeManager.Instance.SetAlphaZero(timmerImage);
         CustomSerialController.Instance.SelectNext(_answerNum);
         answerSelector.Answer(_answerNum);
-        ScoreManager.Instance.answers[CustomSerialController.Instance.currentButtonIndex - 1] = _answerNum;
+        ScoreManager.Instance.SetAnswer(CustomSerialController.Instance.currentButtonIndex - 1, _answerNum + 1);
+        //ScoreManager.Instance.answers[CustomSerialController.Instance.currentButtonIndex - 1] = _answerNum;
         if (answerSelector.qSize <= currentIndex)
         {
             isEnd = true;
@@ -190,6 +196,8 @@ public class TimmerScript : MonoBehaviour
         FadeManager.Instance.SetAlphaOne(timmerImage);
 
         remainTime = defaultTimmer;
+        downCountSource?.Play();
+
         currentIndex++;
 
         isTimeOver = false;
@@ -203,7 +211,6 @@ public class TimmerScript : MonoBehaviour
             isReady = true;
         }
         FadeManager.Instance.TargetFade(text, 1f);
-        downCountSource?.Play();
     }
 
     public void IsReady()

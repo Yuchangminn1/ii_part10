@@ -39,5 +39,7 @@
     { "r": 255, "g": 140, "b": 0, "a": 255 },
     { "r": 138, "g": 255, "b": 18, "a": 255 }
   ],
-  "debugMode": false
+  "debugMode": false,
+
+  "QTimmer": 5
 }

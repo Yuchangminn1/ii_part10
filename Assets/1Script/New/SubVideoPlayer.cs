@@ -8,6 +8,8 @@ using UnityEngine.Video;
 public class SubVideoPlayer : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] VideoPlayer nextvideo;
+
 
     [SerializeField] bool isLoop;
 
@@ -35,6 +37,7 @@ public class SubVideoPlayer : MonoBehaviour
     void Awake()
     {
         if (videoPlayer != null) videoPlayer.Prepare();
+        if (nextvideo != null) nextvideo.Prepare();
         graphic = GetComponent<Graphic>();
         isLoop = videoPlayer.isLooping;
         if (startDelay > 0f)
@@ -48,6 +51,16 @@ public class SubVideoPlayer : MonoBehaviour
 
     void OnEnable()
     {
+        if (nextvideo != null) nextvideo.Prepare();
+        if (nextvideo != null) nextvideo.frame = 0;
+
+
+        FadeManager.Instance.SetAlphaZero(graphic);
+        if (videoPlayer != null)
+        {
+            videoPlayer.frame = 1;
+            videoPlayer.Prepare();
+        }
         fin = false;
         if (isStartPlay)
         {
@@ -65,6 +78,10 @@ public class SubVideoPlayer : MonoBehaviour
 
     public void VideoPlay()
     {
+        videoPlayer.frame = 1;
+
+        FadeManager.Instance.SetAlphaOne(graphic);
+
         Debug.Log($"VideoPlay {name}");
         if (videoStartC == null) videoStartC = StartCoroutine(CVideoPlay());
         else

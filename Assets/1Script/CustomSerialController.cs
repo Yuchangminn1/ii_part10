@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections;
 using System;
 using TMPro;
+using UnityEngine.Events;
 
 public class CustomSerialController : MonoBehaviour
 {
@@ -86,7 +87,7 @@ public class CustomSerialController : MonoBehaviour
 
 
     WaitForSeconds wait1Second = new WaitForSeconds(1f);
-    WaitForSeconds wiatforSelect = new WaitForSeconds(3f);
+    WaitForSeconds wiatforSelect = new WaitForSeconds(1f);
 
     WaitForSeconds topLedResetWait = new WaitForSeconds(60f);
 
@@ -95,6 +96,8 @@ public class CustomSerialController : MonoBehaviour
     Coroutine selectDelayCoroutine = null;
 
     Coroutine setColorCoroutine = null;
+    Coroutine checkColorCoroutine = null;
+
 
     Color defaultColor = new Color(255, 255, 170);
 
@@ -106,8 +109,9 @@ public class CustomSerialController : MonoBehaviour
 
 
     Color button1 = new Color(220, 210, 5);
-    Color button2 = new Color(245, 50, 100);
-    Color button3 = new Color(40, 250, 255);
+    Color button2 = new Color(40, 250, 255);
+
+    Color button3 = new Color(245, 50, 100);
     Color button4 = new Color(50, 205, 120);
 
     Color errorColor = new Color(230, 0, 5);
@@ -124,6 +128,8 @@ public class CustomSerialController : MonoBehaviour
     int selectNum = -1;
 
     Coroutine startChoiceCoroutine = null;
+    Coroutine startReturnChoice = null;
+
 
     Coroutine waitAnswerCorutine = null;
 
@@ -133,7 +139,11 @@ public class CustomSerialController : MonoBehaviour
 
     Coroutine idlePageCoroutine = null;
 
-    Coroutine allColorSetCoroutine = null;
+    public UnityEvent userMissButtonEvent;
+
+    public bool isDelayAppliedWhenWrong = false;
+
+    public TimmerScript timmerScript;
 
     enum PortState
     {
@@ -211,33 +221,6 @@ public class CustomSerialController : MonoBehaviour
         SendSerialMessage(RFIDINDEX, "138,255,18");
     }
 
-    IEnumerator DelayToStart(Action _callback)
-    {
-
-        yield return new WaitForSeconds(5f);
-        _callback?.Invoke();
-        yield return new WaitForSeconds(5f);
-        isInitialize22 = true;
-
-
-    }
-
-    // 시리얼 연결/해제 이벤트도 받을 수 있습니다.
-
-    // ------------------------------------------------------------------------
-    // Invoked whenever the SerialController gameobject is activated.
-    // It creates a new thread that tries to connect to the serial device
-    // and start reading from it.
-    // ------------------------------------------------------------------------
-    void OnEnable()
-    {
-
-    }
-
-    // ------------------------------------------------------------------------
-    // Invoked whenever the SerialController gameobject is deactivated.
-    // It stops and destroys the thread that was reading from the serial device.
-    // ------------------------------------------------------------------------
     void OnDisable()
     {
 
@@ -263,39 +246,6 @@ public class CustomSerialController : MonoBehaviour
         }
 
         StopAllCoroutines();
-        // if (selectDelayCoroutine != null)
-        // {
-        //     StopCoroutine(selectDelayCoroutine);
-        //     selectDelayCoroutine = null;
-        // }
-        // if (setColorCoroutine != null)
-        // {
-        //     StopCoroutine(setColorCoroutine);
-        //     setColorCoroutine = null;
-        // }
-
-        // if (startChoiceCoroutine != null)
-        // {
-        //     StopCoroutine(startChoiceCoroutine);
-        //     startChoiceCoroutine = null;
-        // }
-
-        // if (waitAnswerCorutine != null)
-        // {
-        //     StopCoroutine(waitAnswerCorutine);
-        //     waitAnswerCorutine = null;
-        // }
-
-        // if (idlePageCoroutine != null)
-        // {
-        //     StopCoroutine(idlePageCoroutine);
-        //     idlePageCoroutine = null;
-        // }
-        // if (allColorSetCoroutine != null)
-        // {
-        //     StopCoroutine(allColorSetCoroutine);
-        //     allColorSetCoroutine = null;
-        // }
     }
     public Color GetColor(char index)
     {
@@ -360,45 +310,32 @@ public class CustomSerialController : MonoBehaviour
     {
         currentButtonIndex = 12;
         indexIsUP = false;
-        if (waitAnswerCorutine != null)
-        {
-            StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
-            waitAnswerCorutine = null;
+        // if (waitAnswerCorutine != null)
+        // {
+        //     StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
+        //     waitAnswerCorutine = null;
 
-        }
-        if (startChoiceCoroutine != null)
-        {
-            StopCoroutine(startChoiceCoroutine);
-        }
+        // }
+        // if (startChoiceCoroutine != null)
+        // {
+        //     StopCoroutine(startChoiceCoroutine);
+        // }
         StopAllCoroutines();
 
         startChoiceCoroutine = StartCoroutine(StartChoiceCoroutine());
+
     }
 
-    public void BellTrigger()
-    {
-        StartCoroutine(ButtonAllColor(Color.black));
-        //벨 버튼 LED
-    }
 
-    public void StopChoice()
-    {
-        if (startChoiceCoroutine != null)
-        {
-            StopCoroutine(startChoiceCoroutine);
-            startChoiceCoroutine = null;
-        }
-        SendSerialMessage(13, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
-    }
 
     IEnumerator StartChoiceCoroutine()
     {
+        ScoreManager.Instance.ResetAnwser();
         yield return ButtonAllColor(Color.black);
         yield return waitForFixedUpdate;
         yield return ButtonIndexColor(currentButtonIndex, defaultColor);
         SendSerialMessage(13, $"{1},{0},{0},{0}");
         yield return waitForFixedUpdate;
-
         while (true)
         {
             yield return waitForFixedUpdate;
@@ -418,6 +355,135 @@ public class CustomSerialController : MonoBehaviour
             }
         }
     }
+
+    public void StartReturnChoice()
+    {
+        currentButtonIndex = 1;
+        indexIsUP = true;
+        // if (waitAnswerCorutine != null)
+        // {
+        //     StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
+        //     waitAnswerCorutine = null;
+
+        // }
+        // if (startReturnChoice != null)
+        // {
+        //     StopCoroutine(startReturnChoice);
+        // }
+        StopAllCoroutines();
+
+        startReturnChoice = StartCoroutine(StartReturnChoiceCoroutine());
+    }
+
+    IEnumerator StartReturnChoiceCoroutine()
+    {
+        Debug.Log("StartReturnChoice");
+        yield return waitForFixedUpdate;
+        while (currentButtonIndex < 13)
+        {
+            yield return waitForFixedUpdate;
+
+            if (isDelayAppliedWhenWrong == false)
+            {
+
+                for (int i = 1; i < 13; i++)
+                {
+                    string message = ReadSerialMessage(i);
+                    if (message != null)
+                    {
+                        Debug.Log($" {i} =  {message}");
+
+                        if (i == currentButtonIndex)
+                        {
+                            SetCheckErrorLED(currentButtonIndex, message);
+                        }
+                    }
+                }
+            }
+
+        }
+        PageController.Instance.NextButton();
+    }
+    private void SetCheckErrorLED(int i, string _message)
+    {
+        Debug.Log("SetCheckErrorLED");
+        if (i > -1 && i < 14)
+        {
+            // 5-1. 네 글자 이상인지 확인
+            if (_message[2] == 'N')
+            {
+                if (checkColorCoroutine != null)
+                {
+                    StopCoroutine(checkColorCoroutine);
+                    checkColorCoroutine = null;
+                }
+                checkColorCoroutine = StartCoroutine(SetCheckColorCoroutine(i, _message));
+            }
+        }
+    }
+
+    private IEnumerator SetCheckColorCoroutine(int i, string message)
+    {
+        char anwsers = ScoreManager.Instance.anwsers[i - 1].ToString()[0];
+        Debug.Log($"{currentButtonIndex} Anwser = {anwsers}   Message0 = {message[0]}");
+        if (anwsers == message[0])
+        {
+            Debug.Log("정답");
+            ScoreManager.Instance.checkAnwser++;
+            setcolor = GetColor(message[0]);
+            SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+            ledOnSource?.Play();
+            Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+            currentButtonIndex++;
+        }
+        else
+        {
+            Debug.Log("오답");
+
+            setcolor = errorColor;
+            SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+            errorSound?.Play();
+            //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on
+            yield return SetHintColor();
+            userMissButtonEvent?.Invoke();
+            Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+            isDelayAppliedWhenWrong = true;
+            yield return new WaitForSeconds(5f);
+            for (int j = currentButtonIndex + 1; j < 13; j++)
+            {
+                ReadSerialMessage(j);
+                yield return ButtonIndexColor(j, defaultColor);
+            }
+            yield return waitForFixedUpdate;
+            Debug.Log("오답 렉 풀림");
+            isDelayAppliedWhenWrong = false;
+            currentButtonIndex++;
+
+        }
+
+        yield return waitSeverSend;
+        setColorCoroutine = null;
+    }
+
+
+
+
+    public void BellTrigger()
+    {
+        StartCoroutine(ButtonAllColor(Color.black));
+        //벨 버튼 LED
+    }
+
+    public void StopChoice()
+    {
+        if (startChoiceCoroutine != null)
+        {
+            StopCoroutine(startChoiceCoroutine);
+            startChoiceCoroutine = null;
+        }
+        SendSerialMessage(13, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
+    }
+
     public int GetAnswer()
     {
         if (selectNum == -1) return -1;
@@ -570,29 +636,24 @@ public class CustomSerialController : MonoBehaviour
     private void SetButtonLED(int i, string _message)
     {
         // 1. 메시지가 null이거나 빈 문자열이면 아무 처리도 하지 않고 반환
-
         // 2. 이미 선택 상태면 반환
         if (isSelect)
         {
             Debug.Log("IsSelect IS True");
             return;
         }
-
         // 4. 물음표 확인
         if (_message[0] == '?')
         {
             Debug.Log("Message = ?");
             return;
         }
-
         // 5. 두 자리 인덱스 처리 (i > 9)
         if (i > -1 && i < 14)
         {
             // 5-1. 네 글자 이상인지 확인
-
             if (_message[2] == 'N')
             {
-
                 if (setColorCoroutine == null)
                     setColorCoroutine = StartCoroutine(SetColorCoroutine(i, _message));
             }
@@ -603,10 +664,9 @@ public class CustomSerialController : MonoBehaviour
                 Debug.Log($"i = {i} {_message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             }
         }
-
-
-
     }
+
+
 
     private IEnumerator SetColorCoroutine(int i, string message)
     {
@@ -620,6 +680,8 @@ public class CustomSerialController : MonoBehaviour
         Debug.Log($"SelectNum = {selectNum}");
         setColorCoroutine = null;
     }
+
+
 
 
 
@@ -720,13 +782,11 @@ public class CustomSerialController : MonoBehaviour
 
     public void StartSetHintColorDelay()
     {
-        StopAllCoroutines();
         StartCoroutine(SetHintColorDelay());
     }
 
     public void StartSetHintColor()
     {
-        StopAllCoroutines();
         StartCoroutine(SetHintColor());
     }
 
@@ -736,23 +796,35 @@ public class CustomSerialController : MonoBehaviour
         yield return waitForFixedUpdate;
         for (int i = 1; i < 13; i++)
         {
-            setcolor = GetColor(ScoreManager.Instance.answers[i - 1] + 1);
-            SendSerialMessage(i, $"{ScoreManager.Instance.answers[i - 1] + 1},{setcolor.r},{setcolor.g},{setcolor.b}");
+            setcolor = GetColor(ScoreManager.Instance.anwsers[i - 1]);
+            SendSerialMessage(i, $"{ScoreManager.Instance.anwsers[i - 1]},{setcolor.r},{setcolor.g},{setcolor.b}");
             yield return setcolorwait;
         }
         yield return wait1Second;
         yield return wait1Second;
+        yield return wait1Second;
+        yield return wait1Second;
+        yield return wait1Second;
+        yield return wait1Second;
+        yield return wait1Second;
+
         yield return ButtonAllColor(defaultColor);
+
+        yield return wait1Second;
+        yield return wait1Second;
+        yield return wait1Second;
+
+        StartReturnChoice();
 
     }
 
     IEnumerator SetHintColor()
     {
         yield return waitForFixedUpdate;
-        for (int i = 1; i < 13; i++)
+        for (int i = currentButtonIndex + 1; i < 13; i++)
         {
-            setcolor = GetColor(ScoreManager.Instance.answers[i - 1] + 1);
-            SendSerialMessage(i, $"{ScoreManager.Instance.answers[i - 1] + 1},{setcolor.r},{setcolor.g},{setcolor.b}");
+            setcolor = GetColor(ScoreManager.Instance.anwsers[i - 1]);
+            SendSerialMessage(i, $"{ScoreManager.Instance.anwsers[i - 1]},{setcolor.r},{setcolor.g},{setcolor.b}");
             yield return waitForFixedUpdate;
         }
     }

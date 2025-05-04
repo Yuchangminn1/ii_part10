@@ -7,16 +7,19 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    public int[] answers = new int[12] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] anwsers = new int[12] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     public int[] chooseStep;
 
     public int stamp = 0;
 
+    public int checkAnwser = 0;
+
+
     private void Awake()
     {
         chooseStep = new int[12];
-        answers = new int[12];
+        anwsers = new int[12];
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -26,10 +29,22 @@ public class ScoreManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void ResetAnwser()
+    {
+        for (int i = 0; i < anwsers.Length; i++)
+        {
+            anwsers[i] = -1;
+            checkAnwser = 0;
+            chooseStep[i] = -1;
+        }
+
+    }
+
 
     public void SetStep(int _index, int _value)
     {
-        chooseStep[_index] = _value;
+        chooseStep[_index] = _value + 1;
+        UserDataManager.Instance.RequestUserDataUpdate(_index + 1, $"{_value}");
         Debug.Log($"chooseStep[{_index}] = {_value}; ");
     }
 
@@ -41,18 +56,27 @@ public class ScoreManager : MonoBehaviour
     public int Checker()
     {
         int hitNum = 0;
-        for (int i = 0; i < answers.Length; i++)
+        for (int i = 0; i < anwsers.Length; i++)
         {
-            if (chooseStep[i] == answers[i])
+            if (chooseStep[i] == anwsers[i])
             {
                 hitNum++;
             }
+            else
+            {
+                Debug.Log($"i ={i} cho{chooseStep[i]} /  anw{anwsers[i]}");
+            }
         }
+        UserDataManager.Instance.RequestUserDataUpdate(1, $"{3}");
+        UserDataManager.Instance.RequestUserContentEnd();
+
+
         return hitNum;
     }
     public void SetAnswer(int _index, int value)
     {
-        if (_index < 0 || _index >= answers.Length)
+
+        if (_index < 0 || _index >= anwsers.Length)
         {
             Debug.Log("SetAnswer Scoremanager 잘못된 인덱스 값");
             return;
@@ -61,18 +85,19 @@ public class ScoreManager : MonoBehaviour
         {
             Debug.Log($"Score Manager anwser{_index} = {value}");
         }
-        answers[_index] = value;
+        anwsers[_index] = value;
         Debuger();
+
     }
 
     public int Debuger()
     {
         int hitNum = 0;
-        for (int i = 0; i < answers.Length; i++)
+        for (int i = 0; i < anwsers.Length; i++)
         {
-            if (answers[i] != -1)
+            if (anwsers[i] != -1)
             {
-                Debug.Log($"Answer{i} = {answers[i]}");
+                Debug.Log($"Answer{i} = {anwsers[i]}");
             }
         }
         return hitNum;

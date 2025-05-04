@@ -2978,7 +2978,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e65eaf99532554889a0d9be68d68a2d5, type: 3}
   m_Resource: {fileID: 8300000, guid: e65eaf99532554889a0d9be68d68a2d5, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -5510,6 +5510,7 @@ GameObject:
   - component: {fileID: 701270234}
   - component: {fileID: 701270236}
   - component: {fileID: 701270235}
+  - component: {fileID: 701270237}
   m_Layer: 5
   m_Name: Page12BG0
   m_TagString: Untagged
@@ -5571,6 +5572,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701270233}
   m_CullTransparentMesh: 1
+--- !u!114 &701270237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701270233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc7fedd8d8b144e8a465d446fc2ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentIndex: 0
+  startDelay: -1
+  isTrigger: 1
+  originTrigger: 0
+  nextDelayTime: 3
+  sequenceCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  startEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  nextVedeoPlayer: {fileID: 0}
+  DefaultRemainingTime: 0.1
+  remainingTime: 5
 --- !u!1 &713132622
 GameObject:
   m_ObjectHideFlags: 0
@@ -6514,9 +6541,9 @@ MonoBehaviour:
   pageNumber: 11
   sequenceScripts: []
   currentindex: 0
-  nextPageNumber: -1
+  nextPageNumber: 0
   endToNext: 1
-  defalutResetTime: 8
+  defalutResetTime: 3
   resetTime: 8
   defalutPopupTime: 8
   isMouseDown: 0
@@ -9310,6 +9337,7 @@ MonoBehaviour:
   - {fileID: 1021249565}
   sequenceTag: {fileID: 1848749584}
   customPosJson: {fileID: 0}
+  timmerScript: {fileID: 1882641130}
 --- !u!114 &1341391080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9404,9 +9432,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2995d87caa2b3d4cae14892bfd8fe53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  answers: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  anwsers: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   chooseStep: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   stamp: 3
+  checkAnwser: 0
 --- !u!114 &1341391085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9482,6 +9511,11 @@ MonoBehaviour:
   isanswer: 0
   ledOnSource: {fileID: 1341391092}
   selectLEDSource: {fileID: 1341391091}
+  userMissButtonEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  isDelayAppliedWhenWrong: 0
+  timmerScript: {fileID: 0}
 --- !u!82 &1341391091
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13539,25 +13573,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReadyText: {fileID: 1669658379}
-  defaultTimmer: 10
+  defaultTimmer: 8
   defaultRedayTimmer: 3
   remainTime: 0
   timeSpeed: 1
-  time5SecEvent:
+  time3SecEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1039176480}
-        m_TargetAssemblyTypeName: SubVideoPlayer, Assembly-CSharp
-        m_MethodName: VideoPlay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   endEvent:
     m_PersistentCalls:
       m_Calls:

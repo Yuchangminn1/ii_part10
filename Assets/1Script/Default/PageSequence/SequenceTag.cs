@@ -17,6 +17,8 @@ public class SequenceTag : SequenceScript
     [SerializeField] private string[] RFIDMessage;
     [SerializeField] private bool[] m_isTag;
 
+    Coroutine tagCoroutine = null;
+
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
     [SerializeField] private bool isTag = false;
@@ -28,6 +30,8 @@ public class SequenceTag : SequenceScript
     public AudioSource tagSound;
 
     public AudioSource tagErrorSound;
+
+    WaitForSeconds userDataWait = new WaitForSeconds(0.5f);
 
 
 
@@ -141,11 +145,7 @@ public class SequenceTag : SequenceScript
                             string data = m_rfidReader[i].ReadLine().Replace("\u0002", "").Trim();
 
                             Debug.Log($"Tag portP{i} : {data}");
-                            UserDataManager.Instance.RequestInitializeUserData(data);
-                            //if (testCoroutine == null) testCoroutine = StartCoroutine(TestC());
-                            if (CustomSerialController.Instance != null) CustomSerialController.Instance.TagLED();
-                            tagSound?.Play();
-                            isTag = true;
+                            if (tagCoroutine == null) tagCoroutine = StartCoroutine(TagCoroutine(data));
                         }
                     }
                     catch (Exception e)
@@ -162,17 +162,19 @@ public class SequenceTag : SequenceScript
         ;
     }
 
-    IEnumerator TestC()
+    IEnumerator TagCoroutine(string _data)
     {
         yield return new WaitForSeconds(0.3f);
+        UserDataManager.Instance.RequestInitializeUserData(_data);
+        yield return userDataWait;
 
-
-        while (UserDataManager.Instance.IsUser() == false)
+        if (UserDataManager.Instance.IsUser())
         {
-            yield return waitForFixedUpdate;
+            if (CustomSerialController.Instance != null) CustomSerialController.Instance.TagLED();
+            tagSound?.Play();
+            isTag = true;
+            tagCoroutine = null;
         }
-        PageSequenceManager.Instance.NextPage();
-        isTag = true;
     }
 
     #endregion

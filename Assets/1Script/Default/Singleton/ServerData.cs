@@ -124,15 +124,8 @@ public class ServerData : MonoBehaviour
 
     public void RequestSeverData(string _url, Action<string> _callback)
     {
+        severCoroutine = StartCoroutine(RequestDataCoroutine(_url, _callback));
 
-        if (severCoroutine == null)
-        {
-            severCoroutine = StartCoroutine(RequestDataCoroutine(_url, _callback));
-        }
-        else
-        {
-            Debug.Log("severCoroutine Is Working");
-        }
     }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class TextCode : MonoBehaviour
+public class BacktoStartVideoScript : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
     Graphic graphic;
@@ -22,6 +22,16 @@ public class TextCode : MonoBehaviour
     {
         graphic = GetComponent<Graphic>();
         onEndcoroutine = ResetCoroutine;
+        StartCoroutine(SetEvent());
+    }
+
+    IEnumerator SetEvent()
+    {
+        while (CustomSerialController.Instance == null)
+        {
+            yield return waitForFixedUpdate;
+        }
+        CustomSerialController.Instance.userMissButtonEvent.AddListener(MissAction);
     }
 
     public void ResetCoroutine()
@@ -31,8 +41,6 @@ public class TextCode : MonoBehaviour
             StopCoroutine(coroutine);
             coroutine = null;
         }
-
-
     }
 
     void OnEnable()
@@ -50,11 +58,11 @@ public class TextCode : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ChangeColorA();
+            MissAction();
         }
     }
 
-    public void ChangeColorA()
+    public void MissAction()
     {
         if (videoPlayer != null)
         {
@@ -64,8 +72,6 @@ public class TextCode : MonoBehaviour
             if (coroutine == null)
                 coroutine = StartCoroutine(StopVideoColor());
         }
-
-
     }
 
     IEnumerator StopVideoColor()

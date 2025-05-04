@@ -9,6 +9,10 @@ public class TriggerPlayVideo : MonoBehaviour
     [SerializeField] UnityEvent onUpArrow;
     [SerializeField] UnityEvent onDownArrow;
 
+    public VideoPlayer videoPlayer1;
+    public VideoPlayer videoPlayer2;
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))

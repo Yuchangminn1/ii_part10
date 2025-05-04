@@ -70,6 +70,8 @@ public class GeneralSettingData
     public ColorInt[] arduinoState;
 
     int[] colors;
+
+    public float QTimmer;
 }
 
 
@@ -861,6 +863,8 @@ public class SetContentsManager : MonoBehaviour
 
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
+    public TimmerScript timmerScript;
+
 
     public void SetGeneralSetting()
     {
@@ -942,6 +946,8 @@ public class SetContentsManager : MonoBehaviour
             Debug.Log("customPosJson.LoadHierarchy()");
         }
         if (customImages != null) MyImage(customImages);
+
+        timmerScript.SetDefaultTime(generalSettingData.QTimmer);
 
 
     }

@@ -75,7 +75,7 @@ public class AnswerSelector : MonoBehaviour
     {
         inputNum = _index;
 
-        Debug.Log($"Answer  inputNum = {inputNum}");
+        //Debug.Log($"Answer  inputNum = {inputNum}");
         FadeManager.Instance.SetAlphaOne(aText);
         FadeManager.Instance.SetAlphaOne(aTextImage);
         //Debug.Log($"anwserTexts.Length = {anwserTexts.Length}  / inputNum = {inputNum}");
@@ -88,12 +88,12 @@ public class AnswerSelector : MonoBehaviour
             inputNum = 0;
         }
 
-        ScoreManager.Instance.SetStep(index, inputNum);
+        ScoreManager.Instance.SetStep(CustomSerialController.Instance.currentButtonIndex - 1, inputNum);
         chooseNums[index] = inputNum;
         inputNum = -1;
         index++;
 
-        Debug.Log($" index = {index}");
+        // Debug.Log($" index = {index}");
 
     }
 
