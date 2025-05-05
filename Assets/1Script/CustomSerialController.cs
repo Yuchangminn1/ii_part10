@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.Video;
 
 public class CustomSerialController : MonoBehaviour
 {
@@ -53,10 +54,6 @@ public class CustomSerialController : MonoBehaviour
              "New messages will be discarded.")]
     public int maxUnreadMessages = 1;
 
-    public AudioSource errorSound;
-
-    public AudioSource tagsound;
-
     public const string SERIAL_DEVICE_CONNECTED = "__Connected__";
     public const string SERIAL_DEVICE_DISCONNECTED = "__Disconnected__";
 
@@ -89,10 +86,6 @@ public class CustomSerialController : MonoBehaviour
     WaitForSeconds wait1Second = new WaitForSeconds(1f);
     WaitForSeconds wiatforSelect = new WaitForSeconds(1f);
 
-    WaitForSeconds topLedResetWait = new WaitForSeconds(60f);
-
-    //Color[] testcolor = new Color[3];
-
     Coroutine selectDelayCoroutine = null;
 
     Coroutine setColorCoroutine = null;
@@ -118,10 +111,9 @@ public class CustomSerialController : MonoBehaviour
 
     Color errorColor = new Color(230, 0, 5);
 
+    public VideoPlayer hintVideo;
 
     public bool isInitialize = false;
-
-    public bool isInitialize22 = false;
 
     public bool isanswer = false;
 
@@ -131,7 +123,6 @@ public class CustomSerialController : MonoBehaviour
 
     Coroutine startChoiceCoroutine = null;
     Coroutine startReturnChoice = null;
-
 
     Coroutine waitAnswerCorutine = null;
 
@@ -145,25 +136,11 @@ public class CustomSerialController : MonoBehaviour
 
     public bool isDelayAppliedWhenWrong = false;
 
-    public TimmerScript timmerScript;
-
     public AudioSource longSound;
 
     public UnityEvent errorAnswer;
 
-    enum PortState
-    {
-        OFF = 0,        // color off
-        ON = 1,         // color white
-        SELECT = 2,    // color yellow
-        ERROR = 3,      // color red
-    };
-
-    void Awake()
-    {
-
-    }
-
+    public int checkNum = 0;
 
     public void Initialize(string[] portNames)
     {
@@ -182,7 +159,6 @@ public class CustomSerialController : MonoBehaviour
         }
         Debug.Log($"serialThread = {serialThread.Length}");
         isInitialize = true;
-        //StartCoroutine(DelayToStart(ResetLED));
     }
 
     public void SetColor(Color[] _color)
@@ -215,11 +191,7 @@ public class CustomSerialController : MonoBehaviour
             }
             SendSerialMessage(RFIDINDEX, "255,255,170");
         }
-
-
-
     }
-
 
 
     public void TagLED()
@@ -277,6 +249,11 @@ public class CustomSerialController : MonoBehaviour
         }
     }
 
+    public void CheckNumReset()
+    {
+        checkNum = 0;
+    }
+
 
 
     public void WaitForSerialAnswer(int _index, Action _callbackTrigger)
@@ -317,23 +294,12 @@ public class CustomSerialController : MonoBehaviour
         userAnswerNum = 0;
         currentButtonIndex = 12;
         indexIsUP = false;
-        // if (waitAnswerCorutine != null)
-        // {
-        //     StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
-        //     waitAnswerCorutine = null;
 
-        // }
-        // if (startChoiceCoroutine != null)
-        // {
-        //     StopCoroutine(startChoiceCoroutine);
-        // }
         StopAllCoroutines();
 
         startChoiceCoroutine = StartCoroutine(StartChoiceCoroutine());
 
     }
-
-
 
     IEnumerator StartChoiceCoroutine()
     {
@@ -367,16 +333,6 @@ public class CustomSerialController : MonoBehaviour
     {
         currentButtonIndex = 1;
         indexIsUP = true;
-        // if (waitAnswerCorutine != null)
-        // {
-        //     StopCoroutine(waitAnswerCorutine);  //혹시 겹칠수있음
-        //     waitAnswerCorutine = null;
-
-        // }
-        // if (startReturnChoice != null)
-        // {
-        //     StopCoroutine(startReturnChoice);
-        // }
         StopAllCoroutines();
 
         startReturnChoice = StartCoroutine(StartReturnChoiceCoroutine());
@@ -432,10 +388,10 @@ public class CustomSerialController : MonoBehaviour
     private IEnumerator SetCheckColorCoroutine(int i, string message)
     {
         char anwsers = ScoreManager.Instance.anwsers[i - 1].ToString()[0];
-        Debug.Log($"{currentButtonIndex} Anwser = {anwsers}   Message0 = {message[0]}");
         if (anwsers == message[0])
         {
             Debug.Log("정답");
+            checkNum += 1;
             userAnswerNum++;
             ScoreManager.Instance.checkAnwser++;
             setcolor = GetColor(message[0]);
@@ -447,12 +403,12 @@ public class CustomSerialController : MonoBehaviour
         else
         {
             Debug.Log("오답");
-            longSound?.Play();
+            hintVideo.Play();
+            longSound?.PlayOneShot(longSound.clip, 5f);
             setcolor = errorColor;
             errorAnswer?.Invoke();
 
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
-            errorSound?.Play();
             //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on
             yield return SetHintColor();
             userMissButtonEvent?.Invoke();
@@ -465,8 +421,6 @@ public class CustomSerialController : MonoBehaviour
                 yield return ButtonIndexColor(j, defaultColor);
             }
             yield return waitForFixedUpdate;
-            Debug.Log("오답 렉 풀림");
-            isDelayAppliedWhenWrong = false;
             currentButtonIndex++;
 
         }
@@ -475,13 +429,9 @@ public class CustomSerialController : MonoBehaviour
         setColorCoroutine = null;
     }
 
-
-
-
     public void BellTrigger()
     {
         StartCoroutine(ButtonAllColor(Color.black));
-        //벨 버튼 LED
     }
 
     public void StopChoice()
@@ -509,20 +459,18 @@ public class CustomSerialController : MonoBehaviour
         Debug.Log($"선택함 isSelect = true {currentButtonIndex}");
         if (selectDelayCoroutine == null)
             selectDelayCoroutine = StartCoroutine(SelectLEDDelay(_index));
-
     }
 
-
+    /// <summary>
+    /// 한줄씩 발판 선택하는 코루틴
+    /// </summary>
+    /// <param name="_index"></param>
+    /// <returns></returns>
     IEnumerator SelectLEDDelay(int _index)
     {
         yield return wiatforSelect;
 
         Debug.Log($"SelectNum = {selectNum - 49}");//아스키코드값 뺴기 
-
-        // if (currentButtonIndex == 0 || currentButtonIndex == 13)
-        // {
-        //     SendSerialMessage(currentButtonIndex, $"{1},{defaultColor.r},{defaultColor.g},{defaultColor.b}");
-        // }
 
         switch (_index)
         {
@@ -676,8 +624,6 @@ public class CustomSerialController : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator SetColorCoroutine(int i, string message)
     {
         setcolor = GetColor(message[0]);
@@ -690,10 +636,6 @@ public class CustomSerialController : MonoBehaviour
         Debug.Log($"SelectNum = {selectNum}");
         setColorCoroutine = null;
     }
-
-
-
-
 
     // ------------------------------------------------------------------------
     // Returns a new unread message from the serial device. You only need to
@@ -737,17 +679,36 @@ public class CustomSerialController : MonoBehaviour
     {
         for (int i = 1; i < 13; i++)
         {
-            yield return waitForFixedUpdate;
-            SendSerialMessage(i, $"{1},{_color.r},{_color.g},{_color.b}");
-            yield return waitForFixedUpdate;
-            SendSerialMessage(i, $"{2},{_color.r},{_color.g},{_color.b}");
-            yield return waitForFixedUpdate;
-            SendSerialMessage(i, $"{3},{_color.r},{_color.g},{_color.b}");
-            yield return waitForFixedUpdate;
-            SendSerialMessage(i, $"{4},{_color.r},{_color.g},{_color.b}");
+            yield return ButtonIndexColor(i, _color);
         }
     }
-
+    IEnumerator ButtonIndexColor(int index, Color _color)
+    {
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{1},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{2},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{3},{_color.r},{_color.g},{_color.b}");
+        yield return waitForFixedUpdate;
+        SendSerialMessage(index, $"{4},{_color.r},{_color.g},{_color.b}");
+    }
+    /// <summary>
+    /// 제거 1순위
+    /// </summary>
+    public void StartIdlePageCoroutine()
+    {
+        StopAllCoroutines();
+        idlePageCoroutine = StartCoroutine(StartLedLineWhiteCoroutine());
+    }
+    /// <summary>
+    /// 각 발판 행에 맞는 색으로 
+    /// </summary>
+    public void StopIdlePageCoroutine()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ButtonAllOriginColor());
+    }
     IEnumerator ButtonAllOriginColor()
     {
         for (int i = 1; i < 13; i++)
@@ -762,42 +723,18 @@ public class CustomSerialController : MonoBehaviour
             SendSerialMessage(i, $"{4},{button4.r},{button4.g},{button4.b}");
         }
     }
-    IEnumerator ButtonIndexColor(int index, Color _color)
-    {
-        yield return waitForFixedUpdate;
-        SendSerialMessage(index, $"{1},{_color.r},{_color.g},{_color.b}");
-        yield return waitForFixedUpdate;
-        SendSerialMessage(index, $"{2},{_color.r},{_color.g},{_color.b}");
-        yield return waitForFixedUpdate;
-        SendSerialMessage(index, $"{3},{_color.r},{_color.g},{_color.b}");
-        yield return waitForFixedUpdate;
-        SendSerialMessage(index, $"{4},{_color.r},{_color.g},{_color.b}");
-    }
-    public void StartIdlePageCoroutine()
-    {
-        StopAllCoroutines();
-        idlePageCoroutine = StartCoroutine(StartLedLineWhiteCoroutine());
-    }
-
-    public void StopIdlePageCoroutine()
-    {
-        StopAllCoroutines();
-        StartCoroutine(ButtonAllOriginColor());
-    }
 
     public void SetAllwhite()
     {
         ButtonAllColor(defaultColor);
     }
-
+    /// <summary>
+    /// 종 누른 후 뒤 돌았을 떄 보이는 흰트들
+    /// </summary>
+    /// <returns></returns>
     public void StartSetHintColorDelay()
     {
         StartCoroutine(SetHintColorDelay());
-    }
-
-    public void StartSetHintColor()
-    {
-        StartCoroutine(SetHintColor());
     }
 
     IEnumerator SetHintColorDelay()
@@ -810,13 +747,7 @@ public class CustomSerialController : MonoBehaviour
             SendSerialMessage(i, $"{ScoreManager.Instance.anwsers[i - 1]},{setcolor.r},{setcolor.g},{setcolor.b}");
             yield return setcolorwait;
         }
-        yield return wait1Second;
-        yield return wait1Second;
-        yield return wait1Second;
-        yield return wait1Second;
-        yield return wait1Second;
-        yield return wait1Second;
-        yield return wait1Second;
+        yield return new WaitForSeconds(7f);
 
         yield return ButtonAllColor(defaultColor);
 
@@ -827,7 +758,14 @@ public class CustomSerialController : MonoBehaviour
         StartReturnChoice();
 
     }
-
+    /// <summary>
+    /// 정답 시도 중 틀렸을때 나오는 힌트
+    /// </summary>
+    /// <returns></returns>
+    public void StartSetHintColor()
+    {
+        StartCoroutine(SetHintColor());
+    }
     IEnumerator SetHintColor()
     {
         yield return waitForFixedUpdate;
@@ -839,9 +777,10 @@ public class CustomSerialController : MonoBehaviour
         }
     }
 
-
-
-
+    /// <summary>
+    /// Idle 상태 한줄씩 나오는 LED 코루틴 
+    /// </summary>
+    /// <returns></returns>
 
     IEnumerator StartLedLineWhiteCoroutine()
     {

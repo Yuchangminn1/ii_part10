@@ -60,7 +60,7 @@ public class SetScoreText : MonoBehaviour
     {
         // '\n' 기준으로 문자열 분리 (빈 항목은 무시)
         string[] parts = _inputText.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        combinedText = parts[0] + $"{CustomSerialController.Instance.userAnswerNum}" + parts[1];
+        combinedText = parts[0] + $"{CustomSerialController.Instance.checkNum}" + parts[1];
 
         // // 분리된 결과가 두 개 이상이라면 앞의 두 문자열을 연결합니다.
         // if (parts.Length >= 2)

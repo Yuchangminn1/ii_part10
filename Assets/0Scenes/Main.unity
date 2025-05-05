@@ -5108,7 +5108,7 @@ MonoBehaviour:
   pageNumber: 10
   sequenceScripts: []
   currentindex: 0
-  nextPageNumber: -1
+  nextPageNumber: 0
   endToNext: 1
   defalutResetTime: 500
   resetTime: 500
@@ -9178,8 +9178,6 @@ MonoBehaviour:
   messageListener: {fileID: 0}
   reconnectionDelay: 1000
   maxUnreadMessages: 1
-  errorSound: {fileID: 0}
-  tagsound: {fileID: 0}
   arduinoState:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
@@ -9190,8 +9188,8 @@ MonoBehaviour:
   currentButtonIndex: 13
   isSelect: 0
   indexIsUP: 0
+  hintVideo: {fileID: 0}
   isInitialize: 0
-  isInitialize22: 0
   isanswer: 0
   ledOnSource: {fileID: 1341391092}
   selectLEDSource: {fileID: 1341391091}
@@ -9199,7 +9197,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isDelayAppliedWhenWrong: 0
-  timmerScript: {fileID: 0}
   longSound: {fileID: 0}
   errorAnswer:
     m_PersistentCalls:
@@ -9228,6 +9225,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  checkNum: 0
 --- !u!82 &1341391091
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13488,7 +13486,19 @@ MonoBehaviour:
   timeSpeed: 1
   time3SecEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 909193064}
+        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   endEvent:
     m_PersistentCalls:
       m_Calls:

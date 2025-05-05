@@ -88,6 +88,7 @@ public class PageController : MonoBehaviour
     {
         if (value == 0)
         {
+            CustomSerialController.Instance.CheckNumReset();
             Debug.Log("0페이지 전환");
             CustomSerialController.Instance.StartChoice();
 

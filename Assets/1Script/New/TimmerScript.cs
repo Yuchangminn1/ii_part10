@@ -18,8 +18,6 @@ public class TimmerScript : MonoBehaviour
 
     public float timeSpeed = 1f;
 
-    //[SerializeField] bool isEnd = false;
-
     [SerializeField] UnityEvent time3SecEvent;
 
     [SerializeField] UnityEvent endEvent;
@@ -41,8 +39,6 @@ public class TimmerScript : MonoBehaviour
 
     public bool isReady = false;
 
-    //public Graphic[] toggleGraphic;
-
     public Image timmerImage;
 
     public float popupTime = 3f;
@@ -53,6 +49,8 @@ public class TimmerScript : MonoBehaviour
     public bool isEnd = false;
 
     AudioSource downCountSource;
+
+    public UnityEvent onCountStart;
 
 
 
@@ -196,7 +194,7 @@ public class TimmerScript : MonoBehaviour
         FadeManager.Instance.SetAlphaOne(timmerImage);
 
         remainTime = defaultTimmer;
-        downCountSource?.Play();
+        downCountSource?.PlayOneShot(downCountSource.clip, 5f);
 
         currentIndex++;
 
