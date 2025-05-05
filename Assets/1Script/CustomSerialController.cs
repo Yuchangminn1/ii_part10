@@ -98,6 +98,8 @@ public class CustomSerialController : MonoBehaviour
     Coroutine setColorCoroutine = null;
     Coroutine checkColorCoroutine = null;
 
+    public int userAnswerNum = 0;
+
 
     Color defaultColor = new Color(255, 255, 170);
 
@@ -144,6 +146,10 @@ public class CustomSerialController : MonoBehaviour
     public bool isDelayAppliedWhenWrong = false;
 
     public TimmerScript timmerScript;
+
+    public AudioSource longSound;
+
+    public UnityEvent errorAnswer;
 
     enum PortState
     {
@@ -308,6 +314,7 @@ public class CustomSerialController : MonoBehaviour
     }
     public void StartChoice()
     {
+        userAnswerNum = 0;
         currentButtonIndex = 12;
         indexIsUP = false;
         // if (waitAnswerCorutine != null)
@@ -429,6 +436,7 @@ public class CustomSerialController : MonoBehaviour
         if (anwsers == message[0])
         {
             Debug.Log("정답");
+            userAnswerNum++;
             ScoreManager.Instance.checkAnwser++;
             setcolor = GetColor(message[0]);
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
@@ -439,8 +447,10 @@ public class CustomSerialController : MonoBehaviour
         else
         {
             Debug.Log("오답");
-
+            longSound?.Play();
             setcolor = errorColor;
+            errorAnswer?.Invoke();
+
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             errorSound?.Play();
             //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on

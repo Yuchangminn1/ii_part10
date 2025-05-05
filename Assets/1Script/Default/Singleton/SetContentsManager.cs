@@ -949,6 +949,11 @@ public class SetContentsManager : MonoBehaviour
 
         timmerScript.SetDefaultTime(generalSettingData.QTimmer);
 
+        pageController.StartProgram();
+
+        yield return new WaitForSeconds(5f);
+        pageController.CurrentPage = 0;
+
 
     }
 

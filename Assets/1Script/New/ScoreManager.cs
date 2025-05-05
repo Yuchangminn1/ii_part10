@@ -40,6 +40,23 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Debug.Log("Updaarow");
+            for (int i = 0; i < chooseStep.Length; i++)
+            {
+                chooseStep[i] = i;
+            }
+
+            for (int i = 0; i < anwsers.Length; i++)
+            {
+                anwsers[i] = i;
+            }
+        }
+    }
+
 
     public void SetStep(int _index, int _value)
     {
@@ -61,6 +78,8 @@ public class ScoreManager : MonoBehaviour
             if (chooseStep[i] == anwsers[i])
             {
                 hitNum++;
+                Debug.Log($"i ={i} cho{chooseStep[i]} ==  anw{anwsers[i]}");
+
             }
             else
             {

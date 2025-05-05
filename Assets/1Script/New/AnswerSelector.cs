@@ -42,22 +42,22 @@ public class AnswerSelector : MonoBehaviour
     {
         if (isDelay) return;
         // 각 키를 눌렀을 때 배열의 해당 인덱스 값을 currentText에 할당합니다.
-        if (Input.GetKeyDown(KeyCode.F1) && anwserTexts.Length > 0)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && anwserTexts.Length > 0)
         {
             //currentText = answerTexts[0];
             inputNum = 0;
         }
-        if (Input.GetKeyDown(KeyCode.F2) && anwserTexts.Length > 1)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && anwserTexts.Length > 1)
         {
             //currentText = answerTexts[1];
             inputNum = 1;
         }
-        if (Input.GetKeyDown(KeyCode.F3) && anwserTexts.Length > 2)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && anwserTexts.Length > 2)
         {
             //currentText = answerTexts[2];
             inputNum = 2;
         }
-        if (Input.GetKeyDown(KeyCode.F4) && anwserTexts.Length > 3)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && anwserTexts.Length > 3)
         {
             //currentText = answerTexts[3];
             inputNum = 3;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(SequenceCanvasFade))]
@@ -30,6 +31,11 @@ public class PageSequenceController : MonoBehaviour
 
     [SerializeField] float defalutPopupTime = 8f;
 
+    [SerializeField] float defalutResetPopupTime = 10f;
+
+    public UnityEvent returnIdlePage;
+
+
 
     [SerializeField] bool isMouseDown = false;
 
@@ -44,6 +50,15 @@ public class PageSequenceController : MonoBehaviour
         get { return currentindex; }
         set
         {
+            if (value == 0)
+            {
+                returnIdlePage?.Invoke();
+            }
+
+            if (value == 5)
+            {
+                defalutPopupTime = 15f;
+            }
             if (sequenceScripts.Length == 0) return;
 
             if (sequenceScripts.Length > value)

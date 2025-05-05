@@ -17,7 +17,7 @@ public class SubVideoPlayer : MonoBehaviour
 
     [SerializeField] float startDelay = -1;
 
-    Graphic graphic;
+    public Graphic graphic;
 
     Coroutine videoStartC = null;
 
@@ -55,7 +55,7 @@ public class SubVideoPlayer : MonoBehaviour
         if (nextvideo != null) nextvideo.frame = 0;
 
 
-        FadeManager.Instance.SetAlphaZero(graphic);
+        if (FadeManager.Instance && graphic != null) FadeManager.Instance.SetAlphaZero(graphic);
         if (videoPlayer != null)
         {
             videoPlayer.frame = 1;
@@ -79,8 +79,10 @@ public class SubVideoPlayer : MonoBehaviour
     public void VideoPlay()
     {
         videoPlayer.frame = 1;
+        videoPlayer.Play();
 
         FadeManager.Instance.SetAlphaOne(graphic);
+
 
         Debug.Log($"VideoPlay {name}");
         if (videoStartC == null) videoStartC = StartCoroutine(CVideoPlay());
