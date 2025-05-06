@@ -112,6 +112,8 @@ public class CustomSerialController : MonoBehaviour
     Color errorColor = new Color(230, 0, 5);
 
     public VideoPlayer hintVideo;
+    public VideoPlayer wallVideo;
+
 
     public bool isInitialize = false;
 
@@ -141,6 +143,10 @@ public class CustomSerialController : MonoBehaviour
     public UnityEvent errorAnswer;
 
     public int checkNum = 0;
+
+    public bool iswait = false;
+
+    public int[] dap = new int[12];
 
     public void Initialize(string[] portNames)
     {
@@ -286,6 +292,7 @@ public class CustomSerialController : MonoBehaviour
         {
             yield return ButtonAllColor(defaultColor);
         }
+        SendSerialMessage(14, "1,0,0,0");
         yield return waitSeverSend;
         _callbackTrigger?.Invoke();
     }
@@ -328,6 +335,14 @@ public class CustomSerialController : MonoBehaviour
             }
         }
     }
+    //이어하기
+    public void RStartReturnChoice()
+    {
+        indexIsUP = true;
+        StopAllCoroutines();
+
+        startReturnChoice = StartCoroutine(StartReturnChoiceCoroutine());
+    }
 
     public void StartReturnChoice()
     {
@@ -348,20 +363,28 @@ public class CustomSerialController : MonoBehaviour
 
             if (isDelayAppliedWhenWrong == false)
             {
-
-                for (int i = 1; i < 13; i++)
+                if (iswait)
                 {
-                    string message = ReadSerialMessage(i);
-                    if (message != null)
-                    {
-                        Debug.Log($" {i} =  {message}");
 
-                        if (i == currentButtonIndex)
+                }
+                else
+                {
+                    for (int i = 1; i < 13; i++)
+                    {
+                        string message = ReadSerialMessage(i);
+                        if (message != null)
                         {
-                            SetCheckErrorLED(currentButtonIndex, message);
+                            Debug.Log($" {i} =  {message}");
+
+                            if (i == currentButtonIndex)
+                            {
+                                SetCheckErrorLED(currentButtonIndex, message);
+                            }
                         }
                     }
                 }
+
+
             }
 
         }
@@ -403,27 +426,34 @@ public class CustomSerialController : MonoBehaviour
         else
         {
             Debug.Log("오답");
-            hintVideo.Play();
-            longSound?.PlayOneShot(longSound.clip, 5f);
+            iswait = true;
+
             setcolor = errorColor;
             errorAnswer?.Invoke();
+            longSound?.PlayOneShot(longSound.clip, 40f);
+
 
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on
-            yield return SetHintColor();
+            StartSetHintColor();
             userMissButtonEvent?.Invoke();
             Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
-            isDelayAppliedWhenWrong = true;
-            yield return new WaitForSeconds(5f);
+            //isDelayAppliedWhenWrong = true;
+            yield return new WaitForSeconds(4f);
             for (int j = currentButtonIndex + 1; j < 13; j++)
             {
                 ReadSerialMessage(j);
                 yield return ButtonIndexColor(j, defaultColor);
             }
             yield return waitForFixedUpdate;
+            iswait = false;
+
             currentButtonIndex++;
 
+            //RStartReturnChoice();
+
         }
+
 
         yield return waitSeverSend;
         setColorCoroutine = null;
@@ -432,6 +462,7 @@ public class CustomSerialController : MonoBehaviour
     public void BellTrigger()
     {
         StartCoroutine(ButtonAllColor(Color.black));
+        SendSerialMessage(14, "1,250,250,170");
     }
 
     public void StopChoice()
@@ -477,6 +508,8 @@ public class CustomSerialController : MonoBehaviour
             case 0:
                 {
                     setcolor = GetColor('1');
+                    dap[currentButtonIndex - 1] = 1;
+
                     SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
                     setcolor = Color.black;
                     yield return waitSeverSend;
@@ -492,6 +525,8 @@ public class CustomSerialController : MonoBehaviour
             case 1:
                 {
                     setcolor = GetColor('2');
+                    dap[currentButtonIndex - 1] = 2;
+
                     SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
 
                     setcolor = Color.black;
@@ -509,6 +544,7 @@ public class CustomSerialController : MonoBehaviour
             case 2:
                 {
                     setcolor = GetColor('3');
+                    dap[currentButtonIndex - 1] = 3;
 
                     SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
 
@@ -527,6 +563,7 @@ public class CustomSerialController : MonoBehaviour
             case 3:
                 {
                     setcolor = GetColor('4');
+                    dap[currentButtonIndex - 1] = 4;
 
                     SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
 

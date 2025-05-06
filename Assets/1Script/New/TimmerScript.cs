@@ -14,6 +14,10 @@ public class TimmerScript : MonoBehaviour
     [SerializeField] float defaultTimmer = 10f;
     [SerializeField] float defaultRedayTimmer = 3f;
 
+    float popup1timmer1 = 10f;
+    float popup1timmer2 = 10f;
+
+
     [SerializeField] float remainTime = 0f;
 
     public float timeSpeed = 1f;
@@ -41,7 +45,7 @@ public class TimmerScript : MonoBehaviour
 
     public Image timmerImage;
 
-    public float popupTime = 3f;
+    public float popupTime = 15f;
     public float defaultPopupTime = 3f;
 
     public Coroutine delayCoroutine = null;
@@ -52,11 +56,14 @@ public class TimmerScript : MonoBehaviour
 
     public UnityEvent onCountStart;
 
+    int popupCount = 0;
+
 
 
     void Awake()
     {
         text = GetComponent<Text>();
+        popupTime = popup1timmer1;
     }
     void OnDisable()
     {
@@ -143,6 +150,7 @@ public class TimmerScript : MonoBehaviour
         if (_answerNum == -1) // 대답 못했을 때 팝업창
         {
             PopupCheck();
+
             return;
         }
         text.text = "";
@@ -169,14 +177,23 @@ public class TimmerScript : MonoBehaviour
 
     private void PopupCheck()
     {
-        if (popupTime == 3f)
-            PopupManager.Instance.Popup(0);
-        if (popupTime < 0f)
+        if (popupCount == 0)
         {
+            popupTime = popup1timmer1;
             PopupManager.Instance.Popup(0);
+
+            popupCount = 1;
+        }
+        if (popupCount == 1 && popupTime < 0f)
+        {
+            popupCount = 2;
+            PopupManager.Instance.Popup(0);
+
+
             if (delayCoroutine == null) delayCoroutine = StartCoroutine(Delay(defaultPopupTime, () => PageController.Instance.CurrentPage = 0));
             popupTime = defaultPopupTime;
         }
+
         popupTime -= Time.deltaTime;
     }
 
@@ -191,6 +208,7 @@ public class TimmerScript : MonoBehaviour
         PopupManager.Instance.ResetIndex();
         if (isReady) yield return delay;
         answerSelector.Question();
+        popupCount = 0;
         FadeManager.Instance.SetAlphaOne(timmerImage);
 
         remainTime = defaultTimmer;

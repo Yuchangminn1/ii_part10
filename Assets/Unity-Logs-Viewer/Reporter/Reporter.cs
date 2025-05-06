@@ -41,10 +41,10 @@ public class Images
 	public Texture2D dateImage;
 	public Texture2D showFpsImage;
 	public Texture2D infoImage;
-    public Texture2D saveLogsImage; 
-    public Texture2D searchImage;
-    public Texture2D copyImage;
-    public Texture2D closeImage;
+	public Texture2D saveLogsImage;
+	public Texture2D searchImage;
+	public Texture2D copyImage;
+	public Texture2D closeImage;
 
 	public Texture2D buildFromImage;
 	public Texture2D systemInfoImage;
@@ -76,11 +76,11 @@ public class Reporter : MonoBehaviour
 
 	public enum _LogType
 	{
-		Assert    = LogType.Assert,
-		Error     = LogType.Error,
+		Assert = LogType.Assert,
+		Error = LogType.Error,
 		Exception = LogType.Exception,
-		Log       = LogType.Log,
-		Warning   = LogType.Warning,
+		Log = LogType.Log,
+		Warning = LogType.Warning,
 	}
 
 	public class Sample
@@ -190,10 +190,10 @@ public class Reporter : MonoBehaviour
 	bool showMemButton = true;
 	bool showFpsButton = true;
 	bool showSearchText = true;
-    bool showCopyButton = true;
-    bool showSaveButton = true;
+	bool showCopyButton = true;
+	bool showSaveButton = true;
 
-    string buildDate;
+	string buildDate;
 	string logDate;
 	float logsMemUsage;
 	float graphMemUsage;
@@ -247,10 +247,10 @@ public class Reporter : MonoBehaviour
 	GUIContent showFpsContent;
 	//GUIContent graphContent;
 	GUIContent infoContent;
-    GUIContent saveLogsContent;
+	GUIContent saveLogsContent;
 	GUIContent searchContent;
-    GUIContent copyContent;
-    GUIContent closeContent;
+	GUIContent copyContent;
+	GUIContent closeContent;
 
 	GUIContent buildFromContent;
 	GUIContent systemInfoContent;
@@ -304,18 +304,18 @@ public class Reporter : MonoBehaviour
 			Initialize();
 
 #if UNITY_CHANGE3
-        SceneManager.sceneLoaded += _OnLevelWasLoaded;
+		SceneManager.sceneLoaded += _OnLevelWasLoaded;
 #endif
-    }
+	}
 
-    private void OnDestroy()
-    {
+	private void OnDestroy()
+	{
 #if UNITY_CHANGE3
-        SceneManager.sceneLoaded -= _OnLevelWasLoaded;
+		SceneManager.sceneLoaded -= _OnLevelWasLoaded;
 #endif
-    }
+	}
 
-    void OnEnable()
+	void OnEnable()
 	{
 		if (logs.Count == 0)//if recompile while in play mode
 			clear();
@@ -346,15 +346,18 @@ public class Reporter : MonoBehaviour
 	public bool Initialized = false;
 	public void Initialize()
 	{
-		if (!created) {
-			try {
+		if (!created)
+		{
+			try
+			{
 				gameObject.SendMessage("OnPreStart");
 			}
-			catch (System.Exception e) {
+			catch (System.Exception e)
+			{
 				Debug.LogException(e);
 			}
 #if UNITY_CHANGE3
-			scenes = new string[ SceneManager.sceneCountInBuildSettings ];
+			scenes = new string[SceneManager.sceneCountInBuildSettings];
 			currentScene = SceneManager.GetActiveScene().name;
 #else
 			scenes = new string[Application.levelCount];
@@ -371,7 +374,8 @@ public class Reporter : MonoBehaviour
 			created = true;
 			//addSample();
 		}
-		else {
+		else
+		{
 			Debug.LogWarning("tow manager is exists delete the second");
 			DestroyImmediate(gameObject, true);
 			return;
@@ -390,10 +394,10 @@ public class Reporter : MonoBehaviour
 		dateContent = new GUIContent("", images.dateImage, "Date");
 		showFpsContent = new GUIContent("", images.showFpsImage, "Show Hide fps");
 		infoContent = new GUIContent("", images.infoImage, "Information about application");
-        saveLogsContent = new GUIContent("", images.saveLogsImage, "Save logs to device");
-        searchContent = new GUIContent("", images.searchImage, "Search for logs");
-        copyContent = new GUIContent("", images.copyImage, "Copy log to clipboard");
-        closeContent = new GUIContent("", images.closeImage, "Hide logs");
+		saveLogsContent = new GUIContent("", images.saveLogsImage, "Save logs to device");
+		searchContent = new GUIContent("", images.searchImage, "Search for logs");
+		copyContent = new GUIContent("", images.copyImage, "Copy log to clipboard");
+		closeContent = new GUIContent("", images.closeImage, "Hide logs");
 		userContent = new GUIContent("", images.userImage, "User");
 
 		buildFromContent = new GUIContent("", images.buildFromImage, "Build From");
@@ -430,15 +434,16 @@ public class Reporter : MonoBehaviour
 		showMemButton = (PlayerPrefs.GetInt("Reporter_showMemButton", 1) == 1) ? true : false;
 		showFpsButton = (PlayerPrefs.GetInt("Reporter_showFpsButton", 1) == 1) ? true : false;
 		showSearchText = (PlayerPrefs.GetInt("Reporter_showSearchText", 1) == 1) ? true : false;
-        showCopyButton = (PlayerPrefs.GetInt("Reporter_showCopyButton", 1) == 1) ? true : false;
-        showSaveButton = (PlayerPrefs.GetInt("Reporter_showSaveButton", 1) == 1) ? true : false;
+		showCopyButton = (PlayerPrefs.GetInt("Reporter_showCopyButton", 1) == 1) ? true : false;
+		showSaveButton = (PlayerPrefs.GetInt("Reporter_showSaveButton", 1) == 1) ? true : false;
 
 
-        initializeStyle();
+		initializeStyle();
 
 		Initialized = true;
 
-		if (show) {
+		if (show)
+		{
 			doShow();
 		}
 
@@ -628,7 +633,7 @@ public class Reporter : MonoBehaviour
 	Rect graphRect = Rect.zero;
 	Rect graphMinRect = Rect.zero;
 	Rect graphMaxRect = Rect.zero;
-	Rect buttomRect = Rect.zero ;
+	Rect buttomRect = Rect.zero;
 	Vector2 stackRectTopLeft;
 	Rect detailRect = Rect.zero;
 
@@ -653,8 +658,10 @@ public class Reporter : MonoBehaviour
 		if (filter)
 			_filterText = filterText.ToLower();
 		currentLog.Clear();
-		if (collapse) {
-			for (int i = 0; i < collapsedLogs.Count; i++) {
+		if (collapse)
+		{
+			for (int i = 0; i < collapsedLogs.Count; i++)
+			{
 				Log log = collapsedLogs[i];
 				if (log.logType == _LogType.Log && !showLog)
 					continue;
@@ -667,17 +674,21 @@ public class Reporter : MonoBehaviour
 				if (log.logType == _LogType.Exception && !showError)
 					continue;
 
-				if (filter) {
+				if (filter)
+				{
 					if (log.condition.ToLower().Contains(_filterText))
 						currentLog.Add(log);
 				}
-				else {
+				else
+				{
 					currentLog.Add(log);
 				}
 			}
 		}
-		else {
-			for (int i = 0; i < logs.Count; i++) {
+		else
+		{
+			for (int i = 0; i < logs.Count; i++)
+			{
 				Log log = logs[i];
 				if (log.logType == _LogType.Log && !showLog)
 					continue;
@@ -690,25 +701,30 @@ public class Reporter : MonoBehaviour
 				if (log.logType == _LogType.Exception && !showError)
 					continue;
 
-				if (filter) {
+				if (filter)
+				{
 					if (log.condition.ToLower().Contains(_filterText))
 						currentLog.Add(log);
 				}
-				else {
+				else
+				{
 					currentLog.Add(log);
 				}
 			}
 		}
 
-		if (selectedLog != null) {
+		if (selectedLog != null)
+		{
 			int newSelectedIndex = currentLog.IndexOf(selectedLog);
-			if (newSelectedIndex == -1) {
+			if (newSelectedIndex == -1)
+			{
 				Log collapsedSelected = logsDic[selectedLog.condition][selectedLog.stacktrace];
 				newSelectedIndex = currentLog.IndexOf(collapsedSelected);
 				if (newSelectedIndex != -1)
 					scrollPosition.y = newSelectedIndex * size.y;
 			}
-			else {
+			else
+			{
 				scrollPosition.y = newSelectedIndex * size.y;
 			}
 		}
@@ -734,10 +750,12 @@ public class Reporter : MonoBehaviour
 		GUILayout.BeginArea(screenRect, backStyle);
 
 		Vector2 drag = getDrag();
-		if ((drag.x != 0) && (downPos != Vector2.zero)) {
+		if ((drag.x != 0) && (downPos != Vector2.zero))
+		{
 			infoScrollPosition.x -= (drag.x - oldInfoDrag.x);
 		}
-		if ((drag.y != 0) && (downPos != Vector2.zero)) {
+		if ((drag.y != 0) && (downPos != Vector2.zero))
+		{
 			infoScrollPosition.y += (drag.y - oldInfoDrag.y);
 		}
 		oldInfoDrag = drag;
@@ -884,7 +902,8 @@ public class Reporter : MonoBehaviour
 		GUILayout.Label("Size = " + size.x.ToString("0.0"), nonStyle, GUILayout.Height(size.y));
 		GUILayout.Space(size.x);
 		float _size = GUILayout.HorizontalSlider(size.x, 16, 64, sliderBackStyle, sliderThumbStyle, GUILayout.Width(Screen.width * 0.5f));
-		if (size.x != _size) {
+		if (size.x != _size)
+		{
 			size.x = size.y = _size;
 			initializeStyle();
 		}
@@ -893,7 +912,8 @@ public class Reporter : MonoBehaviour
 
 		GUILayout.BeginHorizontal();
 		GUILayout.Space(size.x);
-		if (GUILayout.Button(backContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(backContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			currentView = ReportView.Logs;
 		}
 		GUILayout.FlexibleSpace();
@@ -919,27 +939,32 @@ public class Reporter : MonoBehaviour
 		GUILayout.BeginHorizontal();
 		GUILayout.Space(size.x);
 
-		if (GUILayout.Button(clearOnNewSceneContent, (showClearOnNewSceneLoadedButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(clearOnNewSceneContent, (showClearOnNewSceneLoadedButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showClearOnNewSceneLoadedButton = !showClearOnNewSceneLoadedButton;
 		}
 
-		if (GUILayout.Button(showTimeContent, (showTimeButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(showTimeContent, (showTimeButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showTimeButton = !showTimeButton;
 		}
 		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.Label(tempRect, Time.realtimeSinceStartup.ToString("0.0"), lowerLeftFontStyle);
-		if (GUILayout.Button(showSceneContent, (showSceneButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(showSceneContent, (showSceneButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showSceneButton = !showSceneButton;
 		}
 		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.Label(tempRect, currentScene, lowerLeftFontStyle);
-		if (GUILayout.Button(showMemoryContent, (showMemButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(showMemoryContent, (showMemButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showMemButton = !showMemButton;
 		}
 		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.Label(tempRect, gcTotalMemory.ToString("0.0"), lowerLeftFontStyle);
 
-		if (GUILayout.Button(showFpsContent, (showFpsButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(showFpsContent, (showFpsButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showFpsButton = !showFpsButton;
 		}
 		tempRect = GUILayoutUtility.GetLastRect();
@@ -950,18 +975,19 @@ public class Reporter : MonoBehaviour
 		}
 		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.Label( tempRect , samples.Count.ToString() , lowerLeftFontStyle );*/
-		if (GUILayout.Button(searchContent, (showSearchText) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(searchContent, (showSearchText) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showSearchText = !showSearchText;
 		}
-        if (GUILayout.Button(copyContent, (showCopyButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
-        {
-            showCopyButton = !showCopyButton;
-        }
-        if (GUILayout.Button(saveLogsContent, (showSaveButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
-        {
-            showSaveButton = !showSaveButton;
-        }
-        tempRect = GUILayoutUtility.GetLastRect();
+		if (GUILayout.Button(copyContent, (showCopyButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
+			showCopyButton = !showCopyButton;
+		}
+		if (GUILayout.Button(saveLogsContent, (showSaveButton) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
+			showSaveButton = !showSaveButton;
+		}
+		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.TextField(tempRect, filterText, searchStyle);
 
 
@@ -993,7 +1019,8 @@ public class Reporter : MonoBehaviour
 
 		GUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
-		if (GUILayout.Button(backContent, barStyle, GUILayout.Width(size.x), GUILayout.Height(size.y))) {
+		if (GUILayout.Button(backContent, barStyle, GUILayout.Width(size.x), GUILayout.Height(size.y)))
+		{
 			currentView = ReportView.Logs;
 		}
 		GUILayout.FlexibleSpace();
@@ -1017,7 +1044,8 @@ public class Reporter : MonoBehaviour
 
 		GUI.skin = toolbarScrollerSkin;
 		Vector2 drag = getDrag();
-		if ((drag.x != 0) && (downPos != Vector2.zero) && (downPos.y > Screen.height - size.y * 2f)) {
+		if ((drag.x != 0) && (downPos != Vector2.zero) && (downPos.y > Screen.height - size.y * 2f))
+		{
 			toolbarScrollPosition.x -= (drag.x - toolbarOldDrag);
 		}
 		toolbarOldDrag = drag.x;
@@ -1025,38 +1053,48 @@ public class Reporter : MonoBehaviour
 		toolbarScrollPosition = GUILayout.BeginScrollView(toolbarScrollPosition);
 		GUILayout.BeginHorizontal(barStyle);
 
-		if (GUILayout.Button(clearContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(clearContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			clear();
 		}
-		if (GUILayout.Button(collapseContent, (collapse) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(collapseContent, (collapse) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			collapse = !collapse;
 			calculateCurrentLog();
 		}
-		if (showClearOnNewSceneLoadedButton && GUILayout.Button(clearOnNewSceneContent, (clearOnNewSceneLoaded) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (showClearOnNewSceneLoadedButton && GUILayout.Button(clearOnNewSceneContent, (clearOnNewSceneLoaded) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			clearOnNewSceneLoaded = !clearOnNewSceneLoaded;
 		}
 
-		if (showTimeButton && GUILayout.Button(showTimeContent, (showTime) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (showTimeButton && GUILayout.Button(showTimeContent, (showTime) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showTime = !showTime;
 		}
-		if (showSceneButton) {
+		if (showSceneButton)
+		{
 			tempRect = GUILayoutUtility.GetLastRect();
 			GUI.Label(tempRect, Time.realtimeSinceStartup.ToString("0.0"), lowerLeftFontStyle);
-			if (GUILayout.Button(showSceneContent, (showScene) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+			if (GUILayout.Button(showSceneContent, (showScene) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+			{
 				showScene = !showScene;
 			}
 			tempRect = GUILayoutUtility.GetLastRect();
 			GUI.Label(tempRect, currentScene, lowerLeftFontStyle);
 		}
-		if (showMemButton) {
-			if (GUILayout.Button(showMemoryContent, (showMemory) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (showMemButton)
+		{
+			if (GUILayout.Button(showMemoryContent, (showMemory) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+			{
 				showMemory = !showMemory;
 			}
 			tempRect = GUILayoutUtility.GetLastRect();
 			GUI.Label(tempRect, gcTotalMemory.ToString("0.0"), lowerLeftFontStyle);
 		}
-		if (showFpsButton) {
-			if (GUILayout.Button(showFpsContent, (showFps) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (showFpsButton)
+		{
+			if (GUILayout.Button(showFpsContent, (showFps) ? buttonActiveStyle : barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+			{
 				showFps = !showFps;
 			}
 			tempRect = GUILayoutUtility.GetLastRect();
@@ -1069,106 +1107,124 @@ public class Reporter : MonoBehaviour
 		tempRect = GUILayoutUtility.GetLastRect();
 		GUI.Label( tempRect , samples.Count.ToString() , lowerLeftFontStyle );*/
 
-		if (showSearchText) {
+		if (showSearchText)
+		{
 			GUILayout.Box(searchContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2));
 			tempRect = GUILayoutUtility.GetLastRect();
 			string newFilterText = GUI.TextField(tempRect, filterText, searchStyle);
-			if (newFilterText != filterText) {
+			if (newFilterText != filterText)
+			{
 				filterText = newFilterText;
 				calculateCurrentLog();
 			}
 		}
 
-        if (showCopyButton)
-        {
-            if (GUILayout.Button(copyContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
-            {
-                if (selectedLog == null)
-                    GUIUtility.systemCopyBuffer = "No log selected";
-                else
-                    GUIUtility.systemCopyBuffer = selectedLog.condition + System.Environment.NewLine + System.Environment.NewLine  + selectedLog.stacktrace;
-            }
-        }
+		if (showCopyButton)
+		{
+			if (GUILayout.Button(copyContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+			{
+				if (selectedLog == null)
+					GUIUtility.systemCopyBuffer = "No log selected";
+				else
+					GUIUtility.systemCopyBuffer = selectedLog.condition + System.Environment.NewLine + System.Environment.NewLine + selectedLog.stacktrace;
+			}
+		}
 
-        if (showSaveButton)
-        {
-            if (GUILayout.Button(saveLogsContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
-            {
-                SaveLogsToDevice();
-            }
-        }
+		if (showSaveButton)
+		{
+			if (GUILayout.Button(saveLogsContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+			{
+				SaveLogsToDevice();
+			}
+		}
 
-        if (GUILayout.Button(infoContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(infoContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			currentView = ReportView.Info;
 		}
-       
 
 
-        GUILayout.FlexibleSpace();
+
+		GUILayout.FlexibleSpace();
 
 
 		string logsText = " ";
-		if (collapse) {
+		if (collapse)
+		{
 			logsText += numOfCollapsedLogs;
 		}
-		else {
+		else
+		{
 			logsText += numOfLogs;
 		}
 		string logsWarningText = " ";
-		if (collapse) {
+		if (collapse)
+		{
 			logsWarningText += numOfCollapsedLogsWarning;
 		}
-		else {
+		else
+		{
 			logsWarningText += numOfLogsWarning;
 		}
 		string logsErrorText = " ";
-		if (collapse) {
+		if (collapse)
+		{
 			logsErrorText += numOfCollapsedLogsError;
 		}
-		else {
+		else
+		{
 			logsErrorText += numOfLogsError;
 		}
 
 		GUILayout.BeginHorizontal((showLog) ? buttonActiveStyle : barStyle);
-		if (GUILayout.Button(logContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(logContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showLog = !showLog;
 			calculateCurrentLog();
 		}
-		if (GUILayout.Button(logsText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(logsText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showLog = !showLog;
 			calculateCurrentLog();
 		}
 		GUILayout.EndHorizontal();
 		GUILayout.BeginHorizontal((showWarning) ? buttonActiveStyle : barStyle);
-		if (GUILayout.Button(warningContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(warningContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showWarning = !showWarning;
 			calculateCurrentLog();
 		}
-		if (GUILayout.Button(logsWarningText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(logsWarningText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showWarning = !showWarning;
 			calculateCurrentLog();
 		}
 		GUILayout.EndHorizontal();
 		GUILayout.BeginHorizontal((showError) ? buttonActiveStyle : nonStyle);
-		if (GUILayout.Button(errorContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(errorContent, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showError = !showError;
 			calculateCurrentLog();
 		}
-		if (GUILayout.Button(logsErrorText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(logsErrorText, nonStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			showError = !showError;
 			calculateCurrentLog();
 		}
 		GUILayout.EndHorizontal();
 
-		if (GUILayout.Button(closeContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2))) {
+		if (GUILayout.Button(closeContent, barStyle, GUILayout.Width(size.x * 2), GUILayout.Height(size.y * 2)))
+		{
 			show = false;
 			ReporterGUI gui = gameObject.GetComponent<ReporterGUI>();
 			DestroyImmediate(gui);
 
-			try {
+			try
+			{
 				gameObject.SendMessage("OnHideReporter");
 			}
-			catch (System.Exception e) {
+			catch (System.Exception e)
+			{
 				Debug.LogException(e);
 			}
 		}
@@ -1192,7 +1248,8 @@ public class Reporter : MonoBehaviour
 		//setStartPos();
 		Vector2 drag = getDrag();
 
-		if (drag.y != 0 && logsRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
+		if (drag.y != 0 && logsRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y)))
+		{
 			scrollPosition.y += (drag.y - oldDrag);
 		}
 		scrollPosition = GUILayout.BeginScrollView(scrollPosition);
@@ -1211,7 +1268,8 @@ public class Reporter : MonoBehaviour
 		int index = 0;
 		int beforeHeight = (int)(startIndex * size.y);
 		//selectedIndex = Mathf.Clamp( selectedIndex , -1 , totalCount -1);
-		if (beforeHeight > 0) {
+		if (beforeHeight > 0)
+		{
 			//fill invisible gap before scroller to make proper scroller pos
 			GUILayout.BeginHorizontal(GUILayout.Height(beforeHeight));
 			GUILayout.Label("---");
@@ -1221,7 +1279,8 @@ public class Reporter : MonoBehaviour
 		int endIndex = startIndex + totalVisibleCount;
 		endIndex = Mathf.Clamp(endIndex, 0, totalCount);
 		bool scrollerVisible = (totalVisibleCount < totalCount);
-		for (int i = startIndex; (startIndex + index) < endIndex; i++) {
+		for (int i = startIndex; (startIndex + index) < endIndex; i++)
+		{
 
 			if (i >= currentLog.Count)
 				break;
@@ -1238,7 +1297,8 @@ public class Reporter : MonoBehaviour
 			if (log.logType == _LogType.Exception && !showError)
 				continue;
 
-			if (index >= totalVisibleCount) {
+			if (index >= totalVisibleCount)
+			{
 				break;
 			}
 
@@ -1252,11 +1312,13 @@ public class Reporter : MonoBehaviour
 			//content.text = log.condition ;
 
 			GUIStyle currentLogStyle = ((startIndex + index) % 2 == 0) ? evenLogStyle : oddLogStyle;
-			if (log == selectedLog) {
+			if (log == selectedLog)
+			{
 				//selectedLog = log ;
 				currentLogStyle = selectedLogStyle;
 			}
-			else {
+			else
+			{
 			}
 
 			tempContent.text = log.count.ToString();
@@ -1275,7 +1337,8 @@ public class Reporter : MonoBehaviour
 
 			Sample sample = samples[log.sampleId];
 			fpsRect = countRect;
-			if (showFps) {
+			if (showFps)
+			{
 				tempContent.text = sample.fpsText;
 				w = currentLogStyle.CalcSize(tempContent).x + size.x;
 				fpsRect.x -= w;
@@ -1287,7 +1350,8 @@ public class Reporter : MonoBehaviour
 
 
 			memoryRect = fpsRect;
-			if (showMemory) {
+			if (showMemory)
+			{
 				tempContent.text = sample.memory.ToString("0.000");
 				w = currentLogStyle.CalcSize(tempContent).x + size.x;
 				memoryRect.x -= w;
@@ -1297,7 +1361,8 @@ public class Reporter : MonoBehaviour
 				memoryLabelRect.width = w - size.x;
 			}
 			sceneRect = memoryRect;
-			if (showScene) {
+			if (showScene)
+			{
 
 				tempContent.text = sample.GetSceneName();
 				w = currentLogStyle.CalcSize(tempContent).x + size.x;
@@ -1308,7 +1373,8 @@ public class Reporter : MonoBehaviour
 				sceneLabelRect.width = w - size.x;
 			}
 			timeRect = sceneRect;
-			if (showTime) {
+			if (showTime)
+			{
 				tempContent.text = sample.time.ToString("0.000");
 				w = currentLogStyle.CalcSize(tempContent).x + size.x;
 				timeRect.x -= w;
@@ -1321,52 +1387,64 @@ public class Reporter : MonoBehaviour
 
 
 			GUILayout.BeginHorizontal(currentLogStyle);
-			if (log == selectedLog) {
+			if (log == selectedLog)
+			{
 				GUILayout.Box(content, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
 				GUILayout.Label(log.condition, selectedLogFontStyle);
 				//GUILayout.FlexibleSpace();
-				if (showTime) {
+				if (showTime)
+				{
 					GUI.Box(timeRect, showTimeContent, currentLogStyle);
 					GUI.Label(timeLabelRect, sample.time.ToString("0.000"), currentLogStyle);
 				}
-				if (showScene) {
+				if (showScene)
+				{
 					GUI.Box(sceneRect, showSceneContent, currentLogStyle);
 					GUI.Label(sceneLabelRect, sample.GetSceneName(), currentLogStyle);
 				}
-				if (showMemory) {
+				if (showMemory)
+				{
 					GUI.Box(memoryRect, showMemoryContent, currentLogStyle);
 					GUI.Label(memoryLabelRect, sample.memory.ToString("0.000") + " mb", currentLogStyle);
 				}
-				if (showFps) {
+				if (showFps)
+				{
 					GUI.Box(fpsRect, showFpsContent, currentLogStyle);
 					GUI.Label(fpsLabelRect, sample.fpsText, currentLogStyle);
 				}
 
 
 			}
-			else {
-				if (GUILayout.Button(content, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y))) {
+			else
+			{
+				if (GUILayout.Button(content, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y)))
+				{
 					//selectedIndex = startIndex + index ;
 					selectedLog = log;
 				}
-				if (GUILayout.Button(log.condition, logButtonStyle)) {
+				if (GUILayout.Button(log.condition, logButtonStyle))
+				{
 					//selectedIndex = startIndex + index ;
 					selectedLog = log;
 				}
 				//GUILayout.FlexibleSpace();
-				if (showTime) {
+				if (showTime)
+				{
 					GUI.Box(timeRect, showTimeContent, currentLogStyle);
 					GUI.Label(timeLabelRect, sample.time.ToString("0.000"), currentLogStyle);
 				}
-				if (showScene) {
+				if (showScene)
+				{
 					GUI.Box(sceneRect, showSceneContent, currentLogStyle);
 					GUI.Label(sceneLabelRect, sample.GetSceneName(), currentLogStyle);
 				}
-				if (showMemory) {
+				if (showMemory)
+				{
 					GUI.Box(memoryRect, showMemoryContent, currentLogStyle);
 					GUI.Label(memoryLabelRect, sample.memory.ToString("0.000") + " mb", currentLogStyle);
 				}
-				if (showFps) {
+				if (showFps)
+				{
 					GUI.Box(fpsRect, showFpsContent, currentLogStyle);
 					GUI.Label(fpsLabelRect, sample.fpsText, currentLogStyle);
 				}
@@ -1378,7 +1456,8 @@ public class Reporter : MonoBehaviour
 		}
 
 		int afterHeight = (int)((totalCount - (startIndex + totalVisibleCount)) * size.y);
-		if (afterHeight > 0) {
+		if (afterHeight > 0)
+		{
 			//fill invisible gap after scroller to make proper scroller pos
 			GUILayout.BeginHorizontal(GUILayout.Height(afterHeight));
 			GUILayout.Label(" ");
@@ -1424,14 +1503,17 @@ public class Reporter : MonoBehaviour
 		GUI.skin = graphScrollerSkin;
 
 		Vector2 drag = getDrag();
-		if (graphRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
-			if (drag.x != 0) {
+		if (graphRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y)))
+		{
+			if (drag.x != 0)
+			{
 				graphScrollerPos.x -= drag.x - oldDrag3;
 				graphScrollerPos.x = Mathf.Max(0, graphScrollerPos.x);
 			}
 
 			Vector2 p = downPos;
-			if (p != Vector2.zero) {
+			if (p != Vector2.zero)
+			{
 				currentFrame = startFrame + (int)(p.x / graphSize);
 			}
 		}
@@ -1451,7 +1533,8 @@ public class Reporter : MonoBehaviour
 		minFpsValue = 100000;
 		maxMemoryValue = 0;
 		minMemoryValue = 100000;
-		for (int i = 0; i < Screen.width / graphSize; i++) {
+		for (int i = 0; i < Screen.width / graphSize; i++)
+		{
 			int index = startFrame + i;
 			if (index >= samples.Count)
 				break;
@@ -1465,7 +1548,8 @@ public class Reporter : MonoBehaviour
 		//GUI.BeginGroup(graphRect);
 
 
-		if (currentFrame != -1 && currentFrame < samples.Count) {
+		if (currentFrame != -1 && currentFrame < samples.Count)
+		{
 			Sample selectedSample = samples[currentFrame];
 			GUILayout.BeginArea(buttomRect, backStyle);
 			GUILayout.BeginHorizontal();
@@ -1531,9 +1615,11 @@ public class Reporter : MonoBehaviour
 	void drawStack()
 	{
 
-		if (selectedLog != null) {
+		if (selectedLog != null)
+		{
 			Vector2 drag = getDrag();
-			if (drag.y != 0 && stackRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
+			if (drag.y != 0 && stackRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y)))
+			{
 				scrollPosition2.y += drag.y - oldDrag2;
 			}
 			oldDrag2 = drag.y;
@@ -1543,10 +1629,12 @@ public class Reporter : MonoBehaviour
 			GUILayout.BeginArea(stackRect, backStyle);
 			scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2);
 			Sample selectedSample = null;
-			try {
+			try
+			{
 				selectedSample = samples[selectedLog.sampleId];
 			}
-			catch (System.Exception e) {
+			catch (System.Exception e)
+			{
 				Debug.LogException(e);
 			}
 
@@ -1589,7 +1677,8 @@ public class Reporter : MonoBehaviour
 
 
 		}
-		else {
+		else
+		{
 			GUILayout.BeginArea(stackRect, backStyle);
 			GUILayout.EndArea();
 			GUILayout.BeginArea(buttomRect, backStyle);
@@ -1602,7 +1691,8 @@ public class Reporter : MonoBehaviour
 	public void OnGUIDraw()
 	{
 
-		if (!show) {
+		if (!show)
+		{
 			return;
 		}
 
@@ -1635,7 +1725,8 @@ public class Reporter : MonoBehaviour
 
 		if (currentView == ReportView.Info)
 			DrawInfo();
-		else if (currentView == ReportView.Logs) {
+		else if (currentView == ReportView.Logs)
+		{
 			drawToolBar();
 			DrawLogs();
 		}
@@ -1650,28 +1741,36 @@ public class Reporter : MonoBehaviour
 	bool isGestureDone()
 	{
 		if (Application.platform == RuntimePlatform.Android ||
-			Application.platform == RuntimePlatform.IPhonePlayer) {
-			if (Input.touches.Length != 1) {
+			Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			if (Input.touches.Length != 1)
+			{
 				gestureDetector.Clear();
 				gestureCount = 0;
 			}
-			else {
+			else
+			{
 				if (Input.touches[0].phase == TouchPhase.Canceled || Input.touches[0].phase == TouchPhase.Ended)
 					gestureDetector.Clear();
-				else if (Input.touches[0].phase == TouchPhase.Moved) {
+				else if (Input.touches[0].phase == TouchPhase.Moved)
+				{
 					Vector2 p = Input.touches[0].position;
 					if (gestureDetector.Count == 0 || (p - gestureDetector[gestureDetector.Count - 1]).magnitude > 10)
 						gestureDetector.Add(p);
 				}
 			}
 		}
-		else {
-			if (Input.GetMouseButtonUp(0)) {
+		else
+		{
+			if (Input.GetMouseButtonUp(0))
+			{
 				gestureDetector.Clear();
 				gestureCount = 0;
 			}
-			else {
-				if (Input.GetMouseButton(0)) {
+			else
+			{
+				if (Input.GetMouseButton(0))
+				{
 					Vector2 p = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 					if (gestureDetector.Count == 0 || (p - gestureDetector[gestureDetector.Count - 1]).magnitude > 10)
 						gestureDetector.Add(p);
@@ -1685,7 +1784,8 @@ public class Reporter : MonoBehaviour
 		gestureSum = Vector2.zero;
 		gestureLength = 0;
 		Vector2 prevDelta = Vector2.zero;
-		for (int i = 0; i < gestureDetector.Count - 2; i++) {
+		for (int i = 0; i < gestureDetector.Count - 2; i++)
+		{
 
 			Vector2 delta = gestureDetector[i + 1] - gestureDetector[i];
 			float deltaLength = delta.magnitude;
@@ -1693,7 +1793,8 @@ public class Reporter : MonoBehaviour
 			gestureLength += deltaLength;
 
 			float dot = Vector2.Dot(delta, prevDelta);
-			if (dot < 0f) {
+			if (dot < 0f)
+			{
 				gestureDetector.Clear();
 				gestureCount = 0;
 				return false;
@@ -1704,7 +1805,8 @@ public class Reporter : MonoBehaviour
 
 		int gestureBase = (Screen.width + Screen.height) / 4;
 
-		if (gestureLength > gestureBase && gestureSum.magnitude < gestureBase / 2) {
+		if (gestureLength > gestureBase && gestureSum.magnitude < gestureBase / 2)
+		{
 			gestureDetector.Clear();
 			gestureCount++;
 			if (gestureCount >= numOfCircleToShow)
@@ -1718,33 +1820,43 @@ public class Reporter : MonoBehaviour
 	bool isDoubleClickDone()
 	{
 		if (Application.platform == RuntimePlatform.Android ||
-		   Application.platform == RuntimePlatform.IPhonePlayer) {
-			if (Input.touches.Length != 1) {
+		   Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			if (Input.touches.Length != 1)
+			{
 				lastClickTime = -1;
 			}
-			else {
-				if (Input.touches[0].phase == TouchPhase.Began) {
+			else
+			{
+				if (Input.touches[0].phase == TouchPhase.Began)
+				{
 					if (lastClickTime == -1)
 						lastClickTime = Time.realtimeSinceStartup;
-					else if (Time.realtimeSinceStartup - lastClickTime < 0.2f) {
+					else if (Time.realtimeSinceStartup - lastClickTime < 0.2f)
+					{
 						lastClickTime = -1;
 						return true;
 					}
-					else {
+					else
+					{
 						lastClickTime = Time.realtimeSinceStartup;
 					}
 				}
 			}
 		}
-		else {
-			if (Input.GetMouseButtonDown(0)) {
+		else
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
 				if (lastClickTime == -1)
 					lastClickTime = Time.realtimeSinceStartup;
-				else if (Time.realtimeSinceStartup - lastClickTime < 0.2f) {
+				else if (Time.realtimeSinceStartup - lastClickTime < 0.2f)
+				{
 					lastClickTime = -1;
 					return true;
 				}
-				else {
+				else
+				{
 					lastClickTime = Time.realtimeSinceStartup;
 				}
 			}
@@ -1759,15 +1871,19 @@ public class Reporter : MonoBehaviour
 	Vector2 getDownPos()
 	{
 		if (Application.platform == RuntimePlatform.Android ||
-		   Application.platform == RuntimePlatform.IPhonePlayer) {
+		   Application.platform == RuntimePlatform.IPhonePlayer)
+		{
 
-			if (Input.touches.Length == 1 && Input.touches[0].phase == TouchPhase.Began) {
+			if (Input.touches.Length == 1 && Input.touches[0].phase == TouchPhase.Began)
+			{
 				downPos = Input.touches[0].position;
 				return downPos;
 			}
 		}
-		else {
-			if (Input.GetMouseButtonDown(0)) {
+		else
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
 				downPos.x = Input.mousePosition.x;
 				downPos.y = Input.mousePosition.y;
 				return downPos;
@@ -1783,18 +1899,23 @@ public class Reporter : MonoBehaviour
 	{
 
 		if (Application.platform == RuntimePlatform.Android ||
-			Application.platform == RuntimePlatform.IPhonePlayer) {
-			if (Input.touches.Length != 1) {
+			Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			if (Input.touches.Length != 1)
+			{
 				return Vector2.zero;
 			}
 			return Input.touches[0].position - downPos;
 		}
-		else {
-			if (Input.GetMouseButton(0)) {
+		else
+		{
+			if (Input.GetMouseButton(0))
+			{
 				mousePosition = Input.mousePosition;
 				return mousePosition - downPos;
 			}
-			else {
+			else
+			{
 				return Vector2.zero;
 			}
 		}
@@ -1825,10 +1946,12 @@ public class Reporter : MonoBehaviour
 		gameObject.AddComponent<ReporterGUI>();
 
 
-		try {
+		try
+		{
 			gameObject.SendMessage("OnShowReporter");
 		}
-		catch (System.Exception e) {
+		catch (System.Exception e)
+		{
 			Debug.LogException(e);
 		}
 	}
@@ -1840,9 +1963,9 @@ public class Reporter : MonoBehaviour
 		//addSample();
 
 #if UNITY_CHANGE3
-		int sceneIndex = SceneManager.GetActiveScene().buildIndex ;
-		if( sceneIndex != -1 && string.IsNullOrEmpty( scenes[sceneIndex] ))
-			scenes[ SceneManager.GetActiveScene().buildIndex ] = SceneManager.GetActiveScene().name ;
+		int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+		if (sceneIndex != -1 && string.IsNullOrEmpty(scenes[sceneIndex]))
+			scenes[SceneManager.GetActiveScene().buildIndex] = SceneManager.GetActiveScene().name;
 #else
 		int sceneIndex = Application.loadedLevel;
 		if (sceneIndex != -1 && string.IsNullOrEmpty(scenes[Application.loadedLevel]))
@@ -1850,14 +1973,18 @@ public class Reporter : MonoBehaviour
 #endif
 
 		calculateStartIndex();
-		if (!show && isGestureDone()) {
+		if (!show && isGestureDone())
+		{
 			doShow();
 		}
 
 
-		if (threadedLogs.Count > 0) {
-			lock (threadedLogs) {
-				for (int i = 0; i < threadedLogs.Count; i++) {
+		if (threadedLogs.Count > 0)
+		{
+			lock (threadedLogs)
+			{
+				for (int i = 0; i < threadedLogs.Count; i++)
+				{
 					Log l = threadedLogs[i];
 					AddLog(l.condition, l.stacktrace, (LogType)l.logType);
 				}
@@ -1876,7 +2003,8 @@ public class Reporter : MonoBehaviour
 #endif
 
 		// FPS Counter
-		if (firstTime) {
+		if (firstTime)
+		{
 			firstTime = false;
 			lastUpdate = Time.realtimeSinceStartup;
 			frames = 0;
@@ -1884,7 +2012,8 @@ public class Reporter : MonoBehaviour
 		}
 		frames++;
 		float dt = Time.realtimeSinceStartup - lastUpdate;
-		if (dt > updateInterval && frames > requiredFrames) {
+		if (dt > updateInterval && frames > requiredFrames)
+		{
 			fps = (float)frames / dt;
 			lastUpdate = Time.realtimeSinceStartup;
 			frames = 0;
@@ -1901,20 +2030,24 @@ public class Reporter : MonoBehaviour
 	{
 		float memUsage = 0f;
 		string _condition = "";
-		if (cachedString.ContainsKey(condition)) {
+		if (cachedString.ContainsKey(condition))
+		{
 			_condition = cachedString[condition];
 		}
-		else {
+		else
+		{
 			_condition = condition;
 			cachedString.Add(_condition, _condition);
 			memUsage += (string.IsNullOrEmpty(_condition) ? 0 : _condition.Length * sizeof(char));
 			memUsage += System.IntPtr.Size;
 		}
 		string _stacktrace = "";
-		if (cachedString.ContainsKey(stacktrace)) {
+		if (cachedString.ContainsKey(stacktrace))
+		{
 			_stacktrace = cachedString[stacktrace];
 		}
-		else {
+		else
+		{
 			_stacktrace = stacktrace;
 			cachedString.Add(_stacktrace, _stacktrace);
 			memUsage += (string.IsNullOrEmpty(_stacktrace) ? 0 : _stacktrace.Length * sizeof(char));
@@ -1929,7 +2062,8 @@ public class Reporter : MonoBehaviour
 
 		logsMemUsage += memUsage / 1024 / 1024;
 
-		if (TotalMemUsage > maxSize) {
+		if (TotalMemUsage > maxSize)
+		{
 			clear();
 			Debug.Log("Memory Usage Reach" + maxSize + " mb So It is Cleared");
 			return;
@@ -1937,11 +2071,13 @@ public class Reporter : MonoBehaviour
 
 		bool isNew = false;
 		//string key = _condition;// + "_!_" + _stacktrace ;
-		if (logsDic.ContainsKey(_condition, stacktrace)) {
+		if (logsDic.ContainsKey(_condition, stacktrace))
+		{
 			isNew = false;
 			logsDic[_condition][stacktrace].count++;
 		}
-		else {
+		else
+		{
 			isNew = true;
 			collapsedLogs.Add(log);
 			logsDic[_condition][stacktrace] = log;
@@ -1963,7 +2099,8 @@ public class Reporter : MonoBehaviour
 
 
 		logs.Add(log);
-		if (!collapse || isNew) {
+		if (!collapse || isNew)
+		{
 			bool skip = false;
 			if (log.logType == _LogType.Log && !showLog)
 				skip = true;
@@ -1976,15 +2113,18 @@ public class Reporter : MonoBehaviour
 			if (log.logType == _LogType.Exception && !showError)
 				skip = true;
 
-			if (!skip) {
-				if (string.IsNullOrEmpty(filterText) || log.condition.ToLower().Contains(filterText.ToLower())) {
+			if (!skip)
+			{
+				if (string.IsNullOrEmpty(filterText) || log.condition.ToLower().Contains(filterText.ToLower()))
+				{
 					currentLog.Add(log);
 					newLogAdded = true;
 				}
 			}
 		}
 
-		if (newLogAdded) {
+		if (newLogAdded)
+		{
 			calculateStartIndex();
 			int totalCount = currentLog.Count;
 			int totalVisibleCount = (int)(Screen.height * 0.75f / size.y);
@@ -1992,10 +2132,12 @@ public class Reporter : MonoBehaviour
 				scrollPosition.y += size.y;
 		}
 
-		try {
+		try
+		{
 			gameObject.SendMessage("OnLog", log);
 		}
-		catch (System.Exception e) {
+		catch (System.Exception e)
+		{
 			Debug.LogException(e);
 		}
 	}
@@ -2004,7 +2146,8 @@ public class Reporter : MonoBehaviour
 	void CaptureLogThread(string condition, string stacktrace, LogType type)
 	{
 		Log log = new Log() { condition = condition, stacktrace = stacktrace, logType = (_LogType)type };
-		lock (threadedLogs) {
+		lock (threadedLogs)
+		{
 			threadedLogs.Add(log);
 		}
 	}
@@ -2021,15 +2164,15 @@ public class Reporter : MonoBehaviour
         _OnLevelWasLoaded( null );
     }
 #endif
-    //new scene is loaded
-    void _OnLevelWasLoaded( Scene _null1 , LoadSceneMode _null2 )
+	//new scene is loaded
+	void _OnLevelWasLoaded(Scene _null1, LoadSceneMode _null2)
 	{
 		if (clearOnNewSceneLoaded)
 			clear();
 
 #if UNITY_CHANGE3
-		currentScene = SceneManager.GetActiveScene().name ;
-		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
+		currentScene = SceneManager.GetActiveScene().name;
+		Debug.Log("Scene " + SceneManager.GetActiveScene().name + " is loaded");
 #else
 		currentScene = Application.loadedLevelName;
 		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
@@ -2067,10 +2210,11 @@ public class Reporter : MonoBehaviour
 	//read build information 
 	IEnumerator readInfo()
 	{
-		string prefFile = "build_info"; 
-		string url = prefFile; 
+		string prefFile = "build_info";
+		string url = prefFile;
 
-		if (prefFile.IndexOf("://") == -1) {
+		if (prefFile.IndexOf("://") == -1)
+		{
 			string streamingAssetsPath = Application.streamingAssetsPath;
 			if (streamingAssetsPath == "")
 				streamingAssetsPath = Application.dataPath + "/StreamingAssets/";
@@ -2078,8 +2222,8 @@ public class Reporter : MonoBehaviour
 		}
 
 		//if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
-			if (!url.Contains("://"))
-				url = "file://" + url;
+		if (!url.Contains("://"))
+			url = "file://" + url;
 
 
 		// float startTime = Time.realtimeSinceStartup;
@@ -2091,10 +2235,12 @@ public class Reporter : MonoBehaviour
 		yield return www;
 #endif
 
-		if (!string.IsNullOrEmpty(www.error)) {
+		if (!string.IsNullOrEmpty(www.error))
+		{
 			Debug.LogError(www.error);
 		}
-		else {
+		else
+		{
 #if UNITY_CHANGE4
 			buildDate = www.downloadHandler.text;
 #else
@@ -2105,18 +2251,18 @@ public class Reporter : MonoBehaviour
 		yield break;
 	}
 
-    private void SaveLogsToDevice()
-    {
-        string filePath = Application.persistentDataPath + "/logs.txt";
-        List<string> fileContentsList = new List<string>();
-        Debug.Log("Saving logs to " + filePath);
-        File.Delete(filePath);
-        for (int i = 0; i < logs.Count; i++)
-        {
-            fileContentsList.Add(logs[i].logType + "\n" + logs[i].condition + "\n" + logs[i].stacktrace);
-        }
-        File.WriteAllLines(filePath, fileContentsList.ToArray());
-    }
+	private void SaveLogsToDevice()
+	{
+		string filePath = Application.persistentDataPath + "/logs.txt";
+		List<string> fileContentsList = new List<string>();
+		Debug.Log("Saving logs to " + filePath);
+		File.Delete(filePath);
+		for (int i = 0; i < logs.Count; i++)
+		{
+			fileContentsList.Add(logs[i].logType + "\n" + logs[i].condition + "\n" + logs[i].stacktrace);
+		}
+		File.WriteAllLines(filePath, fileContentsList.ToArray());
+	}
 }
 
 

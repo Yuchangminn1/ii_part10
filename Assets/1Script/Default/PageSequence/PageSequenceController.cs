@@ -107,7 +107,7 @@ public class PageSequenceController : MonoBehaviour
 
 
         if (PageController.Instance.CurrentPage == 0 || isMouseDown) return;
-        resetTime -= Time.deltaTime;
+        if (currentindex != 0) resetTime -= Time.deltaTime;
         if (resetTime < 0f)
         {
             if (PageController.Instance.CurrentPage == PageController.Instance.pages.Length - 1)

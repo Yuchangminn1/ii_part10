@@ -10,7 +10,6 @@ public class SubVideoPlayer : MonoBehaviour
     [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] VideoPlayer nextvideo;
 
-
     [SerializeField] bool isLoop;
 
     [SerializeField] bool isStartPlay;
@@ -19,27 +18,29 @@ public class SubVideoPlayer : MonoBehaviour
 
     public Graphic graphic;
 
-    Coroutine videoStartC = null;
-
 
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
-    WaitForSeconds coroutineStartDelay = new WaitForSeconds(0.15f);
+    public UnityEvent nextCallBack;
 
     WaitForSeconds videoStartDelay;
 
-    [SerializeField] UnityEvent onVideoEnd;
-    [SerializeField] UnityEvent onVideoStart;
-
-
     public bool fin = false;
+
+    WaitForSeconds videoWait = new WaitForSeconds(0.2f);
+    public bool isFir = false;
+
+    public UnityEvent onstart;
+
+    WaitForSeconds hintDelay = new WaitForSeconds(2f);
+    public bool isStartDelay = false;
 
     void Awake()
     {
         if (videoPlayer != null) videoPlayer.Prepare();
         if (nextvideo != null) nextvideo.Prepare();
         graphic = GetComponent<Graphic>();
-        isLoop = videoPlayer.isLooping;
+        if (videoPlayer != null) isLoop = videoPlayer.isLooping;
         if (startDelay > 0f)
             videoStartDelay = new WaitForSeconds(startDelay);
     }
@@ -51,91 +52,62 @@ public class SubVideoPlayer : MonoBehaviour
 
     void OnEnable()
     {
+        if (isFir) StartSeq();
+    }
+
+    public void StartSeq()
+    {
+        videoPlayer.Prepare();
+
         if (nextvideo != null) nextvideo.Prepare();
-        if (nextvideo != null) nextvideo.frame = 0;
 
 
         if (FadeManager.Instance && graphic != null) FadeManager.Instance.SetAlphaZero(graphic);
         if (videoPlayer != null)
         {
-            videoPlayer.frame = 1;
             videoPlayer.Prepare();
         }
         fin = false;
-        if (isStartPlay)
+
+        Debug.Log("start play");
+        StartCoroutine(OnEnableStart(1));
+    }
+
+    IEnumerator OnEnableStart(float _delayTime = -1)
+    {
+        onstart?.Invoke();
+
+        if (isStartDelay) yield return hintDelay;
+
+
+        if (_delayTime > 0)
+            yield return videoStartDelay;
+        videoPlayer.Prepare();
+
+        while (videoPlayer.isPrepared == false)
         {
-            StartCoroutine(OnEnableStart());
+            Debug.Log("prepare Wait");
+            yield return waitForFixedUpdate;
         }
-    }
-
-    IEnumerator OnEnableStart()
-    {
-        yield return videoStartDelay;
-        VideoPlay();
-    }
-
-
-
-    public void VideoPlay()
-    {
-        videoPlayer.frame = 1;
         videoPlayer.Play();
+        Debug.Log("Play");
+        while (FadeManager.Instance == false)
+        {
+            yield return waitForFixedUpdate;
 
+        }
         FadeManager.Instance.SetAlphaOne(graphic);
 
+        yield return videoWait;
 
-        Debug.Log($"VideoPlay {name}");
-        if (videoStartC == null) videoStartC = StartCoroutine(CVideoPlay());
-        else
+        while (videoPlayer.isPlaying)
         {
-            Debug.Log($"Coroutine Is Not Null {name}");
-
+            yield return videoWait;
         }
-    }
-
-    public void CoroutineEnd()
-    {
-        StartCoroutine(CoroutineEndC());
-    }
-
-    IEnumerator CoroutineEndC()
-    {
-        if (videoStartC == null) yield break;
-        StopCoroutine(videoStartC);
-        videoStartC = null;
-    }
-
-    IEnumerator CVideoPlay()
-    {
-        if (videoPlayer == null)
-        {
-            CoroutineEnd();
-            yield break;
-        }
-        videoPlayer.Prepare();
-        while (!videoPlayer.isPrepared)
-        {
-            yield return waitForFixedUpdate;
-        }
-        videoPlayer.Play();
-
-        //if (graphic != null) FadeManager.Instance.SetAlphaOne(graphic);
-        if (graphic != null) FadeManager.Instance.TargetFade(graphic, 1f, 0.3f);
-        onVideoStart?.Invoke();
+        nextCallBack?.Invoke();
+        FadeManager.Instance.SetAlphaZero(graphic);
 
 
-        yield return coroutineStartDelay;
-
-        while (videoPlayer.isPlaying && !fin)
-        {
-            yield return waitForFixedUpdate;
-        }
-        //if (graphic != null) FadeManager.Instance.SetAlphaZero(graphic);
-        if (graphic != null) FadeManager.Instance.TargetFade(graphic, 0f, 0.3f);
-
-        onVideoEnd?.Invoke();
-
-        CoroutineEnd();
     }
 
 

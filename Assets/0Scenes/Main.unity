@@ -252,8 +252,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 200356880}
+  m_Children: []
   m_Father: {fileID: 899050370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -308,7 +307,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 817315502}
-  - {fileID: 841179091}
+  - {fileID: 123391762}
   - {fileID: 793823230}
   m_Father: {fileID: 713132626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -449,17 +448,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 571349025}
-  nextvideo: {fileID: 0}
+  nextvideo: {fileID: 986754309}
   isLoop: 0
   isStartPlay: 1
   startDelay: 1
-  graphic: {fileID: 0}
-  onVideoEnd:
+  graphic: {fileID: 26837334}
+  nextCallBack:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1290925486}
         m_TargetAssemblyTypeName: SubVideoPlayer, Assembly-CSharp
-        m_MethodName: VideoPlay
+        m_MethodName: StartSeq
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -469,7 +468,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onVideoStart:
+  fin: 0
+  isFir: 1
+  onstart:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1341391089}
@@ -484,7 +485,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fin: 0
+  isStartDelay: 1
 --- !u!114 &26837334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,7 +756,6 @@ GameObject:
   m_Component:
   - component: {fileID: 56845491}
   - component: {fileID: 56845495}
-  - component: {fileID: 56845494}
   - component: {fileID: 56845493}
   m_Layer: 5
   m_Name: SubVideo4
@@ -819,33 +819,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &56845494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 56845490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 04859d668ac5bfe4e9efb6f3dcd84bda, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &56845495
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1254,6 +1227,109 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110910917}
   m_CullTransparentMesh: 1
+--- !u!1 &123391761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 123391762}
+  - component: {fileID: 123391765}
+  - component: {fileID: 123391764}
+  - component: {fileID: 123391766}
+  - component: {fileID: 123391767}
+  m_Layer: 5
+  m_Name: Page9Video1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &123391762
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123391761}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 17433700}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 540, y: 960}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &123391764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123391761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: 97a4d78535579eb44af02ea181a15503, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &123391765
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123391761}
+  m_CullTransparentMesh: 1
+--- !u!114 &123391766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123391761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166e023a0c6d75d41af6e6f63280beae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1737297865}
+  renderTexture: {fileID: 0}
+  rawImage: {fileID: 123391764}
+  fadeDuration: 0.5
+--- !u!114 &123391767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123391761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983270d9213cb4c16a453306ec327cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 829691902}
 --- !u!1 &137968064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,87 +1408,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137968064}
-  m_CullTransparentMesh: 1
---- !u!1 &200356879
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 200356880}
-  - component: {fileID: 200356882}
-  - component: {fileID: 200356881}
-  m_Layer: 5
-  m_Name: Page9Video0
-  m_TagString: mp4
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &200356880
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200356879}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3617329}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!328 &200356881
-VideoPlayer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200356879}
-  m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 125bbb6da0fa4504294e3a9baf62434c, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 537b42270ced8dc41ab4005751218756, type: 2}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: <noninit>
-  m_RenderMode: 2
-  m_AspectRatio: 2
-  m_DataSource: 0
-  m_TimeUpdateMode: 2
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
-  m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 0
-  m_SkipOnDrop: 1
-  m_Looping: 0
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
-  m_VideoShaders: []
---- !u!222 &200356882
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200356879}
   m_CullTransparentMesh: 1
 --- !u!1 &218893969
 GameObject:
@@ -2943,29 +2938,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 571349025}
   nextvideo: {fileID: 0}
-  isLoop: 0
+  isLoop: 1
   isStartPlay: 1
   startDelay: 1
   graphic: {fileID: 0}
-  onVideoEnd:
+  nextCallBack:
     m_PersistentCalls:
       m_Calls: []
-  onVideoStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1341391089}
-        m_TargetAssemblyTypeName: CustomSerialController, Assembly-CSharp
-        m_MethodName: StartSetHintColorDelay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   fin: 0
+  isFir: 0
+  onstart:
+    m_PersistentCalls:
+      m_Calls: []
+  isStartDelay: 0
 --- !u!114 &443400783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4197,7 +4182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 571349023}
   - component: {fileID: 571349027}
-  - component: {fileID: 571349026}
   - component: {fileID: 571349025}
   m_Layer: 5
   m_Name: SubVideo0
@@ -4261,33 +4245,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &571349026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571349022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 25cc822a71a564d48b5570a635ffed48, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &571349027
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4306,9 +4263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 575461336}
   - component: {fileID: 575461341}
-  - component: {fileID: 575461340}
   - component: {fileID: 575461339}
-  - component: {fileID: 575461338}
   m_Layer: 5
   m_Name: SubVideo3
   m_TagString: mp4
@@ -4335,26 +4290,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -980, y: -1820}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &575461338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 575461335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59ef7cfcc016ad4593cdce9866617b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onUpArrow:
-    m_PersistentCalls:
-      m_Calls: []
-  onDownArrow:
-    m_PersistentCalls:
-      m_Calls: []
-  videoPlayer1: {fileID: 0}
-  videoPlayer2: {fileID: 0}
 --- !u!328 &575461339
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -4391,33 +4326,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &575461340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 575461335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 39267462b033923419ea16339de87f78, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &575461341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4867,8 +4775,8 @@ GameObject:
   m_Component:
   - component: {fileID: 640942310}
   - component: {fileID: 640942313}
-  - component: {fileID: 640942312}
   - component: {fileID: 640942311}
+  - component: {fileID: 640942314}
   m_Layer: 5
   m_Name: Page10Video0
   m_TagString: mp4
@@ -4885,15 +4793,15 @@ RectTransform:
   m_GameObject: {fileID: 640942309}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 666524652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &640942311
 MonoBehaviour:
@@ -4919,8 +4827,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   nextVedeoPlayer: {fileID: 0}
-  videoPlayer: {fileID: 0}
-  targetRawImage: {fileID: 0}
+  videoPlayer: {fileID: 1611284255}
+  targetRawImage: {fileID: 640942314}
   toggleGraphics: []
   isLoop: 0
   isendFade: 0
@@ -4929,42 +4837,6 @@ MonoBehaviour:
   onplayVideo:
     m_PersistentCalls:
       m_Calls: []
---- !u!328 &640942312
-VideoPlayer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640942309}
-  m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 125bbb6da0fa4504294e3a9baf62434c, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 537b42270ced8dc41ab4005751218756, type: 2}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: <noninit>
-  m_RenderMode: 2
-  m_AspectRatio: 2
-  m_DataSource: 0
-  m_TimeUpdateMode: 2
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
-  m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 0
-  m_SkipOnDrop: 1
-  m_Looping: 0
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
-  m_VideoShaders: []
 --- !u!222 &640942313
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4973,6 +4845,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640942309}
   m_CullTransparentMesh: 1
+--- !u!114 &640942314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640942309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: e587698a9bc434763bd6d5b7bfa65b66, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &648052646
 GameObject:
   m_ObjectHideFlags: 0
@@ -5110,8 +5009,8 @@ MonoBehaviour:
   currentindex: 0
   nextPageNumber: 0
   endToNext: 1
-  defalutResetTime: 500
-  resetTime: 500
+  defalutResetTime: 5
+  resetTime: 5
   defalutPopupTime: 8
   defalutResetPopupTime: 10
   returnIdlePage:
@@ -5571,7 +5470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bcc7fedd8d8b144e8a465d446fc2ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentIndex: 0
+  currentIndex: 1
   startDelay: -1
   isTrigger: 0
   originTrigger: 0
@@ -5831,6 +5730,7 @@ GameObject:
   - component: {fileID: 817315502}
   - component: {fileID: 817315505}
   - component: {fileID: 817315504}
+  - component: {fileID: 817315506}
   m_Layer: 5
   m_Name: Page9Video0
   m_TagString: Untagged
@@ -5892,6 +5792,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 817315501}
   m_CullTransparentMesh: 1
+--- !u!114 &817315506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817315501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f6e02dd2ea3384693114fdb4570ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentIndex: 0
+  startDelay: -1
+  isTrigger: 1
+  originTrigger: 0
+  nextDelayTime: -1
+  sequenceCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  startEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  nextVedeoPlayer: {fileID: 0}
+  videoPlayer: {fileID: 829691902}
+  targetRawImage: {fileID: 817315504}
+  toggleGraphics: []
+  isLoop: 1
+  isendFade: 0
+  fadeTime: 1
+  firstFrameDelay: -1
+  onplayVideo:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &829691900
 GameObject:
   m_ObjectHideFlags: 0
@@ -5959,7 +5893,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1
   m_WaitForFirstFrame: 1
@@ -6022,92 +5956,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &841179090
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 841179091}
-  - component: {fileID: 841179094}
-  - component: {fileID: 841179093}
-  - component: {fileID: 841179095}
-  m_Layer: 5
-  m_Name: Page9Video1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &841179091
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841179090}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 17433700}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 540, y: 960}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &841179093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841179090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 75bf4c7d906d80d41a4d6ce26fc3d345, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &841179094
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841179090}
-  m_CullTransparentMesh: 1
---- !u!114 &841179095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841179090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 166e023a0c6d75d41af6e6f63280beae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1737297865}
 --- !u!1 &849526225
 GameObject:
   m_ObjectHideFlags: 0
@@ -6192,7 +6040,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 854095195}
-  - component: {fileID: 854095196}
   m_Layer: 0
   m_Name: TriggerVideo
   m_TagString: Untagged
@@ -6221,50 +6068,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &854095196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854095194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59ef7cfcc016ad4593cdce9866617b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onUpArrow:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1298143418}
-        m_TargetAssemblyTypeName: SubVideoPlayer, Assembly-CSharp
-        m_MethodName: VideoPlay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onDownArrow:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1705946400}
-        m_TargetAssemblyTypeName: SubVideoPlayer, Assembly-CSharp
-        m_MethodName: VideoPlay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  videoPlayer1: {fileID: 0}
-  videoPlayer2: {fileID: 0}
 --- !u!1 &870917093
 GameObject:
   m_ObjectHideFlags: 0
@@ -7131,7 +6934,6 @@ GameObject:
   m_Component:
   - component: {fileID: 986754307}
   - component: {fileID: 986754311}
-  - component: {fileID: 986754310}
   - component: {fileID: 986754309}
   m_Layer: 5
   m_Name: SubVideo1
@@ -7179,7 +6981,7 @@ VideoPlayer:
   m_AspectRatio: 2
   m_DataSource: 0
   m_TimeUpdateMode: 2
-  m_PlaybackSpeed: 1
+  m_PlaybackSpeed: 1.5
   m_AudioOutputMode: 2
   m_TargetAudioSources:
   - {fileID: 0}
@@ -7195,33 +6997,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &986754310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986754306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 168ffcdc602422348996f8237baca618, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &986754311
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7241,6 +7016,7 @@ GameObject:
   - component: {fileID: 991422490}
   - component: {fileID: 991422492}
   - component: {fileID: 991422491}
+  - component: {fileID: 991422493}
   m_Layer: 5
   m_Name: Page8Video0
   m_TagString: mp4
@@ -7311,6 +7087,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991422489}
   m_CullTransparentMesh: 1
+--- !u!114 &991422493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991422489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ae555180efd7b41b8018a7fcc48c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 0}
+  nextvideo: {fileID: 0}
+  isLoop: 0
+  isStartPlay: 1
+  startDelay: -1
+  graphic: {fileID: 0}
+  nextCallBack:
+    m_PersistentCalls:
+      m_Calls: []
+  fin: 0
+  isFir: 1
+  onstart:
+    m_PersistentCalls:
+      m_Calls: []
+  isStartDelay: 0
 --- !u!1 &992628494
 GameObject:
   m_ObjectHideFlags: 0
@@ -7678,13 +7481,15 @@ MonoBehaviour:
   isStartPlay: 0
   startDelay: -1
   graphic: {fileID: 0}
-  onVideoEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  onVideoStart:
+  nextCallBack:
     m_PersistentCalls:
       m_Calls: []
   fin: 0
+  isFir: 0
+  onstart:
+    m_PersistentCalls:
+      m_Calls: []
+  isStartDelay: 0
 --- !u!1 &1091109457
 GameObject:
   m_ObjectHideFlags: 0
@@ -8354,8 +8159,8 @@ MonoBehaviour:
   currentindex: 0
   nextPageNumber: -1
   endToNext: 1
-  defalutResetTime: 500
-  resetTime: 500
+  defalutResetTime: 10
+  resetTime: 10
   defalutPopupTime: 8
   defalutResetPopupTime: 10
   returnIdlePage:
@@ -8518,17 +8323,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 986754309}
-  nextvideo: {fileID: 0}
+  nextvideo: {fileID: 1360882729}
   isLoop: 0
   isStartPlay: 0
   startDelay: -1
-  graphic: {fileID: 0}
-  onVideoEnd:
+  graphic: {fileID: 1290925488}
+  nextCallBack:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1554478461}
         m_TargetAssemblyTypeName: SubVideoPlayer, Assembly-CSharp
-        m_MethodName: VideoPlay
+        m_MethodName: StartSeq
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8538,10 +8343,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onVideoStart:
+      - m_Target: {fileID: 1341391089}
+        m_TargetAssemblyTypeName: CustomSerialController, Assembly-CSharp
+        m_MethodName: StartReturnChoice
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  fin: 0
+  isFir: 0
+  onstart:
     m_PersistentCalls:
       m_Calls: []
-  fin: 0
+  isStartDelay: 0
 --- !u!114 &1290925488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8588,8 +8407,7 @@ GameObject:
   - component: {fileID: 1298143417}
   - component: {fileID: 1298143422}
   - component: {fileID: 1298143421}
-  - component: {fileID: 1298143419}
-  - component: {fileID: 1298143418}
+  - component: {fileID: 1298143423}
   m_Layer: 5
   m_Name: SubVideo3
   m_TagString: Untagged
@@ -8616,51 +8434,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1298143418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298143416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ae555180efd7b41b8018a7fcc48c24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 575461339}
-  nextvideo: {fileID: 0}
-  isLoop: 0
-  isStartPlay: 0
-  startDelay: -1
-  graphic: {fileID: 0}
-  onVideoEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  onVideoStart:
-    m_PersistentCalls:
-      m_Calls: []
-  fin: 0
---- !u!114 &1298143419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298143416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59ef7cfcc016ad4593cdce9866617b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onUpArrow:
-    m_PersistentCalls:
-      m_Calls: []
-  onDownArrow:
-    m_PersistentCalls:
-      m_Calls: []
-  videoPlayer1: {fileID: 0}
-  videoPlayer2: {fileID: 0}
 --- !u!114 &1298143421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8696,6 +8469,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298143416}
   m_CullTransparentMesh: 1
+--- !u!114 &1298143423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298143416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166e023a0c6d75d41af6e6f63280beae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 575461339}
+  renderTexture: {fileID: 0}
+  rawImage: {fileID: 0}
+  fadeDuration: 0.5
 --- !u!1 &1302096510
 GameObject:
   m_ObjectHideFlags: 0
@@ -9188,16 +8977,41 @@ MonoBehaviour:
   currentButtonIndex: 13
   isSelect: 0
   indexIsUP: 0
-  hintVideo: {fileID: 0}
+  hintVideo: {fileID: 575461339}
+  wallVideo: {fileID: 0}
   isInitialize: 0
   isanswer: 0
   ledOnSource: {fileID: 1341391092}
   selectLEDSource: {fileID: 1341391091}
   userMissButtonEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 123391766}
+        m_TargetAssemblyTypeName: VideoFadeController, Assembly-CSharp
+        m_MethodName: PlayWithFade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1298143423}
+        m_TargetAssemblyTypeName: VideoFadeController, Assembly-CSharp
+        m_MethodName: PlayWithFade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   isDelayAppliedWhenWrong: 0
-  longSound: {fileID: 0}
+  longSound: {fileID: 1341391094}
   errorAnswer:
     m_PersistentCalls:
       m_Calls:
@@ -9226,6 +9040,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   checkNum: 0
+  iswait: 0
+  dap: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!82 &1341391091
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9705,7 +9521,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1360882727}
   - component: {fileID: 1360882731}
-  - component: {fileID: 1360882730}
   - component: {fileID: 1360882729}
   m_Layer: 5
   m_Name: SubVideo2
@@ -9769,33 +9584,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &1360882730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360882726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: eb7322f9a653078469b490927df3f796, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &1360882731
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9964,7 +9752,7 @@ MonoBehaviour:
   startDelay: -1
   isTrigger: 1
   originTrigger: 0
-  nextDelayTime: 1
+  nextDelayTime: 0.5
   sequenceCallback:
     m_PersistentCalls:
       m_Calls: []
@@ -11283,26 +11071,16 @@ MonoBehaviour:
   isLoop: 0
   isStartPlay: 0
   startDelay: -1
-  graphic: {fileID: 0}
-  onVideoEnd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 793823229}
-        m_TargetAssemblyTypeName: SequenceScript, Assembly-CSharp
-        m_MethodName: TriggerOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onVideoStart:
+  graphic: {fileID: 1554478463}
+  nextCallBack:
     m_PersistentCalls:
       m_Calls: []
   fin: 0
+  isFir: 0
+  onstart:
+    m_PersistentCalls:
+      m_Calls: []
+  isStartDelay: 0
 --- !u!114 &1554478463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11802,7 +11580,7 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 537b42270ced8dc41ab4005751218756, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: e587698a9bc434763bd6d5b7bfa65b66, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
@@ -11967,7 +11745,7 @@ MonoBehaviour:
   startDelay: -1
   isTrigger: 1
   originTrigger: 0
-  nextDelayTime: 1
+  nextDelayTime: 0.5
   sequenceCallback:
     m_PersistentCalls:
       m_Calls:
@@ -12275,14 +12053,16 @@ MonoBehaviour:
   isLoop: 0
   isStartPlay: 0
   startDelay: -1
-  graphic: {fileID: 0}
-  onVideoEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  onVideoStart:
+  graphic: {fileID: 1705946402}
+  nextCallBack:
     m_PersistentCalls:
       m_Calls: []
   fin: 0
+  isFir: 0
+  onstart:
+    m_PersistentCalls:
+      m_Calls: []
+  isStartDelay: 0
 --- !u!114 &1705946402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12503,7 +12283,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3883502988799655034, guid: b960310e4a19c4a8babd3b9278f4587c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b960310e4a19c4a8babd3b9278f4587c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12887,7 +12667,7 @@ MonoBehaviour:
   startDelay: -1
   isTrigger: 1
   originTrigger: 0
-  nextDelayTime: 1
+  nextDelayTime: 0.5
   sequenceCallback:
     m_PersistentCalls:
       m_Calls:
@@ -13521,6 +13301,9 @@ MonoBehaviour:
   popupTime: 3
   defaultPopupTime: 3
   isEnd: 0
+  onCountStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1882641131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13831,7 +13614,7 @@ MonoBehaviour:
   startDelay: -1
   isTrigger: 1
   originTrigger: 0
-  nextDelayTime: 1
+  nextDelayTime: 0.5
   sequenceCallback:
     m_PersistentCalls:
       m_Calls:
@@ -13854,6 +13637,7 @@ MonoBehaviour:
   graphics:
   - {fileID: 1804589868}
   - {fileID: 1897739862}
+  - {fileID: 967518592}
   fadeDuration: 0.5
   isCut: 0
 --- !u!114 &1897739862
@@ -14032,7 +13816,7 @@ VideoPlayer:
   m_AspectRatio: 2
   m_DataSource: 0
   m_TimeUpdateMode: 2
-  m_PlaybackSpeed: 0.8
+  m_PlaybackSpeed: 1.2
   m_AudioOutputMode: 2
   m_TargetAudioSources:
   - {fileID: 0}
@@ -14481,7 +14265,7 @@ MonoBehaviour:
   startDelay: -1
   isTrigger: 1
   originTrigger: 0
-  nextDelayTime: 1
+  nextDelayTime: 0.5
   sequenceCallback:
     m_PersistentCalls:
       m_Calls:

@@ -17,7 +17,7 @@ public class SetPos : MonoBehaviour
     void OnEnable()
     {
         if (ScoreManager.Instance == null) return;
-        SetIndex(ScoreManager.Instance.GetLastStep());
+        SetIndex(CustomSerialController.Instance.dap[0] - 1);
 
         Debug.Log($"ScoreManager.Instance.GetLastStep() = {ScoreManager.Instance.GetLastStep()}");
         SetPosition();

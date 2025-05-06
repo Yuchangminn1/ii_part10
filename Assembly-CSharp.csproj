@@ -82,13 +82,12 @@
     <Compile Include="Assets/1Script/Default/PageSequence/PageVideoPlayerController.cs" />
     <Compile Include="Assets/1Script/New/CopyImage.cs" />
     <Compile Include="Assets/1Script/New/PageBackGround.cs" />
-    <Compile Include="Assets/1Script/ReturnCheckScript.cs" />
     <Compile Include="Assets/Unity-Logs-Viewer/Reporter/MultiKeyDictionary.cs" />
     <Compile Include="Assets/1Script/Default/Singleton/PageSequenceManager.cs" />
     <Compile Include="Assets/1Script/Default/Capture/TestCustomPosJson.cs" />
+    <Compile Include="Assets/1Script/al0000.cs" />
     <Compile Include="Assets/1Script/Default/PageSequence/TypewriterEffect.cs" />
     <Compile Include="Assets/1Script/New/TimmerScript.cs" />
-    <Compile Include="Assets/1Script/New/TextCode.cs" />
     <Compile Include="Assets/1Script/Default/CutFade.cs" />
     <Compile Include="Assets/1Script/Default/PageSequence/SequenceTime.cs" />
     <Compile Include="Assets/1Script/Default/Singleton/PopupManager.cs" />
@@ -106,6 +105,7 @@
     <Compile Include="Assets/1Script/Recorder.cs" />
     <Compile Include="Assets/1Script/Default/Capture/JsonSaverExample.cs" />
     <Compile Include="Assets/1Script/Default/ExitScript.cs" />
+    <Compile Include="Assets/1Script/New/VideoFadeController.cs" />
     <Compile Include="Assets/1Script/Default/Singleton/UserDataManager.cs" />
     <Compile Include="Assets/1Script/New/ActivateAllDisplays.cs" />
     <Compile Include="Assets/1Script/Default/UserReset.cs" />

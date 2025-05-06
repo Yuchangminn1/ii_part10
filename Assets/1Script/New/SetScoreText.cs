@@ -22,9 +22,11 @@ public class SetScoreText : MonoBehaviour
 
     void OnEnable()
     {
-        if (text != null && ScoreManager.Instance != null)
+        if (text != null && CustomSerialController.Instance != null)
         {
-            text.text = st1 + ScoreManager.Instance.Checker() + stw;
+            text.text = st1 + CustomSerialController.Instance.checkNum + stw;
+            Debug.Log(" CustomSerialController.Instance.checkNum");
+            CustomSerialController.Instance.checkNum = 0;
         }
     }
 

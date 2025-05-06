@@ -66,6 +66,16 @@ public class PopupManager : MonoBehaviour
         SetText(index);
         if (coroutine == null) coroutine = StartCoroutine(PopupCor());
     }
+    public int RPopup(int _textIndex = 0)
+    {
+        if (index == 0 && _textIndex == 0)
+            index = 1;
+        else
+            index = _textIndex;
+        SetText(index);
+        if (coroutine == null) coroutine = StartCoroutine(PopupCor());
+        return index;
+    }
 
     IEnumerator PopupCor()
     {
