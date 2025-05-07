@@ -81,6 +81,7 @@
     <Compile Include="Assets/1Script/New/TestVideoSpeed.cs" />
     <Compile Include="Assets/1Script/Default/PageSequence/PageVideoPlayerController.cs" />
     <Compile Include="Assets/1Script/New/CopyImage.cs" />
+    <Compile Include="Assets/1Script/VIdeoFadeOnOFf.cs" />
     <Compile Include="Assets/1Script/New/PageBackGround.cs" />
     <Compile Include="Assets/Unity-Logs-Viewer/Reporter/MultiKeyDictionary.cs" />
     <Compile Include="Assets/1Script/Default/Singleton/PageSequenceManager.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets/1Script/al0000.cs" />
     <Compile Include="Assets/1Script/Default/PageSequence/TypewriterEffect.cs" />
     <Compile Include="Assets/1Script/New/TimmerScript.cs" />
+    <Compile Include="Assets/1Script/Default/PageSequence/StampVideoPlayer.cs" />
     <Compile Include="Assets/1Script/Default/CutFade.cs" />
     <Compile Include="Assets/1Script/Default/PageSequence/SequenceTime.cs" />
     <Compile Include="Assets/1Script/Default/Singleton/PopupManager.cs" />

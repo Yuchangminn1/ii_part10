@@ -86,7 +86,6 @@ public class ScoreManager : MonoBehaviour
                 Debug.Log($"i ={i} cho{chooseStep[i]} /  anw{anwsers[i]}");
             }
         }
-        UserDataManager.Instance.RequestUserDataUpdate(1, $"{3}");
         UserDataManager.Instance.RequestUserContentEnd();
 
 

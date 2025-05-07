@@ -5,6 +5,7 @@ using System;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
 public class CustomSerialController : MonoBehaviour
 {
@@ -54,8 +55,8 @@ public class CustomSerialController : MonoBehaviour
              "New messages will be discarded.")]
     public int maxUnreadMessages = 1;
 
-    public const string SERIAL_DEVICE_CONNECTED = "__Connected__";
-    public const string SERIAL_DEVICE_DISCONNECTED = "__Disconnected__";
+    //public const string SERIAL_DEVICE_CONNECTED = "__Connected__";
+    //public const string SERIAL_DEVICE_DISCONNECTED = "__Disconnected__";
 
     // Internal reference to the Thread and the object that runs in it.
     const int ARDUINONUM = 16;
@@ -111,8 +112,9 @@ public class CustomSerialController : MonoBehaviour
 
     Color errorColor = new Color(230, 0, 5);
 
-    public VideoPlayer hintVideo;
-    public VideoPlayer wallVideo;
+    public SubVideoPlayer wallwallvideo;
+    public SubVideoPlayer hintText;
+
 
 
     public bool isInitialize = false;
@@ -148,6 +150,45 @@ public class CustomSerialController : MonoBehaviour
 
     public int[] dap = new int[12];
 
+    public GameObject[] VideoObject = new GameObject[2];
+    public VideoPlayer[] VideoPlayer = new VideoPlayer[2];
+    public Graphic[] VideoGraphic = new Graphic[2];
+
+    public Coroutine[] coroutineObject = new Coroutine[2];
+
+    public int debugint = -1;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            debugint = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.F1))
+        {
+            debugint = 2;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.F1))
+        {
+            debugint = 3;
+        }
+        else if (Input.GetKeyDown(KeyCode.F1))
+        {
+            debugint = 4;
+        }
+    }
+
+
+    public void SetObject()
+    {
+        for (int i = 0; i < VideoObject.Length; i++)
+        {
+            VideoPlayer[i] = VideoObject[i].GetComponent<VideoPlayer>();
+            VideoGraphic[i] = VideoObject[i].GetComponent<Graphic>();
+        }
+        coroutineObject = new Coroutine[(VideoObject.Length)];
+    }
     public void Initialize(string[] portNames)
     {
         Debug.Log($"포트 초기화: {string.Join(", ", portNames)}");
@@ -165,6 +206,15 @@ public class CustomSerialController : MonoBehaviour
         }
         Debug.Log($"serialThread = {serialThread.Length}");
         isInitialize = true;
+        SetObject();
+
+
+        //userMissButtonEvent.AddListener(ErrorEvent);
+    }
+    public void ErrorEvent()
+    {
+        SetObjectIndex(0);
+        SetObjectIndex(1);
     }
 
     public void SetColor(Color[] _color)
@@ -199,6 +249,36 @@ public class CustomSerialController : MonoBehaviour
         }
     }
 
+    public void SetObjectIndex(int _index)
+    {
+        if (VideoObject.Length < _index)
+        {
+            if (coroutineObject[_index] != null)
+            {
+                StopCoroutine(coroutineObject[_index]);
+                coroutineObject[_index] = null;
+            }
+            coroutineObject[_index] = StartCoroutine(SetObjectCoroutine(_index));
+        }
+    }
+
+    IEnumerator SetObjectCoroutine(int _index)
+    {
+        if (VideoObject[_index] != null)
+        {
+            VideoObject[_index].SetActive(true);
+            FadeManager.Instance.SetAlphaOne(VideoGraphic[_index]);
+            yield return new WaitForSeconds(0.1f);
+            while (VideoPlayer[_index].isPlaying)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+            FadeManager.Instance.SetAlphaZero(VideoGraphic[_index]);
+            yield return new WaitForSeconds(0.1f);
+            VideoObject[_index].SetActive(false);
+        }
+    }
+
 
     public void TagLED()
     {
@@ -207,6 +287,15 @@ public class CustomSerialController : MonoBehaviour
 
     void OnDisable()
     {
+        for (int i = 0; i < VideoObject.Length; i++)
+        {
+            if (coroutineObject[i] != null)
+            {
+                StopCoroutine(coroutineObject[i]);
+                coroutineObject[i] = null;
+            }
+        }
+
 
         if (userDefinedTearDownFunction != null)
             userDefinedTearDownFunction();
@@ -292,7 +381,6 @@ public class CustomSerialController : MonoBehaviour
         {
             yield return ButtonAllColor(defaultColor);
         }
-        SendSerialMessage(14, "1,0,0,0");
         yield return waitSeverSend;
         _callbackTrigger?.Invoke();
     }
@@ -323,8 +411,13 @@ public class CustomSerialController : MonoBehaviour
             for (int i = 1; i < 13; i++)
             {
                 string message = ReadSerialMessage(i);
-                if (message != null)
+                if (message != null || debugint != -1)
                 {
+                    if (debugint != -1)
+                    {
+                        SetButtonLED(currentButtonIndex, $"debugint");
+                    }
+
                     Debug.Log($" {i} =  {message}");
 
                     if (i == currentButtonIndex)
@@ -429,14 +522,13 @@ public class CustomSerialController : MonoBehaviour
             iswait = true;
 
             setcolor = errorColor;
-            errorAnswer?.Invoke();
+            hintText?.StartSeq();
+            yield return new WaitForSeconds(0.1f);
+            wallwallvideo.StartSeq();
             longSound?.PlayOneShot(longSound.clip, 40f);
-
-
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on
             StartSetHintColor();
-            userMissButtonEvent?.Invoke();
             Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             //isDelayAppliedWhenWrong = true;
             yield return new WaitForSeconds(4f);
@@ -664,7 +756,86 @@ public class CustomSerialController : MonoBehaviour
     private IEnumerator SetColorCoroutine(int i, string message)
     {
         setcolor = GetColor(message[0]);
-        SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
+        switch (message[0])
+        {
+            case '1':
+                {
+                    setcolor = GetColor('1');
+                    dap[currentButtonIndex - 1] = 1;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    setcolor = defaultColor;
+
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case '2':
+                {
+                    setcolor = GetColor('2');
+                    dap[currentButtonIndex - 1] = 2;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    setcolor = defaultColor;
+
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    yield return waitSeverSend;
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case '3':
+                {
+                    setcolor = GetColor('3');
+                    dap[currentButtonIndex - 1] = 3;
+
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    setcolor = defaultColor;
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+            case '4':
+                {
+                    setcolor = GetColor('4');
+                    dap[currentButtonIndex - 1] = 4;
+
+                    SendSerialMessage(currentButtonIndex, $"{4},{setcolor.r},{setcolor.g},{setcolor.b}");
+
+                    setcolor = defaultColor;
+
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{1},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{2},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    yield return waitSeverSend;
+
+                    SendSerialMessage(currentButtonIndex, $"{3},{setcolor.r},{setcolor.g},{setcolor.b}");
+                    break;
+                }
+        }
         ledOnSource?.Play();
         Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
         yield return waitSeverSend;
@@ -833,6 +1004,19 @@ public class CustomSerialController : MonoBehaviour
 
         while (true)
         {
+            string message1;
+            for (int i = 1; i < 13; i++)
+            {
+                message1 = ReadSerialMessage(i);
+                if (message1 != null)
+                {
+                    if (message1[0] != '_')
+
+                        Debug.Log(message1);
+                }
+
+
+            }
             StartCoroutine(ButtonIndexColor(whiteIndex, defaultColor));
 
             if (balckIndex != 13) StartCoroutine(ButtonIndexColor(balckIndex, Color.black));

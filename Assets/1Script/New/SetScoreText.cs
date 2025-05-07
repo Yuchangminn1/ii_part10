@@ -26,7 +26,6 @@ public class SetScoreText : MonoBehaviour
         {
             text.text = st1 + CustomSerialController.Instance.checkNum + stw;
             Debug.Log(" CustomSerialController.Instance.checkNum");
-            CustomSerialController.Instance.checkNum = 0;
         }
     }
 

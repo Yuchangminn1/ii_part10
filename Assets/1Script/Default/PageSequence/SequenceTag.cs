@@ -180,13 +180,4 @@ public class SequenceTag : SequenceScript
     #endregion
 
 
-    void Update()
-    {
-        // F1 키 입력 감지
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            UserDataManager.Instance.RequestUserDataUpdate(1, null);
-        }
-    }
-
 }
