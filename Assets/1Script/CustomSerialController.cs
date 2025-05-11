@@ -103,6 +103,8 @@ public class CustomSerialController : MonoBehaviour
 
     public bool indexIsUP = false;
 
+    public GameObject wallVideoGameObject;
+
 
     Color button1 = new Color(220, 210, 5);
     Color button2 = new Color(40, 250, 255);
@@ -112,7 +114,6 @@ public class CustomSerialController : MonoBehaviour
 
     Color errorColor = new Color(230, 0, 5);
 
-    public SubVideoPlayer wallwallvideo;
     public SubVideoPlayer hintText;
 
 
@@ -157,28 +158,6 @@ public class CustomSerialController : MonoBehaviour
     public Coroutine[] coroutineObject = new Coroutine[2];
 
     public int debugint = -1;
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            debugint = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            debugint = 2;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            debugint = 3;
-        }
-        else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            debugint = 4;
-        }
-    }
-
 
     public void SetObject()
     {
@@ -483,6 +462,8 @@ public class CustomSerialController : MonoBehaviour
         }
         PageController.Instance.NextButton();
     }
+
+
     private void SetCheckErrorLED(int i, string _message)
     {
         Debug.Log("SetCheckErrorLED");
@@ -499,6 +480,23 @@ public class CustomSerialController : MonoBehaviour
                 checkColorCoroutine = StartCoroutine(SetCheckColorCoroutine(i, _message));
             }
         }
+    }
+
+    public void ChooseDebug1()
+    {
+        selectNum = 1;
+    }
+
+    public void AnswerDebug1()
+    {
+        Debug.Log("ddd");
+        StartCoroutine(SetCheckColorCoroutine(currentButtonIndex, "1"));
+    }
+    public void AnswerDebug2()
+    {
+        Debug.Log("ddd");
+        StartCoroutine(SetCheckColorCoroutine(currentButtonIndex, "2"));
+
     }
 
     private IEnumerator SetCheckColorCoroutine(int i, string message)
@@ -523,11 +521,9 @@ public class CustomSerialController : MonoBehaviour
 
             setcolor = errorColor;
             hintText?.StartSeq();
-            yield return new WaitForSeconds(0.1f);
-            wallwallvideo.StartSeq();
+            wallVideoGameObject.SetActive(true);
             longSound?.PlayOneShot(longSound.clip, 40f);
             SendSerialMessage(i, $"{message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
-            //여기에 틀렸을떄 영상 힌트보여주기 이벤트 on
             StartSetHintColor();
             Debug.Log($"i = {i} {message[0]},{setcolor.r},{setcolor.g},{setcolor.b}");
             //isDelayAppliedWhenWrong = true;
@@ -752,6 +748,24 @@ public class CustomSerialController : MonoBehaviour
             }
         }
     }
+    //갈때 선택하는 디버그 코드 
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ChooseDebug1();
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            AnswerDebug1();
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            AnswerDebug2();
+        }
+    }
+
 
     private IEnumerator SetColorCoroutine(int i, string message)
     {
